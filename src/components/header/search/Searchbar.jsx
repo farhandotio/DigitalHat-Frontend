@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Searchbar = ({ onSearch }) => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    navigate("/shop");
     if (onSearch) onSearch(query);
   };
 

@@ -53,6 +53,8 @@ import p_img49 from "./p_img49.png";
 import p_img50 from "./p_img50.png";
 import p_img51 from "./p_img51.png";
 import p_img52 from "./p_img52.png";
+import bannar3 from "./bannar-3.png";
+import bannar4 from "./bannar-4.png";
 
 import logo from "./logo.png";
 import hero_img from "./hero_img.jpg";
@@ -92,6 +94,8 @@ export const assets = {
   razorpay_logo,
   stripe_logo,
   cross_icon,
+  bannar3,
+  bannar4
 };
 
 export const products = [
@@ -103,7 +107,7 @@ export const products = [
     _id: "6710abc1234567890abc0001",
     images: [p_img1, p_img6, p_img3, p_img5, p_img7],
     category: "Smartphones",
-    stock: 30,
+    stock: 0,
     averageRating: 4.9,
     reviewCount: 342,
     offer: "20%",
