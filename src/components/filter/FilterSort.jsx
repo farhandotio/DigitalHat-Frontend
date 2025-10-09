@@ -5,5 +5,4 @@ const FilterSort = () => {
     <div>FilterSort</div>
   )
 }
-
 export default FilterSort
