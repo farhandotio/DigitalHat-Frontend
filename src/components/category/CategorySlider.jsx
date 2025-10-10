@@ -9,18 +9,18 @@ import CategoryCard from "./CategoryCard";
 import Title from "../title/Title";
 
 const categories = [
-  { id: 1, name: "Electronics" },
-  { id: 2, name: "Fashion" },
-  { id: 3, name: "Books" },
-  { id: 4, name: "Toys" },
-  { id: 5, name: "Shoes" },
-  { id: 6, name: "Gadgets" },
-  { id: 7, name: "Furniture" },
-  { id: 8, name: "Beauty" },
-  { id: 9, name: "Sports" },
-  { id: 10, name: "Groceries" },
-  { id: 11, name: "Jewelry" },
-  { id: 12, name: "Accessories" },
+  { id: 1, name: "Router" },
+  { id: 2, name: "TWS Earbuds" },
+  { id: 3, name: "Bluetooth Devices" },
+  { id: 4, name: "Speakers" },
+  { id: 5, name: "Wearables" },
+  { id: 6, name: "Headphones" },
+  { id: 7, name: "Gaming Consoles" },
+  { id: 8, name: "Tripods" },
+  { id: 9, name: "Webcams" },
+  { id: 10, name: "Power Banks" },
+  { id: 11, name: "Chargers & Cables" },
+  { id: 12, name: "Smart Home Devices" },
 ];
 
 const mid = Math.ceil(categories.length / 2);

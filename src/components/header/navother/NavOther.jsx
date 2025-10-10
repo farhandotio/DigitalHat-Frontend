@@ -1,24 +1,12 @@
 import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Heart, ShoppingCart, Bell } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import ProfileIcon from "../profileIcon/ProfileIcon";
 
-const NavOther = ({
-  favoritesCount = 1,
-  cartCount = 3,
-  user = null,
-  onLogout = () => {},
-}) => {
+const NavOther = ({ cartCount = 3, user = null, onLogout = () => {} }) => {
   const handleToggle = useCallback(() => {}, []); // placeholder
 
   const actionItems = [
-    {
-      key: "favorites",
-      to: "/favorites",
-      label: "Favorites",
-      Icon: Heart,
-      count: favoritesCount,
-    },
     {
       key: "cart",
       to: "/cart",

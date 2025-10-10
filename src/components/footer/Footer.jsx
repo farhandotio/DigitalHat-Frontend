@@ -105,7 +105,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div className="mt-10 border-t border-white/10 pt-6 text-center text-white/60 text-sm">
+      <div className="mt-10 max-md:mb-10 border-t border-white/10 pt-6 text-center text-white/60 text-sm">
         &copy; {new Date().getFullYear()} DigitalHat. All rights reserved.
       </div>
     </footer>

@@ -10,6 +10,7 @@ import Support from "./pages/Support";
 import Profile from "./pages/user/Profile";
 import Order from "./pages/Order";
 import Setting from "./pages/Settings";
+import CategoryProducts from "./pages/CategoryProducts";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/order" element={<Order />} />
         <Route path="/settings" element={<Setting />} />
+        <Route path="/category/:categoryName" element={<CategoryProducts />} />
       </Routes>
       <Footer />
     </div>
