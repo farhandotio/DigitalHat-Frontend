@@ -37,7 +37,7 @@ const CategorySlider = () => {
       />
       <Swiper
         modules={[Navigation]}
-        slidesPerView={4}
+        slidesPerView={2}
         spaceBetween={20}
         // navigation
         breakpoints={{
@@ -55,7 +55,7 @@ const CategorySlider = () => {
 
       <Swiper
         modules={[Navigation]}
-        slidesPerView={4}
+        slidesPerView={2}
         spaceBetween={20}
         // navigation
         breakpoints={{

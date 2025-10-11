@@ -1,11 +1,9 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import ProfileIcon from "../profileIcon/ProfileIcon";
 
-const NavOther = ({ cartCount = 3, user = null, onLogout = () => {} }) => {
-  const handleToggle = useCallback(() => {}, []); // placeholder
-
+const NavOther = ({ cartCount }) => {
   const actionItems = [
     {
       key: "cart",
@@ -36,8 +34,8 @@ const NavOther = ({ cartCount = 3, user = null, onLogout = () => {} }) => {
       ))}
 
       {/* Profile / Seller */}
-      <div className="hidden md:block">
-        <ProfileIcon user={user} onLogout={onLogout} />
+      <div className="block">
+        <ProfileIcon />
       </div>
     </div>
   );

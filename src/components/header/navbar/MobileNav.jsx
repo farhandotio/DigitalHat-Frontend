@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, ShoppingBag, User, Settings } from "lucide-react";
+import { Home, ShoppingBag, Info, PhoneCall } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const MobileNav = () => {
@@ -8,8 +8,8 @@ const MobileNav = () => {
   const navItems = [
     { name: "Home", path: "/", icon: <Home size={22} /> },
     { name: "Shop", path: "/shop", icon: <ShoppingBag size={22} /> },
-    { name: "Profile", path: "/profile", icon: <User size={22} /> },
-    { name: "Settings", path: "/settings", icon: <Settings size={22} /> },
+    { name: "About", path: "/about", icon: <Info size={22} /> },
+    { name: "Support", path: "/support", icon: <PhoneCall size={22} /> },
   ];
 
   return (
@@ -23,6 +23,7 @@ const MobileNav = () => {
             className={`flex flex-col items-center gap-1 text-xs transition-colors ${
               isActive ? "text-primary" : "text-gray-600 hover:text-primary"
             }`}
+            aria-label={item.name}
           >
             {item.icon}
             <span>{item.name}</span>

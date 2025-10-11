@@ -54,7 +54,7 @@ const CategoryCard = ({ category }) => {
     <Link
       to={`/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="flex flex-col items-center justify-center bg-white p-4 rounded-lg shadow hover:scale-105 transition-transform text-center"
+      className="flex flex-col items-center justify-center bg-white p-4 max-md:text-sm whitespace-nowrap rounded-lg shadow hover:scale-105 transition-transform text-center"
     >
       <div className="mb-2" style={{ color }}>
         <IconComponent size={30} />
