@@ -4,6 +4,7 @@ import Navbar from "./navbar/Navbar";
 import Searchbar from "./search/Searchbar";
 import NavOther from "./navother/NavOther";
 import MobileNav from "./navbar/MobileNav";
+import { Link } from "react-router-dom";
 
 const Header = ({ initialCartCount }) => {
   const [cartCount, setCartCount] = useState(initialCartCount || 0);
@@ -14,13 +15,15 @@ const Header = ({ initialCartCount }) => {
 
   return (
     <header>
-      <div className="bg-primary pl-2 pr-4 md:px-10 lg:px-17 text-white/90 flex flex-row items-center gap-1 md:gap-3 justify-between w-full">
+      <div className="bg-primary pl-2 pr-4 md:px-10 lg:px-17 text-text flex flex-row items-center gap-1 md:gap-3 justify-between w-full">
         <div className="md:flex items-center max-md:w-full">
-          <img
-            src={assets.logo}
-            alt="DigitalHat Logo"
-            className="w-20 h-20 aspect-square"
-          />
+          <Link to={"/"}>
+            <img
+              src={assets.logo}
+              alt="DigitalHat Logo"
+              className="w-20 h-20 aspect-square"
+            />
+          </Link>
 
           {/* Nav */}
           <div className="hidden md:block">
@@ -35,9 +38,7 @@ const Header = ({ initialCartCount }) => {
 
         {/* Favorites / Cart / (no Profile) (Right) */}
         <div className="block">
-          <NavOther 
-            cartCount={cartCount}
-          />
+          <NavOther cartCount={cartCount} />
         </div>
       </div>
 

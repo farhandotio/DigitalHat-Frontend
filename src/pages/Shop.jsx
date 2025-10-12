@@ -43,7 +43,7 @@ export default function ShopWithPagination() {
   };
 
   return (
-    <div className="px-5 md:px-10 lg:px-20 py-5">
+    <div className="px-5 md:px-10 lg:px-20 py-5 md:py-10">
       {error && <p className="text-center mt-6 text-red-500">{error}</p>}
       <ProductGrid products={products} isLoading={isLoading} />
       <Pagination

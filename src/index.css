@@ -10,14 +10,16 @@
   --color-white: #fff;
   --color-red: #ff3d3d;
   --color-input: #e8f0fe;
-  --color-text: #222;
+  --color-text: #1F2937;
   --color-border: #e1e8ed;
   --font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
   font-family: Outfit;
+  /* color: #302c2c; */
 }
+
 
 .prata-regular {
   font-family: "Prata", serif;

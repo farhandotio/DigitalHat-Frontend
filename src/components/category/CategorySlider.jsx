@@ -29,10 +29,9 @@ const bottomRow = categories.slice(mid);
 
 const CategorySlider = () => {
   return (
-    <section className="space-y-6 relative px-5 md:px-10 lg:px-20">
+    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 pt-15">
       <Title
         title="Shop by Category"
-        description="Discover all our product categories and find what you are looking for quickly."
         center
       />
       <Swiper
@@ -43,7 +42,7 @@ const CategorySlider = () => {
         breakpoints={{
           640: { slidesPerView: 2 },
           768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
+          1024: { slidesPerView: 6 },
         }}
       >
         {topRow.map((category) => (
@@ -61,7 +60,7 @@ const CategorySlider = () => {
         breakpoints={{
           640: { slidesPerView: 2 },
           768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
+          1024: { slidesPerView: 6 },
         }}
       >
         {bottomRow.map((category) => (

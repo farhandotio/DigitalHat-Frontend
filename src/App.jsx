@@ -12,15 +12,17 @@ import Setting from "./pages/Settings";
 import CategoryProducts from "./pages/CategoryProducts";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Account from "./pages/Account";
 
 const App = () => {
   return (
-    <div className="max-w-[1580px] min-h-screen mx-auto flex flex-col justify-between">
+    <div className="max-w-[1580px] bg-secondary-bg/20 min-h-screen mx-auto flex flex-col justify-between">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/shop" element={<Shop />} />
         {/* NEW ROUTE ADDED */}
 

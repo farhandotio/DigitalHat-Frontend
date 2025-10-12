@@ -40,8 +40,8 @@ const Searchbar = ({ onSearch }) => {
           py-1 md:py-1.5 pr-8 md:pr-12 pl-4 bg-transparent
           ${
             isOpen
-              ? "w-40 sm:w-64 md:w-100 opacity-100"
-              : "w-0 opacity-0 md:w-48 md:opacity-100"
+              ? "w-40 sm:w-64 md:w-full opacity-100"
+              : "w-0 opacity-0 md:w-full md:opacity-100"
           }`}
         onFocus={() => setIsOpen(true)}
       />

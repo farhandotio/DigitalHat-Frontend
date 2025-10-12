@@ -20,7 +20,9 @@ const ProductCard = ({ product = {} }) => {
   } = product;
 
   const imgSrc =
-    (images && images.length > 0 && (typeof images[0] === "string" ? images[0] : images[0]?.url)) ||
+    (images &&
+      images.length > 0 &&
+      (typeof images[0] === "string" ? images[0] : images[0]?.url)) ||
     "/placeholder.png";
 
   const originalPrice = Number(price?.amount ?? 0);
@@ -43,7 +45,9 @@ const ProductCard = ({ product = {} }) => {
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
             key={i}
-            className={`w-3.5 h-3.5 ${i < fullStars ? "text-yellow-400" : "text-gray-300"}`}
+            className={`w-3.5 h-3.5 ${
+              i < fullStars ? "text-yellow-400" : "text-gray-300"
+            }`}
             fill="currentColor"
             viewBox="0 0 20 20"
             aria-hidden
@@ -59,7 +63,7 @@ const ProductCard = ({ product = {} }) => {
     <Link
       to={`/product/${_id || id}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="w-full bg-white border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xs group cursor-pointer"
+      className="w-full bg-secondary-bg border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xs group cursor-pointer"
     >
       <div className="relative flex items-center justify-center h-48 bg-gray-50 overflow-hidden">
         <img
@@ -71,12 +75,17 @@ const ProductCard = ({ product = {} }) => {
       </div>
 
       <div className="p-4 flex flex-col">
-        <h3 className="text-base font-semibold text-gray-900 truncate mb-1" title={title}>
+        <h3
+          className="text-base font-semibold text-gray-900 truncate mb-1"
+          title={title}
+        >
           {title}
         </h3>
 
         <div className="flex items-baseline space-x-2 mb-2">
-          <span className="text-xl font-bold text-primary">৳{formatPrice(originalPrice)}</span>
+          <span className="text-xl font-bold text-primary">
+            ৳{formatPrice(originalPrice)}
+          </span>
         </div>
 
         <div className="flex items-center space-x-1 mb-3">

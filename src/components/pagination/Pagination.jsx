@@ -17,10 +17,9 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
-      {/* Page buttons */}
       <div className="flex items-center gap-2">
         <button
-          className="px-3 py-1 border text-text border-border rounded hover:bg-gray-100 disabled:opacity-50 flex items-center gap-1"
+          className="px-3 py-1 border text-text border-border rounded hover:bg-secondary-bg disabled:opacity-50 flex items-center gap-1"
           onClick={() => onPageChange(Math.max(1, page - 1))}
           disabled={page <= 1}
         >
@@ -35,7 +34,7 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
               {showEllipsis && <span className="px-2">...</span>}
               <button
                 className={`px-3 py-1 border border-border rounded ${
-                  p === page ? "bg-primary text-white" : "hover:bg-primary/50"
+                  p === page ? "bg-primary text-white" : "hover:bg-secondary-bg"
                 }`}
                 onClick={() => onPageChange(p)}
               >
@@ -46,7 +45,7 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
         })}
 
         <button
-          className="px-3 py-1 border border-border rounded text-text hover:bg-gray-100 flex items-center gap-1 disabled:opacity-50"
+          className="px-3 py-1 border border-border rounded text-text hover:bg-secondary-bg flex items-center gap-1 disabled:opacity-50"
           onClick={() => onPageChange(Math.min(totalPages, page + 1))}
           disabled={page >= totalPages}
         >
@@ -64,7 +63,7 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
         >
           <option value={10}>10</option>
           <option value={20}>20</option>
-          <option value={50}>50</option>
+          <option value={40}>40</option>
         </select>
       </div>
     </div>
