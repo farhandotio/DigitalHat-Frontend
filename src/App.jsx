@@ -10,6 +10,8 @@ import Support from "./pages/Support";
 import Order from "./pages/Order";
 import Setting from "./pages/Settings";
 import CategoryProducts from "./pages/CategoryProducts";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/shop" element={<Shop />} />
         {/* NEW ROUTE ADDED */}
 
