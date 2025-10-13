@@ -32,6 +32,7 @@ const Searchbar = ({ onSearch }) => {
     >
       {/* Search input */}
       <input
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}

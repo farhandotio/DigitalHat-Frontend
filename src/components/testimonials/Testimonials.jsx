@@ -70,7 +70,7 @@ const StarRating = ({ rating, className }) => {
 const TestimonialCard = ({ data }) => {
   return (
     // Outer container for padding and bottom yellow bar
-    <div className="max-w-md mx-auto rounded-t-xl border-2 bg-white border-border overflow-hidden">
+    <div className="max-w-md mx-auto rounded-t-4xl border-2 bg-white border-border overflow-hidden">
             {/* Top content area (White) */}     {" "}
       <div className="px-4 pt-4 flex flex-col items-center text-center">
                {" "}
@@ -103,7 +103,7 @@ const Testimonials = () => {
                 {/* Header Section */}       {" "}
         <div className="mb-8 md:text-center">
                    {" "}
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">
+          <h2 className="text-2xl md:text-3xl text-center font-bold text-gray-800 mb-1">
                         Trusted by 10,000+ Happy Customers!          {" "}
           </h2>
                     {/* Overall Rating */}         {" "}

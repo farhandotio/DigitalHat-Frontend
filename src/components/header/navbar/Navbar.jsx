@@ -15,6 +15,7 @@ const Navbar = () => {
         {navLinks.map(({ name, path }) => (
           <li key={name}>
             <Link
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               to={path}
               className="text-white/80 hover:text-white transition-colors duration-200 font-medium"
             >

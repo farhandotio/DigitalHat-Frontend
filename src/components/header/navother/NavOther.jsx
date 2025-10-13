@@ -18,6 +18,7 @@ const NavOther = ({ cartCount }) => {
     <div className="flex items-center gap-2 md:gap-4">
       {actionItems.map(({ key, to, label, Icon, count }) => (
         <Link
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           key={key}
           to={to}
           className="relative flex items-center gap-2 px-3 py-2 rounded-md transition hover:bg-white/5"

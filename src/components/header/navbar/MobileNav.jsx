@@ -18,6 +18,7 @@ const MobileNav = () => {
         const isActive = location.pathname === item.path;
         return (
           <Link
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             key={item.name}
             to={item.path}
             className={`flex flex-col items-center gap-1 text-xs transition-colors ${

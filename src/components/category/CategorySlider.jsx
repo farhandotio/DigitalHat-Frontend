@@ -30,10 +30,7 @@ const bottomRow = categories.slice(mid);
 const CategorySlider = () => {
   return (
     <section className="space-y-6 relative px-5 md:px-10 lg:px-20 pt-15">
-      <Title
-        title="Shop by Category"
-        center
-      />
+      <Title title="Shop by Category" center />
       <Swiper
         modules={[Navigation]}
         slidesPerView={2}
@@ -51,7 +48,9 @@ const CategorySlider = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-
+      {/* <Title
+        title="Shop by Category" center
+      /> */}
       <Swiper
         modules={[Navigation]}
         slidesPerView={2}

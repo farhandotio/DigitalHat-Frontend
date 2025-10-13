@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { GlobalContext } from "../../context/GlobalContext"; // adjust path if needed
 
 const formatPrice = (amount) =>
   new Intl.NumberFormat("en-IN", {
@@ -7,6 +8,9 @@ const formatPrice = (amount) =>
   }).format(amount ?? 0);
 
 const ProductCard = ({ product = {} }) => {
+  const { addToCart } = useContext(GlobalContext);
+  const [adding, setAdding] = useState(false);
+
   const {
     title = "Untitled Product",
     price = { amount: 0, currency: "BDT" },
@@ -14,10 +18,12 @@ const ProductCard = ({ product = {} }) => {
     stock = 0,
     averageRating = 0,
     reviewCount = 0,
-    sold, // <-- real sold value from product
+    sold, // real sold value from product
     _id,
     id,
   } = product;
+
+  const productId = _id || id;
 
   const imgSrc =
     (images &&
@@ -26,11 +32,8 @@ const ProductCard = ({ product = {} }) => {
     "/placeholder.png";
 
   const originalPrice = Number(price?.amount ?? 0);
-
-  // Use real sold value (fallback to 0)
   const soldCount = Math.max(Number(sold) || 0, 0);
 
-  // Compute sold percentage based on sold and stock (protect against divide-by-zero)
   const soldPercentage = (() => {
     const availableStock = Math.max(Number(stock) || 0, 0);
     const denom = soldCount + availableStock;
@@ -45,9 +48,7 @@ const ProductCard = ({ product = {} }) => {
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
             key={i}
-            className={`w-3.5 h-3.5 ${
-              i < fullStars ? "text-yellow-400" : "text-gray-300"
-            }`}
+            className={`w-3.5 h-3.5 ${i < fullStars ? "text-yellow-400" : "text-gray-300"}`}
             fill="currentColor"
             viewBox="0 0 20 20"
             aria-hidden
@@ -59,9 +60,38 @@ const ProductCard = ({ product = {} }) => {
     );
   };
 
+  const handleAddToCart = async (e, qty = 1) => {
+    // prevent Link nav
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!productId) {
+      console.error("Product id missing");
+      return;
+    }
+    if (Number(stock) <= 0) {
+      // optional: show toast instead
+      alert("This product is out of stock.");
+      return;
+    }
+
+    try {
+      setAdding(true);
+      await addToCart(productId, qty);
+      // optional success UI: toast, small animation, etc.
+      // example quick feedback:
+      // alert(`${title} added to cart`);
+    } catch (err) {
+      console.error("Failed to add to cart:", err);
+      alert(err?.message || "Failed to add to cart");
+    } finally {
+      setAdding(false);
+    }
+  };
+
   return (
     <Link
-      to={`/product/${_id || id}`}
+      to={`/product/${productId}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className="w-full bg-secondary-bg border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xs group cursor-pointer"
     >
@@ -75,17 +105,12 @@ const ProductCard = ({ product = {} }) => {
       </div>
 
       <div className="p-4 flex flex-col">
-        <h3
-          className="text-base font-semibold text-gray-900 truncate mb-1"
-          title={title}
-        >
+        <h3 className="text-base font-semibold text-gray-900 truncate mb-1" title={title}>
           {title}
         </h3>
 
         <div className="flex items-baseline space-x-2 mb-2">
-          <span className="text-xl font-bold text-primary">
-            ৳{formatPrice(originalPrice)}
-          </span>
+          <span className="text-xl font-bold text-primary">৳{formatPrice(originalPrice)}</span>
         </div>
 
         <div className="flex items-center space-x-1 mb-3">
@@ -110,15 +135,15 @@ const ProductCard = ({ product = {} }) => {
         </div>
 
         <button
-          onClick={(e) => {
-            // prevent Link navigation when clicking this button
-            e.preventDefault();
-            e.stopPropagation();
-            console.log(`Adding ${title} to cart`);
-          }}
-          className="w-full py-2 bg-primary text-white font-bold rounded-full transition-colors hover:bg-orange-600 focus:outline-none"
+          onClick={(e) => handleAddToCart(e, 1)}
+          disabled={adding || Number(stock) <= 0}
+          className={`w-full py-2 text-white font-bold rounded-full transition-colors focus:outline-none ${
+            Number(stock) <= 0
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-primary hover:bg-orange-600"
+          }`}
         >
-          Add to Cart
+          {adding ? "Adding..." : Number(stock) <= 0 ? "Out of stock" : "Add to Cart"}
         </button>
       </div>
     </Link>

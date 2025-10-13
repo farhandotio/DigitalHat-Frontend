@@ -1,13 +1,20 @@
-import React, { useState, useCallback } from "react";
+import React, { useContext, useMemo, useCallback } from "react";
 import { assets } from "../../../public/assets/assets";
+import { Link } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import Searchbar from "./search/Searchbar";
 import NavOther from "./navother/NavOther";
 import MobileNav from "./navbar/MobileNav";
-import { Link } from "react-router-dom";
+import { GlobalContext } from "../../context/GlobalContext";
 
-const Header = ({ initialCartCount }) => {
-  const [cartCount, setCartCount] = useState(initialCartCount || 0);
+const Header = () => {
+  const { cart } = useContext(GlobalContext);
+
+  // Compute cart count
+  const cartCount = useMemo(() => {
+    if (!cart?.items?.length) return 0;
+    return cart.items.reduce((acc, item) => acc + (item.quantity || 0), 0);
+  }, [cart]);
 
   const handleSearch = useCallback((query) => {
     console.log("Searching for:", query);
@@ -17,7 +24,10 @@ const Header = ({ initialCartCount }) => {
     <header>
       <div className="bg-primary pl-2 pr-4 md:px-10 lg:px-17 text-text flex flex-row items-center gap-1 md:gap-3 justify-between w-full">
         <div className="md:flex items-center max-md:w-full">
-          <Link to={"/"}>
+          <Link
+            to={"/"}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
             <img
               src={assets.logo}
               alt="DigitalHat Logo"

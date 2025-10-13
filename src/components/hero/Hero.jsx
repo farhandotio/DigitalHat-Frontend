@@ -63,11 +63,9 @@ const Hero = () => {
 
   return (
     <section className="mx-auto px-5 md:px-10 lg:px-20 my-10">
-      {/* Outer div to apply max height and control overall layout */}
-      {" "}
+      {/* Outer div to apply max height and control overall layout */}{" "}
       <div className="flex flex-col-reverse lg:flex-row rounded-xl overflow-hidden">
-        {/* --- Left Content Area (Orange/Brown Background) --- */}
-        {" "}
+        {/* --- Left Content Area (Orange/Brown Background) --- */}{" "}
         <div className="flex-1 flex flex-col justify-center">
           {/* Title */}         {" "}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-orange-500">
@@ -77,12 +75,14 @@ const Hero = () => {
           {/* Buttons */}         {" "}
           <div className="flex">
             {" "}
-            <Link to={"/shop"} className="px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300 text-lg">
+            <Link
+              to={"/shop"}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300 text-lg"
+            >
               Shop Now            {" "}
-            </Link>
-            {" "}
-          </div>
-          {" "}
+            </Link>{" "}
+          </div>{" "}
         </div>
         {/* --- Right Image Slider Area --- */}       {" "}
         <div
@@ -90,86 +90,35 @@ const Hero = () => {
           className="relative flex-1 flex justify-center items-center rounded-xl"
         >
           {" "}
-          {/* Banner wrapper: forces content to fit within this area */}
-          {" "}
-          <div className="w-full h-full relative overflow-hidden rounded-xl">
-            {/* Slides wrapper (Horizontal sliding container) */}
-            {" "}
+          {/* Banner wrapper: forces content to fit within this area */}{" "}
+          <div className="w-full h-full relative overflow-hidden rounded-2xl">
+            {/* Slides wrapper (Horizontal sliding container) */}{" "}
             <div
-              className="flex h-full transition-transform duration-700 ease-in-out"
+              className="flex h-full transition-transform duration-700 ease-in-out  rounded-2xl"
               style={{
                 width: `${sliderMedia.length * 100}%`,
-                transform: `translateX(-${index * (100 / sliderMedia.length)
-                  }%)`,
+                transform: `translateX(-${
+                  index * (100 / sliderMedia.length)
+                }%)`,
               }}
             >
               {" "}
               {sliderMedia.map((src, i) => (
                 <div
                   key={i}
-                  className="flex-shrink-0 h-full relative flex items-center justify-center" // Center content
+                  className="flex-shrink-0 h-full relative flex items-center justify-center  rounded-2xl" // Center content
                   style={{ width: slideWidthPercent }}
                 >
                   {" "}
                   <img
                     src={src}
                     alt={`Banner ${i + 1}`}
-                    className="w-full aspect-video object-cover block" // Use object-contain to fit the image without cropping
+                    className="w-full aspect-video object-cover block rounded-2xl" // Use object-contain to fit the image without cropping
                     draggable={false}
-                  />
-                  {" "}
+                  />{" "}
                 </div>
-              ))}
-              {" "}
+              ))}{" "}
             </div>
-            {" "}
-            {/* Prev / Next Buttons (styled to match example more closely) */}
-            {" "}
-            <button
-              aria-label="Previous slide"
-              onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-700 p-2 rounded-full transition"
-            >
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                {" "}
-                <path
-                  fillRule="evenodd"
-                  d="M12.293 15.293a1 1 0 010 1.414l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L8.414 10l5.293 5.293a1 1 0 010 1.414z"
-                  clipRule="evenodd"
-                />
-                {" "}
-              </svg>
-              {" "}
-            </button>
-            {" "}
-            <button
-              aria-label="Next slide"
-              onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-700 p-2 rounded-full transition"
-            >
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                {" "}
-                <path
-                  fillRule="evenodd"
-                  d="M7.707 4.707a1 1 0 010-1.414l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L11.586 10 6.293 4.707a1 1 0 011.414-1.414z"
-                  clipRule="evenodd"
-                />
-                {" "}
-              </svg>
-              {" "}
-            </button>
             {/* Dots (styled to match example) */}           {" "}
             <div className="absolute bottom-7 right-5 z-40 flex gap-2">
               {" "}
@@ -180,22 +129,18 @@ const Hero = () => {
                     key={i}
                     onClick={() => goTo(i)}
                     aria-label={`Go to slide ${i + 1}`}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${active
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
+                      active
                         ? "scale-125 bg-orange-500"
                         : "bg-gray-400 hover:bg-orange-300"
-                      }`}
+                    }`}
                   />
                 );
-              })}
-              {" "}
-            </div>
-            {" "}
-          </div>
-          {" "}
-        </div>
-        {" "}
-      </div>
-      {" "}
+              })}{" "}
+            </div>{" "}
+          </div>{" "}
+        </div>{" "}
+      </div>{" "}
     </section>
   );
 };

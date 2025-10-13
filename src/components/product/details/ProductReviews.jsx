@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Star } from "lucide-react";
+import Title from "../../title/Title";
 
 const ProductReviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
@@ -35,11 +36,17 @@ const ProductReviews = ({ productId }) => {
 
     setSubmitting(true);
     try {
+      const token = localStorage.getItem("userToken"); // ✅ Get token from localStorage
+
       const { data } = await axios.post(
         `http://localhost:3000/api/products/${productId}/reviews`,
         { rating, comment },
-        { withCredentials: true } // send cookies for auth if needed
+        {
+          withCredentials: true, // keep for cookie-based auth if backend uses both
+          headers: token ? { Authorization: `Bearer ${token}` } : {}, // ✅ pass token
+        }
       );
+
       setReviews([data.review, ...reviews]);
       setRating(0);
       setComment("");
@@ -50,26 +57,39 @@ const ProductReviews = ({ productId }) => {
     }
   };
 
-  if (loading)
-    return <p className="text-gray-500 mt-4">Loading reviews...</p>;
+  if (loading) return <p className="text-gray-500 mt-4">Loading reviews...</p>;
   if (error) return <p className="text-red-500 mt-4">{error}</p>;
 
   return (
     <div className="mt-8 pt-6">
-      <h2 className="text-2xl font-semibold mb-4">Reviews ({reviews.length})</h2>
+      <h2 className="text-xl md:text-2xl mb-4 text-text relative inline-block font-bold">
+        Reviews ({reviews.length})
+        <span className="absolute left-0 -bottom-1 w-1/3 h-1 bg-primary rounded-full"></span>
+      </h2>
 
       {/* Add Review Form */}
       <form onSubmit={handleSubmit} className="mb-6">
-        <div className="flex items-center gap-2 mb-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star
-              key={i}
-              className={`w-6 h-6 cursor-pointer ${
-                i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-              }`}
-              onClick={() => setRating(i + 1)}
-            />
-          ))}
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={`w-6 h-6 cursor-pointer ${
+                  i < rating
+                    ? "text-yellow-400 fill-yellow-400"
+                    : "text-gray-300"
+                }`}
+                onClick={() => setRating(i + 1)}
+              />
+            ))}
+          </div>
+          <button
+            type="submit"
+            disabled={submitting}
+            className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+          >
+            {submitting ? "Submitting..." : "Add Review"}
+          </button>
         </div>
         <textarea
           value={comment}
@@ -78,41 +98,43 @@ const ProductReviews = ({ productId }) => {
           placeholder="Write your review..."
           className="w-full border border-border outline-primary/50 rounded-lg p-2 mb-2 resize-none"
         />
-        <button
-          type="submit"
-          disabled={submitting}
-          className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
-        >
-          {submitting ? "Submitting..." : "Add Review"}
-        </button>
       </form>
 
       {/* List of Reviews */}
-      {reviews.length === 0 && <p className="text-gray-500">No reviews yet.</p>}
-      {reviews.map((r) => (
-        <div
-          key={r._id}
-          className="border-b border-gray-200 pb-4 mb-4 last:border-0 last:mb-0"
-        >
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold">{r.user?.fullName || "User"}</span>
-            <div className="flex">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-4 h-4 ${
-                    i < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-                  }`}
-                />
-              ))}
+      <div className="max-h-100 overflow-y-scroll">
+        <Title title="All Reviews" />
+        {reviews.length === 0 && (
+          <p className="text-gray-500">No reviews yet.</p>
+        )}
+        {reviews.map((r) => (
+          <div
+            key={r._id}
+            className="border-b border-gray-200 pb-4 mb-4 last:border-0 last:mb-0"
+          >
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-semibold">
+                {r.user?.fullName || "User"}
+              </span>
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-4 h-4 ${
+                      i < r.rating
+                        ? "text-yellow-400 fill-yellow-400"
+                        : "text-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
+            {r.comment && <p className="text-text/90">{r.comment}</p>}
+            <p className="text-xs text-text/70">
+              {new Date(r.createdAt).toLocaleDateString()}
+            </p>
           </div>
-          {r.comment && <p className="text-text/90">{r.comment}</p>}
-          <p className="text-xs text-text/70">
-            {new Date(r.createdAt).toLocaleDateString()}
-          </p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

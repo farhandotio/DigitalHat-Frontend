@@ -3,6 +3,7 @@ import Hero from "../components/hero/Hero";
 import CategorySlider from "../components/category/CategorySlider";
 import BestSaleProducts from "../components/product/BestSaleProducts";
 import Testimonials from "../components/testimonials/Testimonials";
+import TrustAriaSection from "../components/trust/trustAriaSection";
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <Hero />
       <CategorySlider />
       <BestSaleProducts />
+      <TrustAriaSection />
       <Testimonials />
     </div>
   );

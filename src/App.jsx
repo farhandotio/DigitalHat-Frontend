@@ -13,6 +13,7 @@ import CategoryProducts from "./pages/CategoryProducts";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Account from "./pages/Account";
+import Cart from "./pages/Cart";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/account" element={<Account />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/cart" element={<Cart />} />
         {/* NEW ROUTE ADDED */}
 
         <Route path="/about" element={<About />} />
