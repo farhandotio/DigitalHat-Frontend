@@ -7,7 +7,17 @@ import { GlobalContext } from "../context/GlobalContext";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const CHECKOUT_KEY = "app_checkout_state";
-const divisions = ["Select Division", "Dhaka", "Khulna", "Chattogram", "Rajshahi"];
+const divisions = [
+  "Select Division",
+  "Dhaka",
+  "Chittagong",
+  "Khulna",
+  "Rajshahi",
+  "Barisal",
+  "Sylhet",
+  "Rangpur",
+  "Mymensingh",
+];
 
 /**
  * Helper: small axios instance with credentials + optional Authorization from localStorage
@@ -66,7 +76,10 @@ export default function Checkout() {
   });
 
   const calcTotals = useCallback((items = [], shippingFee = 0) => {
-    const subtotal = items.reduce((acc, it) => acc + Number(it.price ?? 0) * Number(it.quantity ?? 0), 0);
+    const subtotal = items.reduce(
+      (acc, it) => acc + Number(it.price ?? 0) * Number(it.quantity ?? 0),
+      0
+    );
     const shipping = Number(shippingFee ?? 0);
     const total = subtotal + shipping;
     return { subtotal, shipping, total };
@@ -82,7 +95,10 @@ export default function Checkout() {
       return me;
     } catch (err) {
       // ignore if not logged in / no address — context's user may already hold data
-      console.warn("fetchMe failed:", err?.response?.data?.message || err.message);
+      console.warn(
+        "fetchMe failed:",
+        err?.response?.data?.message || err.message
+      );
       return null;
     }
   };
@@ -104,7 +120,11 @@ export default function Checkout() {
           const p = res.data.product ?? res.data;
           const price = Number(p?.price?.amount ?? p?.price ?? 0);
           const currency = p?.price?.currency ?? "USD";
-          const image = (p?.images && p.images.length && (p.images[0].url ?? p.images[0])) || "/placeholder.png";
+          const image =
+            (p?.images &&
+              p.images.length &&
+              (p.images[0].url ?? p.images[0])) ||
+            "/placeholder.png";
 
           return {
             productId: ci.productId,
@@ -159,7 +179,8 @@ export default function Checkout() {
           if (fromSession) {
             if (mounted) {
               setCheckoutData(fromSession);
-              if (fromSession.shippingAddress) reset(fromSession.shippingAddress);
+              if (fromSession.shippingAddress)
+                reset(fromSession.shippingAddress);
             }
           } else {
             // try to build
@@ -210,21 +231,34 @@ export default function Checkout() {
     }
   }, [user, reset]);
 
-  if (loading) return <p className="text-center mt-20">Preparing checkout...</p>;
+  if (loading)
+    return <p className="text-center mt-20">Preparing checkout...</p>;
   if (!checkoutData) return null;
 
   const { items, totals, currency, itemCount } = checkoutData;
   const shippingFee = totals?.shipping ?? 80;
 
   // small UI helper components (same as before)
-  const FormInput = ({ id, placeholder, size = "full", registerProps, error }) => (
-    <div className={size === "half" ? "w-1/2" : size === "third" ? "w-1/3" : "w-full"}>
+  const FormInput = ({
+    id,
+    placeholder,
+    size = "full",
+    registerProps,
+    error,
+  }) => (
+    <div
+      className={
+        size === "half" ? "w-1/2" : size === "third" ? "w-1/3" : "w-full"
+      }
+    >
       <input
         type="text"
         id={id}
         placeholder={placeholder}
         {...registerProps}
-        className={`mt-1 block w-full border rounded-md shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm ${error ? "border-red-500" : "border-border"}`}
+        className={`mt-1 block w-full border rounded-md shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm ${
+          error ? "border-red-500" : "border-border"
+        }`}
       />
       {error && <p className="mt-1 text-xs text-red-500">{error.message}</p>}
     </div>
@@ -236,26 +270,72 @@ export default function Checkout() {
         name={id}
         control={control}
         render={({ field }) => (
-          <select {...field} id={id} className={`mt-1 block w-full border rounded-md shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white ${error ? "border-red-500" : "border-border"}`}>
-            {options.map((s) => <option key={s} value={s}>{s}</option>)}
+          <select
+            {...field}
+            id={id}
+            className={`mt-1 block w-full border rounded-md shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white ${
+              error ? "border-red-500" : "border-border"
+            }`}
+          >
+            {options.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
           </select>
         )}
-        rules={{ validate: value => value !== divisions[0] || "Please select a valid division." }}
+        rules={{
+          validate: (value) =>
+            value !== divisions[0] || "Please select a valid division.",
+        }}
       />
       {error && <p className="mt-1 text-xs text-red-500">{error.message}</p>}
     </div>
   );
 
-  const RadioOption = ({ id, name, label, details, price, selectedValue, onChange, icon }) => (
-    <div className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer ${selectedValue === id ? "border-orange-500 ring-1 ring-orange-500" : "border-border"}`} onClick={() => onChange(id)}>
+  const RadioOption = ({
+    id,
+    name,
+    label,
+    details,
+    price,
+    selectedValue,
+    onChange,
+    icon,
+  }) => (
+    <div
+      className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer ${
+        selectedValue === id
+          ? "border-orange-500 ring-1 ring-orange-500"
+          : "border-border"
+      }`}
+      onClick={() => onChange(id)}
+    >
       <div className="flex items-center">
-        <input id={id} name={name} type="radio" checked={selectedValue === id} onChange={() => onChange(id)} className="h-4 w-4 text-orange-600 border-border focus:ring-orange-500 mr-3" />
+        <input
+          id={id}
+          name={name}
+          type="radio"
+          checked={selectedValue === id}
+          onChange={() => onChange(id)}
+          className="h-4 w-4 text-orange-600 border-border focus:ring-orange-500 mr-3"
+        />
         <div className="flex flex-col">
-          <label htmlFor={id} className="text-sm font-medium text-text flex items-center">{icon && <span className="mr-2">{icon}</span>}{label}</label>
+          <label
+            htmlFor={id}
+            className="text-sm font-medium text-text flex items-center"
+          >
+            {icon && <span className="mr-2">{icon}</span>}
+            {label}
+          </label>
           {details && <p className="text-xs text-text">{details}</p>}
         </div>
       </div>
-      {price !== undefined && <span className="text-sm font-medium">{formatCurrency(price, currency)}</span>}
+      {price !== undefined && (
+        <span className="text-sm font-medium">
+          {formatCurrency(price, currency)}
+        </span>
+      )}
     </div>
   );
 
@@ -289,8 +369,14 @@ export default function Checkout() {
         navigate("/order-success");
       }
     } catch (err) {
-      console.error("Order creation failed:", err?.response?.data || err.message);
-      alert(err?.response?.data?.message || "Failed to place order. Please try again.");
+      console.error(
+        "Order creation failed:",
+        err?.response?.data || err.message
+      );
+      alert(
+        err?.response?.data?.message ||
+          "Failed to place order. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -300,35 +386,104 @@ export default function Checkout() {
 
   return (
     <div className="mx-auto p-5 md:p-10 lg:p-20 w-full">
-        <div className="flex flex-col lg:flex-row gap-8 bg-white px-5 pt-5 rounded-2xl">
+      <div className="flex flex-col lg:flex-row gap-8 bg-white px-5 pt-5 rounded-2xl">
         <div className="lg:w-2/3 space-y-8">
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold border-b border-border pb-2">Shipping Address</h2>
+            <h2 className="text-xl font-semibold border-b border-border pb-2">
+              Shipping Address
+            </h2>
 
             <form onSubmit={handleCheckout} className="space-y-4">
               <div className="flex space-x-4">
-                <FormInput id="fullName" placeholder="Full Name" size="half" registerProps={register("fullName", { required: "Full Name is required." })} error={errors.fullName} />
-                <FormInput id="phone" placeholder="Phone Number" size="half" registerProps={register("phone", { required: "Phone number is required.", pattern: { value: /^\d{7,14}$/, message: "Invalid phone number format." } })} error={errors.phone} />
+                <FormInput
+                  id="fullName"
+                  placeholder="Full Name"
+                  size="half"
+                  registerProps={register("fullName", {
+                    required: "Full Name is required.",
+                  })}
+                  error={errors.fullName}
+                />
+                <FormInput
+                  id="phone"
+                  placeholder="Phone Number"
+                  size="half"
+                  registerProps={register("phone", {
+                    required: "Phone number is required.",
+                    pattern: {
+                      value: /^\d{7,14}$/,
+                      message: "Invalid phone number format.",
+                    },
+                  })}
+                  error={errors.phone}
+                />
               </div>
 
               <div className="flex space-x-4">
-                <FormSelect id="division" options={divisions} control={control} error={errors.division} />
-                <FormInput id="district" placeholder="District" size="third" registerProps={register("district", { required: "District is required." })} error={errors.district} />
-                <FormInput id="thana" placeholder="Thana/Area" size="third" registerProps={register("thana", { required: "Thana/Area is required." })} error={errors.thana} />
+                <FormSelect
+                  id="division"
+                  options={divisions}
+                  control={control}
+                  error={errors.division}
+                />
+                <FormInput
+                  id="district"
+                  placeholder="District"
+                  size="third"
+                  registerProps={register("district", {
+                    required: "District is required.",
+                  })}
+                  error={errors.district}
+                />
+                <FormInput
+                  id="thana"
+                  placeholder="Thana/Area"
+                  size="third"
+                  registerProps={register("thana", {
+                    required: "Thana/Area is required.",
+                  })}
+                  error={errors.thana}
+                />
               </div>
 
               <div className="flex space-x-4">
-                <FormInput id="streetAddress" placeholder="House 12, Road 4, etc." size="full" registerProps={register("streetAddress", { required: "Street Address is required." })} error={errors.streetAddress} />
+                <FormInput
+                  id="streetAddress"
+                  placeholder="House 12, Road 4, etc."
+                  size="full"
+                  registerProps={register("streetAddress", {
+                    required: "Street Address is required.",
+                  })}
+                  error={errors.streetAddress}
+                />
               </div>
 
               <div className="flex space-x-4">
-                <FormInput id="postalCode" placeholder="Postal Code (e.g., 1207)" size="half" registerProps={register("postalCode", { required: "Postal Code is required." })} error={errors.postalCode} />
+                <FormInput
+                  id="postalCode"
+                  placeholder="Postal Code (e.g., 1207)"
+                  size="half"
+                  registerProps={register("postalCode", {
+                    required: "Postal Code is required.",
+                  })}
+                  error={errors.postalCode}
+                />
                 <div className="w-1/2" />
               </div>
 
               <div className="space-y-4 mt-4">
-                <h2 className="text-xl font-semibold border-b border-border pb-2">Delivery Options</h2>
-                <RadioOption id="standard" name="delivery" label="Standard Delivery" details="5-7 business days" price={shippingFee} selectedValue={selectedDelivery} onChange={setSelectedDelivery} />
+                <h2 className="text-xl font-semibold border-b border-border pb-2">
+                  Delivery Options
+                </h2>
+                <RadioOption
+                  id="standard"
+                  name="delivery"
+                  label="Standard Delivery"
+                  details="5-7 business days"
+                  price={shippingFee}
+                  selectedValue={selectedDelivery}
+                  onChange={setSelectedDelivery}
+                />
               </div>
             </form>
           </div>
@@ -339,15 +494,24 @@ export default function Checkout() {
 
           <div className="space-y-3 pb-4 border-b border-border">
             {items.map((it) => (
-              <div key={it.productId || it._id} className="flex items-start justify-between">
+              <div
+                key={it.productId || it._id}
+                className="flex items-start justify-between"
+              >
                 <div className="flex">
-                  <img src={it.image || "/placeholder.png"} alt={it.title} className="w-12 h-12 object-cover rounded mr-3" />
+                  <img
+                    src={it.image || "/placeholder.png"}
+                    alt={it.title}
+                    className="w-12 h-12 object-cover rounded mr-3"
+                  />
                   <div>
                     <p className="text-sm font-medium">{it.title}</p>
                     <p className="text-xs text-text">Qty: {it.quantity}</p>
                   </div>
                 </div>
-                <p className="text-sm font-medium">{formatCurrency(it.price * it.quantity, currency)}</p>
+                <p className="text-sm font-medium">
+                  {formatCurrency(it.price * it.quantity, currency)}
+                </p>
               </div>
             ))}
           </div>
@@ -355,30 +519,54 @@ export default function Checkout() {
           <div className="py-4 space-y-2 text-sm">
             <div className="flex justify-between">
               <p className="text-text">Subtotal</p>
-              <p className="font-medium">{formatCurrency(totals.subtotal, currency)}</p>
+              <p className="font-medium">
+                {formatCurrency(totals.subtotal, currency)}
+              </p>
             </div>
             <div className="flex justify-between">
               <p className="text-text">Delivery Fee</p>
-              <p className="font-medium">{formatCurrency(totals.shipping, currency)}</p>
+              <p className="font-medium">
+                {formatCurrency(totals.shipping, currency)}
+              </p>
             </div>
           </div>
 
           <div className="pt-4 border-t-2 border-dashed flex justify-between items-center text-lg font-bold">
             <p>Total</p>
-            <p className="text-orange-600">{formatCurrency(totals.total, currency)}</p>
+            <p className="text-orange-600">
+              {formatCurrency(totals.total, currency)}
+            </p>
           </div>
 
           <div className="mt-6 space-y-3">
             <h3 className="font-semibold mb-2">Payment Method</h3>
-            <RadioOption id="cod" name="payment" label="Cash on Delivery" selectedValue={selectedPayment} onChange={setSelectedPayment} icon={<span role="img" aria-label="cash">💵</span>} />
+            <RadioOption
+              id="cod"
+              name="payment"
+              label="Cash on Delivery"
+              selectedValue={selectedPayment}
+              onChange={setSelectedPayment}
+              icon={
+                <span role="img" aria-label="cash">
+                  💵
+                </span>
+              }
+            />
           </div>
 
-          <button onClick={handleCheckout} disabled={submitting} className={`mt-6 w-full px-6 py-3 ${submitting ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"} text-white font-semibold rounded-lg transition duration-200`}>
+          <button
+            onClick={handleCheckout}
+            disabled={submitting}
+            className={`mt-6 w-full px-6 py-3 ${
+              submitting ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"
+            } text-white font-semibold rounded-lg transition duration-200`}
+          >
             {submitting ? "Placing order..." : "Confirm Order"}
           </button>
 
           <p className="text-center text-xs text-text mt-2 flex items-center justify-center">
-            <span className="mr-1">🔒</span> Your information is secure and encrypted
+            <span className="mr-1">🔒</span> Your information is secure and
+            encrypted
           </p>
         </div>
       </div>

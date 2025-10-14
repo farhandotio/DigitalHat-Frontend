@@ -181,7 +181,11 @@ export const GlobalProvider = ({ children }) => {
         items: payload.items ?? cart?.items ?? [],
         totals: payload.totals ?? { subtotal: 0, shipping: 0, total: 0 },
         currency: payload.currency ?? "USD",
-        itemCount: payload.itemCount ?? (payload.items?.length ?? cart?.items?.length ?? 0),
+        itemCount:
+          payload.itemCount ??
+          payload.items?.length ??
+          cart?.items?.length ??
+          0,
         extra: payload.extra ?? null,
       };
       // store in session so checkout can read after navigate or refresh
@@ -236,11 +240,17 @@ export const GlobalProvider = ({ children }) => {
         proceedToCheckout,
         getCheckoutState,
         clearCheckoutState,
-        formatCurrency: (amount, currency = "USD") =>
-          new Intl.NumberFormat("en-US", {
+
+        formatCurrency: (amount, currency = "BDT") => {
+          if (currency === "BDT") {
+            return `৳${Number(amount ?? 0).toLocaleString("en-BD")}`;
+          }
+          // fallback for other currencies like USD
+          return new Intl.NumberFormat("en-US", {
             style: "currency",
             currency,
-          }).format(amount ?? 0),
+          }).format(amount ?? 0);
+        },
       }}
     >
       {children}

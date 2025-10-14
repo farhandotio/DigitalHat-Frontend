@@ -38,7 +38,7 @@ const BestSaleProducts = () => {
 
   return (
     <div className="px-5 md:px-10 lg:px-20 pt-20">
-      <Title title="Best Selling Products" center />
+      <Title title="Best Selling Products" />
       <ProductGrid products={products} isLoading={loading} />
       <div className="flex items-center justify-end pt-10">
         <Link to="/shop" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-1 text-secondary hover:text-primary">
