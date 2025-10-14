@@ -3,6 +3,62 @@ import axios from "axios";
 import ProductGrid from "../components/product/ProductGrid";
 import Pagination from "../components/pagination/Pagination";
 
+/**
+ * ProductHeader Component
+ * - shows total items
+ * - allows selecting category only
+ * - calls onChange({ category })
+ */
+export function ProductHeader({
+  totalItems = 0,
+  categories = [],
+  initial = { category: "all" },
+  onChange,
+}) {
+  const [category, setCategory] = useState(initial.category);
+
+  useEffect(() => {
+    if (typeof onChange === "function") {
+      onChange({ category });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category]);
+
+  return (
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 border-b border-border bg-white shadow-sm rounded-xl">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+        <h2 className="text-3xl font-extrabold text-gray-900">All Products</h2>
+        <span className="text-base font-semibold px-3 py-1 bg-gray-100 rounded-full text-gray-700 whitespace-nowrap">
+          {totalItems} items
+        </span>
+      </div>
+
+      <div className="flex items-center gap-4 mt-2 sm:mt-0">
+        {/* Category */}
+        <div className="flex items-center gap-2">
+          <label className="text-sm">Category:</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border border-border outline-primary rounded-full px-3 py-2 bg-white"
+          >
+            <option value="all">All</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.name}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             ShopWithPagination                              */
+/* -------------------------------------------------------------------------- */
+
 export default function ShopWithPagination() {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -11,11 +67,42 @@ export default function ShopWithPagination() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchProducts = async (p = 1, l = limit) => {
+  // filters: only category
+  const [filters, setFilters] = useState({ category: "all" });
+
+  // ✅ static category list
+  const categories = [
+    { id: 1, name: "Router" },
+    { id: 2, name: "TWS Earbuds" },
+    { id: 3, name: "Bluetooth Devices" },
+    { id: 4, name: "Speakers" },
+    { id: 5, name: "Wearables" },
+    { id: 6, name: "Headphones" },
+    { id: 7, name: "Gaming Consoles" },
+    { id: 8, name: "Tripods" },
+    { id: 9, name: "Webcams" },
+    { id: 10, name: "Power Banks" },
+    { id: 11, name: "Chargers & Cables" },
+    { id: 12, name: "Smart Home Devices" },
+  ];
+
+  const buildQuery = (p, l, fil) => {
+    const params = new URLSearchParams();
+    params.set("page", p);
+    params.set("limit", l);
+
+    if (fil?.category && fil.category !== "all") params.set("category", fil.category);
+
+    return params.toString();
+  };
+
+  const fetchProducts = async (p = 1, l = limit, fil = filters) => {
     setIsLoading(true);
     setError("");
     try {
-      const { data } = await axios.get(`http://localhost:3000/api/products?page=${p}&limit=${l}`);
+      const query = buildQuery(p, l, fil);
+      const { data } = await axios.get(`http://localhost:3000/api/products?${query}`);
+
       setProducts(data.products || []);
       setTotal(data.total || 0);
       setPage(Number(data.page || p));
@@ -28,24 +115,43 @@ export default function ShopWithPagination() {
   };
 
   useEffect(() => {
-    fetchProducts(page, limit);
+    fetchProducts(page, limit, filters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    fetchProducts(1, limit, filters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   const handlePageChange = (p) => {
     if (p === page) return;
-    fetchProducts(p, limit);
+    fetchProducts(p, limit, filters);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleLimitChange = (l) => {
     if (l === limit) return;
-    fetchProducts(1, l);
+    fetchProducts(1, l, filters);
+  };
+
+  const handleHeaderChange = ({ category }) => {
+    setFilters({ category });
   };
 
   return (
     <div className="px-5 md:px-10 lg:px-20 py-5 md:py-10">
       {error && <p className="text-center mt-6 text-red-500">{error}</p>}
+
+      <ProductHeader
+        totalItems={total}
+        categories={categories}
+        initial={filters}
+        onChange={handleHeaderChange}
+      />
+
       <ProductGrid products={products} isLoading={isLoading} />
+
       <Pagination
         page={page}
         total={total}

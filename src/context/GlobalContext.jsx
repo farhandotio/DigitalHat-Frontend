@@ -71,22 +71,42 @@ export const GlobalProvider = ({ children }) => {
 
   // CART functions (unchanged for brevity) ...
   const fetchCart = async () => {
-    if (!user) {
+    if (!user || user.role === "admin") {
       setCart(null);
       return;
     }
+
+    const token = getAuthToken();
+    if (!token) {
+      setCart(null);
+      setCartError("User not logged in");
+      return;
+    }
+
     try {
       setCartLoading(true);
       setCartError(null);
-      const res = await api.get("/api/cart");
+
+      const res = await api.get("/api/cart", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
       setCart(res.data.cart ?? { items: [] });
       return res.data;
     } catch (err) {
       console.error("fetchCart:", err);
-      setCartError(
-        err?.response?.data?.message || err.message || "Failed to fetch cart"
-      );
-      setCart(null);
+      if (err.response?.status === 403 || err.response?.status === 401) {
+        localStorage.removeItem("userToken");
+        localStorage.removeItem("userData");
+        setUser(null);
+        setCart(null);
+        setCartError("User access required. Please login again.");
+      } else {
+        setCartError(
+          err?.response?.data?.message || err.message || "Failed to fetch cart"
+        );
+        setCart(null);
+      }
       throw err;
     } finally {
       setCartLoading(false);
@@ -163,8 +183,19 @@ export const GlobalProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (user) fetchCart().catch(() => {});
-    else setCart(null);
+    const token = getAuthToken();
+    if (!user || !token) {
+      setCart(null);
+      return;
+    }
+
+    // Skip cart fetching for admin users
+    if (user.role === "admin") {
+      setCart(null);
+      return;
+    }
+
+    fetchCart().catch(() => {});
   }, [user]);
 
   // -------------------------

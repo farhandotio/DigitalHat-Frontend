@@ -58,8 +58,10 @@ const OrderSuccess = () => {
     shippingAddress.thana,
     shippingAddress.district,
     shippingAddress.division,
-    shippingAddress.postalCode
-  ].filter(Boolean).join(", ");
+    shippingAddress.postalCode,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white px-4 py-12 md:py-20">
@@ -124,12 +126,16 @@ const OrderSuccess = () => {
             </span>
           </div>
           <div className="flex justify-between items-start text-sm">
-            <span className="font-medium whitespace-nowrap">Shipping Address:</span>
+            <span className="font-medium whitespace-nowrap">
+              Shipping Address:
+            </span>
             <span className="text-gray-800 text-right">{formattedAddress}</span>
           </div>
           <div className="flex justify-between items-center text-sm">
             <span className="font-medium">Payment Method:</span>
-            <span className="font-semibold text-gray-800">{payment?.method || "N/A"}</span>
+            <span className="font-semibold text-gray-800">
+              {payment?.method || "N/A"}
+            </span>
           </div>
         </div>
       </motion.div>
@@ -142,7 +148,7 @@ const OrderSuccess = () => {
       >
         <Link
           to="/shop"
-          className="flex items-center justify-center w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition shadow-md"
+          className="flex items-center justify-center w-full  bg-primary hover:scale-103  text-white font-semibold py-3 px-6 rounded-lg transition shadow-md"
         >
           <ShoppingCart className="w-5 h-5 mr-2" />
           Continue Shopping

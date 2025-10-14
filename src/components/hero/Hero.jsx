@@ -64,7 +64,7 @@ const Hero = () => {
   return (
     <section className="mx-auto px-5 md:px-10 lg:px-20 py-5">
       {/* Outer div to apply max height and control overall layout */}{" "}
-      <div className="flex flex-col-reverse lg:flex-row rounded-xl overflow-hidden">
+      <div className="flex flex-col-reverse lg:flex-row rounded-xl">
         {/* --- Left Content Area (Orange/Brown Background) --- */}{" "}
         <div className="flex-1 flex flex-col justify-center rounded-2xl">
           {/* Title */}         {" "}
@@ -78,7 +78,7 @@ const Hero = () => {
             <Link
               to={"/shop"}
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300 text-lg"
+              className="px-8 py-4 bg- bg-primary text-white font-semibold rounded-lg hover:scale-103 transition duration-300 text-lg"
             >
               Shop Now            {" "}
             </Link>{" "}
@@ -132,7 +132,7 @@ const Hero = () => {
                     className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
                       active
                         ? "scale-125 bg-orange-500"
-                        : "bg-gray-400 hover:bg-orange-300"
+                        : "bg-gray-400 hover:bg-secondary-bg"
                     }`}
                   />
                 );

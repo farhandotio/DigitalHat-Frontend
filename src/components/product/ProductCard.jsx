@@ -48,7 +48,9 @@ const ProductCard = ({ product = {} }) => {
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
             key={i}
-            className={`w-3.5 h-3.5 ${i < fullStars ? "text-yellow-400" : "text-text/20"}`}
+            className={`w-3.5 h-3.5 ${
+              i < fullStars ? "text-yellow-400" : "text-text/20"
+            }`}
             fill="currentColor"
             viewBox="0 0 20 20"
             aria-hidden
@@ -100,12 +102,17 @@ const ProductCard = ({ product = {} }) => {
       </div>
 
       <div className="p-4 flex flex-col">
-        <h3 className="text-base font-semibold text-gray-900 truncate mb-1" title={title}>
+        <h3
+          className="text-base font-semibold text-gray-900 truncate mb-1"
+          title={title}
+        >
           {title}
         </h3>
 
         <div className="flex items-baseline space-x-2 mb-2">
-          <span className="text-xl font-bold text-primary">৳{formatPrice(originalPrice)}</span>
+          <span className="text-xl font-bold text-primary">
+            ৳{formatPrice(originalPrice)}
+          </span>
         </div>
 
         <div className="flex items-center space-x-1 mb-3">
@@ -132,13 +139,17 @@ const ProductCard = ({ product = {} }) => {
         <button
           onClick={(e) => handleAddToCart(e, 1)}
           disabled={adding || Number(stock) <= 0}
-          className={`w-full py-2 text-white font-bold rounded-full transition-colors focus:outline-none ${
+          className={`w-full py-2 text-white transition-all duration-100 font-bold rounded-full focus:outline-none ${
             Number(stock) <= 0
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-primary hover:bg-orange-600"
+              : " bg-primary hover:scale-103 "
           }`}
         >
-          {adding ? "Adding..." : Number(stock) <= 0 ? "Out of stock" : "Add to Cart"}
+          {adding
+            ? "Adding..."
+            : Number(stock) <= 0
+            ? "Out of stock"
+            : "Add to Cart"}
         </button>
       </div>
     </Link>

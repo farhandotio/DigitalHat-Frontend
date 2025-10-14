@@ -558,7 +558,9 @@ export default function Checkout() {
             onClick={handleCheckout}
             disabled={submitting}
             className={`mt-6 w-full px-6 py-3 ${
-              submitting ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"
+              submitting
+                ? "bg-gray-400"
+                : " bg-green-600 hover:scale-103  hover:bg-green-700"
             } text-white font-semibold rounded-lg transition duration-200`}
           >
             {submitting ? "Placing order..." : "Confirm Order"}

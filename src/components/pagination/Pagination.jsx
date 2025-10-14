@@ -34,7 +34,9 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
               {showEllipsis && <span className="px-2">...</span>}
               <button
                 className={`px-3 py-1 border border-border rounded ${
-                  p === page ? "bg-primary text-white" : "hover:bg-secondary-bg"
+                  p === page
+                    ? " bg-primary hover:scale-103  text-white"
+                    : "hover:bg-secondary-bg"
                 }`}
                 onClick={() => onPageChange(p)}
               >

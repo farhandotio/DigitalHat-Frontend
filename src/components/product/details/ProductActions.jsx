@@ -51,7 +51,7 @@ const ProductActions = ({
         className={`flex-1 py-3 px-6 rounded-full font-bold text-lg shadow-lg transition-colors ${
           Number(stock) <= 0
             ? "bg-gray-400 cursor-not-allowed text-white"
-            : "bg-orange-500 text-white hover:bg-orange-600"
+            : " bg-primary hover:scale-103  text-white hover:bg-orange-600"
         }`}
         disabled={addingToCart || Number(stock) <= 0}
         onClick={handleAddToCart}
@@ -67,7 +67,7 @@ const ProductActions = ({
         className={`flex-1 py-3 px-6 rounded-full font-bold text-lg shadow-lg transition-colors ${
           Number(stock) <= 0
             ? "bg-gray-400 cursor-not-allowed text-white"
-            : "bg-green-500 text-white hover:bg-green-600"
+            : " bg-green-600 hover:scale-103  text-white hover:bg-green-600"
         }`}
         disabled={buyingNow || Number(stock) <= 0}
         onClick={handleBuyNow}

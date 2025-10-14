@@ -32,17 +32,24 @@ const Footer = () => {
   const paymentMethods = ["PAYONEER", "BIKASH", "NAGAD", "DBBL"];
 
   return (
-    <footer className="w-full bg-text text-white py-10 px-5 md:px-10 lg:px-20">
+    <footer className="w-full bg-primary text-white py-10 px-5 md:px-10 lg:px-20">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-10">
         {/* Logo & About */}
         <div className="space-y-4 col-span-2">
           <img src={assets.logo} alt="DigitalHat Logo" className="w-32" />
           <p className="text-white/80 text-sm">
-            DigitalHat is your one-stop online store for products from multiple sellers. Discover the latest trends, top brands, and exclusive deals.
+            DigitalHat is your one-stop online store for products from multiple
+            sellers. Discover the latest trends, top brands, and exclusive
+            deals.
           </p>
           <div className="flex items-center gap-4">
             {socialLinks.map(({ Icon, url, label }) => (
-              <a key={label} href={url} className="hover:text-primary transition" aria-label={label}>
+              <a
+                key={label}
+                href={url}
+                className="hover:text-white transition"
+                aria-label={label}
+              >
                 <Icon size={20} />
               </a>
             ))}
@@ -55,7 +62,9 @@ const Footer = () => {
           <ul className="space-y-2 text-white/80 text-sm">
             {quickLinks.map(({ label, path }) => (
               <li key={label}>
-                <a href={path} className="hover:text-primary transition">{label}</a>
+                <a href={path} className="hover:text-white transition">
+                  {label}
+                </a>
               </li>
             ))}
           </ul>
@@ -67,7 +76,9 @@ const Footer = () => {
           <ul className="space-y-2 text-white/80 text-sm">
             {shopCategories.map(({ label, path }) => (
               <li key={label}>
-                <a href={path} className="hover:text-primary transition">{label}</a>
+                <a href={path} className="hover:text-white transition">
+                  {label}
+                </a>
               </li>
             ))}
           </ul>
@@ -75,7 +86,9 @@ const Footer = () => {
 
         {/* Newsletter */}
         <div className="col-span-2">
-          <h3 className="text-white font-semibold mb-4">Subscribe to our Newsletter</h3>
+          <h3 className="text-white font-semibold mb-4">
+            Subscribe to our Newsletter
+          </h3>
           <p className="text-white/80 text-sm mb-4">
             Get latest updates, offers and products delivered to your inbox.
           </p>
@@ -87,7 +100,7 @@ const Footer = () => {
             />
             <button
               type="submit"
-              className="px-5 py-2 rounded-full bg-primary text-white font-medium hover:bg-secondary transition flex-shrink-0"
+              className="px-5 py-2 rounded-full  bg-secondary hover:scale-103  text-white font-medium transition flex-shrink-0"
             >
               Subscribe
             </button>
@@ -96,7 +109,10 @@ const Footer = () => {
           {/* Payment Methods */}
           <div className="mt-6 flex items-center gap-4">
             {paymentMethods.map((method) => (
-              <div key={method} className="w-full h-8 bg-white/10 rounded-sm flex items-center justify-center text-xs">
+              <div
+                key={method}
+                className="w-full h-8 bg-white/10 rounded-sm flex items-center justify-center text-xs"
+              >
                 {method}
               </div>
             ))}

@@ -25,7 +25,7 @@ const ProfileIcon = () => {
         className={`flex items-center gap-3 md:px-3 cursor-pointer py-2 rounded-md transition ${
           user
             ? "hover:bg-white/5"
-            : "bg-white/90 hover:bg-white text-text font-medium"
+            : "text-white hover:bg-secondary/50 font-medium"
         }`}
         aria-label={user ? "User Profile" : "Login / Sign Up"}
       >
