@@ -21,28 +21,27 @@ const Header = () => {
   }, []);
 
   return (
-    <header>
-      <div className="bg-primary pl-2 pr-4 md:px-10 lg:px-17 text-text flex flex-row items-center gap-1 md:gap-3 justify-between w-full">
-        <div className="md:flex items-center max-md:w-full">
-          <Link
-            to={"/"}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            <img
-              src={assets.logo}
-              alt="DigitalHat Logo"
-              className="w-20 h-20 aspect-square"
-            />
-          </Link>
+    <header className="fixed w-full z-100000 top-0 left-0">
+      <div className="bg-secondary pl-3 pr-4 md:px-10 lg:px-17 text-text flex flex-row items-center gap-1 md:gap-3 justify-between w-full">
+        <Link
+          to={"/"}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="w-20 h-20 aspect-square"
+        >
+          <img
+            src={assets.logo}
+            alt="DigitalHat Logo"
+            className="w-full h-hull"
+          />
+        </Link>
 
-          {/* Nav */}
-          <div className="hidden md:block">
-            <Navbar />
-          </div>
+        {/* Nav */}
+        <div className="hidden md:block">
+          <Navbar />
         </div>
 
         {/* Searchbar (Center) */}
-        <div className="flex mx-0 md:mx-0 w-full md:w-auto">
+        <div className="flex mx-0 md:mx-10 w-full md:w-full">
           <Searchbar onSearch={handleSearch} />
         </div>
 

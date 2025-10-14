@@ -32,7 +32,7 @@ const Footer = () => {
   const paymentMethods = ["PAYONEER", "BIKASH", "NAGAD", "DBBL"];
 
   return (
-    <footer className="w-full bg-[#111] text-white py-10 px-5 md:px-10 lg:px-20">
+    <footer className="w-full bg-text text-white py-10 px-5 md:px-10 lg:px-20">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-10">
         {/* Logo & About */}
         <div className="space-y-4 col-span-2">

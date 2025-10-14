@@ -8,6 +8,7 @@ import CartItem from "../components/cart/CartItem";
 import OrderSummary from "../components/cart/OrderSummary";
 
 const SHIPPING_COST = 125;
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export default function Cart() {
   const { cart, cartLoading, updateCartItem, removeCartItem, clearCart } = useContext(GlobalContext);
@@ -17,47 +18,69 @@ export default function Cart() {
   const [currency, setCurrency] = useState("USD");
 
   const formatCurrency = useCallback((amount, cur = "USD") => {
-    if (cur === "BDT") return `৳${amount.toLocaleString("en-BD")}`;
-    return `$${amount.toLocaleString("en-US")}`;
+    if (cur === "BDT") return `৳${Number(amount ?? 0).toLocaleString("en-BD")}`;
+    return `$${Number(amount ?? 0).toLocaleString("en-US")}`;
   }, []);
 
   useEffect(() => {
+    // if no items in cart
     if (!cart?.items?.length) {
       setItems([]);
       setLoading(false);
       return;
     }
 
+    let cancelled = false;
+
     const fetchItems = async () => {
       setLoading(true);
       try {
         const results = await Promise.all(
           cart.items.map(async (ci) => {
-            const res = await axios.get(`http://localhost:3000/api/products/${ci.productId}`);
+            // use env base so prod/dev works
+            const res = await axios.get(`${API_BASE}/api/products/${ci.productId}`);
             const p = res.data.product || res.data;
+
+            // Normalize price and image fields according to your product model
+            const priceAmount = Number(p?.price?.amount ?? p?.price ?? 0);
+            const priceCurrency = p?.price?.currency ?? "USD";
+            const imageUrl =
+              (p?.images && p.images.length && (p.images[0].url ?? p.images[0])) ||
+              "/placeholder.png";
+
             return {
               productId: ci.productId,
               quantity: ci.quantity,
               title: p.title || "Untitled Product",
-              price: Number(p.price?.amount ?? p.price ?? 0),
-              currency: p.price?.currency ?? "USD",
+              price: priceAmount,
+              currency: priceCurrency,
               stock: p.stock ?? 0,
-              image: p.images?.[0] || "/placeholder.png",
+              image: imageUrl,
+              _id: p._id || ci.productId,
             };
           })
         );
 
-        setItems(results);
-        if (results[0]?.currency) setCurrency(results[0].currency);
+        if (!cancelled) {
+          setItems(results);
+          if (results[0]?.currency) setCurrency(results[0].currency);
+        }
       } catch (err) {
-        console.error("Failed to fetch cart items:", err);
+        if (!cancelled) {
+          console.error("Failed to fetch cart items:", err);
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchItems();
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+    // re-run when cart.items changes
+  }, [cart?.items]);
 
   // --- Quantity update without refetch ---
   const handleUpdateQuantity = useCallback(
@@ -84,12 +107,12 @@ export default function Cart() {
   }, [clearCart]);
 
   const totals = useMemo(() => {
-    const subtotal = items.reduce((acc, i) => acc + (i.price ?? 0) * (i.quantity ?? 0), 0);
+    const subtotal = items.reduce((acc, i) => acc + (Number(i.price ?? 0) * Number(i.quantity ?? 0)), 0);
     const total = subtotal + SHIPPING_COST;
     return { subtotal, shipping: SHIPPING_COST, total };
   }, [items]);
 
-  const itemCount = items.length;
+  const itemCount = items.reduce((acc, i) => acc + (Number(i.quantity) || 0), 0);
 
   if (cartLoading || loading)
     return <p className="text-center mt-20">Loading cart...</p>;
@@ -134,7 +157,14 @@ export default function Cart() {
           </div>
 
           <div className="lg:col-span-1">
-            <OrderSummary totals={totals} itemCount={itemCount} currency={currency} formatCurrency={formatCurrency} />
+            {/* pass cart items so OrderSummary can navigate with full data */}
+            <OrderSummary
+              totals={totals}
+              itemCount={itemCount}
+              currency={currency}
+              formatCurrency={formatCurrency}
+              cartItems={items}
+            />
           </div>
         </div>
       </div>

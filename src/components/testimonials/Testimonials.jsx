@@ -83,8 +83,8 @@ const TestimonialCard = ({ data }) => {
         <h4 className="font-semibold text-gray-800 text-sm mb-1">
           {data.name}
         </h4>
-               {" "}
-        <p className="text-gray-600 text-xs italic">{data.review}</p>     {" "}
+                <p className="text-gray-600 text-xs italic">{data.review}</p>   
+         {" "}
       </div>
             {/* Bottom Rating/Bar (Yellow) */}     {" "}
       <div className="flex justify-center pb-2">
@@ -98,42 +98,38 @@ const TestimonialCard = ({ data }) => {
 const Testimonials = () => {
   return (
     <section className="mx-auto px-5 md:px-30 lg:px-40 mt-10">
-           {" "}
-      <div className="mx-auto px-5 pt-5 md:pt-10 md:px-10 lg:px-10 bg-secondary-bg rounded-t-4xl shadow-lg">
-                {/* Header Section */}       {" "}
-        <div className="mb-8 md:text-center">
+                    {/* Header Section */}       {" "}
+      <div className="mb-8 md:text-center">
+                 {" "}
+        <h2 className="text-2xl md:text-3xl text-center font-bold text-gray-800 mb-1">
+                      Trusted by 10,000+ Happy Customers!          {" "}
+        </h2>
+                  {/* Overall Rating */}         {" "}
+        <div className="flex items-center md:justify-center w-full">
+                      {/* Overall Star Rating: Adjusted size to look better */} 
                    {" "}
-          <h2 className="text-2xl md:text-3xl text-center font-bold text-gray-800 mb-1">
-                        Trusted by 10,000+ Happy Customers!          {" "}
-          </h2>
-                    {/* Overall Rating */}         {" "}
-          <div className="flex items-center md:justify-center w-full">
-                       {" "}
-            {/* Overall Star Rating: Adjusted size to look better */}           {" "}
-            <div className="flex">
-                           {" "}
-              <StarRating rating={5} className="md:w-10 md:h-10 w-7 h-7" />       
-                 {" "}
-            </div>
-                       {" "}
-            <span className="ml-0 md:ml-3 text-lg font-bold text-gray-800 mt-2 md:mt-0">
-                            4.9/5.0            {" "}
-            </span>
+          <div className="flex">
+                         {" "}
+            <StarRating rating={5} className="md:w-10 md:h-10 w-7 h-7" />       
+               {" "}
           </div>
-                 {" "}
+                     {" "}
+          <span className="ml-0 md:ml-3 text-lg font-bold text-gray-800 mt-2 md:mt-0">
+                          4.9/5.0            {" "}
+          </span>
         </div>
                {" "}
-        {/* Testimonial Cards Grid: Ensure columns stack on mobile (default Tailwind behavior) */}
-               {" "}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonialsData.map((review, index) => (
-            <TestimonialCard key={index} data={review} />
-          ))}
-                 {" "}
-        </div>
-             {" "}
       </div>
-         {" "}
+             {" "}
+      {/* Testimonial Cards Grid: Ensure columns stack on mobile (default Tailwind behavior) */}
+             {" "}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {testimonialsData.map((review, index) => (
+          <TestimonialCard key={index} data={review} />
+        ))}
+               {" "}
+      </div>
+               {" "}
     </section>
   );
 };

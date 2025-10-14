@@ -48,7 +48,7 @@ const ProductCard = ({ product = {} }) => {
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
             key={i}
-            className={`w-3.5 h-3.5 ${i < fullStars ? "text-yellow-400" : "text-gray-300"}`}
+            className={`w-3.5 h-3.5 ${i < fullStars ? "text-yellow-400" : "text-text/20"}`}
             fill="currentColor"
             viewBox="0 0 20 20"
             aria-hidden
@@ -61,7 +61,6 @@ const ProductCard = ({ product = {} }) => {
   };
 
   const handleAddToCart = async (e, qty = 1) => {
-    // prevent Link nav
     e.preventDefault();
     e.stopPropagation();
 
@@ -70,7 +69,6 @@ const ProductCard = ({ product = {} }) => {
       return;
     }
     if (Number(stock) <= 0) {
-      // optional: show toast instead
       alert("This product is out of stock.");
       return;
     }
@@ -78,9 +76,6 @@ const ProductCard = ({ product = {} }) => {
     try {
       setAdding(true);
       await addToCart(productId, qty);
-      // optional success UI: toast, small animation, etc.
-      // example quick feedback:
-      // alert(`${title} added to cart`);
     } catch (err) {
       console.error("Failed to add to cart:", err);
       alert(err?.message || "Failed to add to cart");
@@ -93,7 +88,7 @@ const ProductCard = ({ product = {} }) => {
     <Link
       to={`/product/${productId}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="w-full bg-secondary-bg border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xs group cursor-pointer"
+      className="w-full bg-white border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xs group cursor-pointer"
     >
       <div className="relative flex items-center justify-center h-48 bg-gray-50 overflow-hidden">
         <img

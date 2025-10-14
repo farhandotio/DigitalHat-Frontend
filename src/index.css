@@ -5,12 +5,12 @@
 @theme {
   --color-primary: #ff6a00;
   --color-secondary: #ff8a33;
-  --color-secondary-bg: #fff1e7;
+  --color-secondary-bg: #fff;
   --color-background: #ffffff;
   --color-white: #fff;
   --color-red: #ff3d3d;
   --color-input: #e8f0fe;
-  --color-text: #1F2937;
+  --color-text: #111;
   --color-border: #e1e8ed;
   --font-family: "Helvetica Neue", Arial, sans-serif;
 }

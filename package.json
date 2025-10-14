@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconify/react": "^6.0.2",
     "@radix-ui/react-select": "^2.2.6",
     "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/vite": "^4.0.0",
     "axios": "^1.12.2",
+    "framer-motion": "^12.23.24",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.545.0",
     "react": "^18.3.1",

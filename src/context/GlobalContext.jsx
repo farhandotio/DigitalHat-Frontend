@@ -4,6 +4,8 @@ import axios from "axios";
 
 export const GlobalContext = createContext();
 
+const CHECKOUT_KEY = "app_checkout_state";
+
 export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
@@ -12,9 +14,7 @@ export const GlobalProvider = ({ children }) => {
   const [cartLoading, setCartLoading] = useState(false);
   const [cartError, setCartError] = useState(null);
 
-  // -------------------------
   // Axios setup (attach token)
-  // -------------------------
   const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
     withCredentials: true,
@@ -31,9 +31,7 @@ export const GlobalProvider = ({ children }) => {
     return config;
   });
 
-  // -------------------------
-  // Auth sync
-  // -------------------------
+  // Auth sync (unchanged) ...
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     const storedToken = localStorage.getItem("userToken");
@@ -71,9 +69,7 @@ export const GlobalProvider = ({ children }) => {
     };
   }, []);
 
-  // -------------------------
-  // CART actions (optimized)
-  // -------------------------
+  // CART functions (unchanged for brevity) ...
   const fetchCart = async () => {
     if (!user) {
       setCart(null);
@@ -97,11 +93,8 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // --- Add to cart ---
   const addToCart = async (productId, quantity = 1) => {
     if (!user) throw new Error("User not logged in");
-
-    // Optimistically update cart locally
     setCart((prev) => {
       if (!prev?.items) return { items: [{ productId, quantity }] };
       const exists = prev.items.find((i) => i.productId === productId);
@@ -118,7 +111,6 @@ export const GlobalProvider = ({ children }) => {
         return { ...prev, items: [...prev.items, { productId, quantity }] };
       }
     });
-
     try {
       await api.post("/api/cart/items", { productId, quantity });
     } catch (err) {
@@ -127,18 +119,14 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // --- Update cart item ---
   const updateCartItem = async (productId, quantity) => {
     if (!user) throw new Error("User not logged in");
-
-    // Optimistic update locally
     setCart((prev) => ({
       ...prev,
       items: prev.items.map((i) =>
         i.productId === productId ? { ...i, quantity } : i
       ),
     }));
-
     try {
       await api.patch(`/api/cart/items/${productId}`, { quantity });
     } catch (err) {
@@ -147,16 +135,12 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // --- Remove cart item ---
   const removeCartItem = async (productId) => {
     if (!user) throw new Error("User not logged in");
-
-    // Optimistic update locally
     setCart((prev) => ({
       ...prev,
       items: prev.items.filter((i) => i.productId !== productId),
     }));
-
     try {
       await api.delete(`/api/cart/items/${productId}`);
     } catch (err) {
@@ -165,13 +149,9 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // --- Clear cart ---
   const clearCart = async () => {
     if (!cart?.items?.length) return;
-
-    // Optimistic clear
     setCart({ items: [] });
-
     try {
       await Promise.all(
         cart.items.map((it) => api.delete(`/api/cart/items/${it.productId}`))
@@ -182,11 +162,60 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // fetch cart when user logs in / changes
   useEffect(() => {
     if (user) fetchCart().catch(() => {});
     else setCart(null);
   }, [user]);
+
+  // -------------------------
+  // Centralized Checkout helpers
+  // -------------------------
+  /**
+   * payload: { items, totals, currency, itemCount, extra?: {...} }
+   * Stores payload in sessionStorage and navigates to /checkout.
+   */
+  const proceedToCheckout = (payload = {}) => {
+    try {
+      // minimal validation
+      const safe = {
+        items: payload.items ?? cart?.items ?? [],
+        totals: payload.totals ?? { subtotal: 0, shipping: 0, total: 0 },
+        currency: payload.currency ?? "USD",
+        itemCount: payload.itemCount ?? (payload.items?.length ?? cart?.items?.length ?? 0),
+        extra: payload.extra ?? null,
+      };
+      // store in session so checkout can read after navigate or refresh
+      sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify(safe));
+
+      // navigate to checkout. Using location.assign ensures it works whether provider is inside Router or not.
+      // If your provider is inside Router and you prefer client router navigation, replace with navigate('/checkout') from Router.
+      window.location.assign("/checkout");
+    } catch (err) {
+      console.error("proceedToCheckout:", err);
+      // fallback: still navigate
+      window.location.assign("/checkout");
+    }
+  };
+
+  // read checkout state (for components that prefer reading from context)
+  const getCheckoutState = () => {
+    try {
+      const raw = sessionStorage.getItem(CHECKOUT_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (err) {
+      console.error("getCheckoutState:", err);
+      return null;
+    }
+  };
+
+  const clearCheckoutState = () => {
+    try {
+      sessionStorage.removeItem(CHECKOUT_KEY);
+    } catch (err) {
+      console.error("clearCheckoutState:", err);
+    }
+  };
 
   // -------------------------
   // Provide global values
@@ -204,6 +233,9 @@ export const GlobalProvider = ({ children }) => {
         updateCartItem,
         removeCartItem,
         clearCart,
+        proceedToCheckout,
+        getCheckoutState,
+        clearCheckoutState,
         formatCurrency: (amount, currency = "USD") =>
           new Intl.NumberFormat("en-US", {
             style: "currency",

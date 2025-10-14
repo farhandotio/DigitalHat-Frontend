@@ -14,10 +14,12 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Account from "./pages/Account";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
 
 const App = () => {
   return (
-    <div className="max-w-[1580px] bg-secondary-bg/20 min-h-screen mx-auto flex flex-col justify-between">
+    <div className="max-w-[1580px] bg-secondary-bg/20 min-h-screen mx-auto flex flex-col justify-between pt-20">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,6 +28,8 @@ const App = () => {
         <Route path="/account" element={<Account />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
         {/* NEW ROUTE ADDED */}
 
         <Route path="/about" element={<About />} />

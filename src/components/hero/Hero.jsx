@@ -62,11 +62,11 @@ const Hero = () => {
   const slideWidthPercent = `${100 / sliderMedia.length}%`;
 
   return (
-    <section className="mx-auto px-5 md:px-10 lg:px-20 my-10">
+    <section className="mx-auto px-5 md:px-10 lg:px-20 py-5">
       {/* Outer div to apply max height and control overall layout */}{" "}
       <div className="flex flex-col-reverse lg:flex-row rounded-xl overflow-hidden">
         {/* --- Left Content Area (Orange/Brown Background) --- */}{" "}
-        <div className="flex-1 flex flex-col justify-center">
+        <div className="flex-1 flex flex-col justify-center rounded-2xl">
           {/* Title */}         {" "}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-orange-500">
             Shop Everything <br /> You Love at <br />{" "}

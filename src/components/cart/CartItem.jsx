@@ -23,12 +23,13 @@ export default function CartItem({
     setQuantity(newQty);
     onUpdateQuantity(item.productId, newQty);
   };
+  console.log(item)
 
   return (
     <div className="grid grid-cols-2">
       <div className="flex p-4 border-b border-border last:border-b-0">
         <img
-          src={item.image.url || "/placeholder.png"}
+          src={item.image || "/placeholder.png"}
           alt={item.title || "Product"}
           className="w-20 h-20 rounded-lg object-cover mr-4 shadow-sm"
           onError={(e) => {
