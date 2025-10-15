@@ -28,9 +28,13 @@ const Login = () => {
     setLoading(true);
 
     try {
-      if (!email || !password) throw new Error("Email and password are required");
+      if (!email || !password)
+        throw new Error("Email and password are required");
 
-      const response = await axios.post("http://localhost:3000/api/auth/login", { email, password });
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        { email, password }
+      );
 
       const userData = response.data.user;
       const token = response.data.token;
@@ -40,7 +44,9 @@ const Login = () => {
 
       setUser(userData);
 
-      window.dispatchEvent(new CustomEvent("auth-state-change", { detail: { user: userData } }));
+      window.dispatchEvent(
+        new CustomEvent("auth-state-change", { detail: { user: userData } })
+      );
 
       navigate("/account");
     } catch (err) {
@@ -52,14 +58,23 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4 font-[Inter]">
-      <form className="p-8 bg-white rounded-xl shadow-2xl w-full max-w-sm border border-gray-100" onSubmit={handleSubmit}>
-        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Welcome Back</h2>
+      <form
+        className="p-8 bg-white    shadow-2xl w-full max-w-sm border border-gray-100"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
+          Welcome Back
+        </h2>
 
-        {error && <p className="text-red-500 bg-red-50 p-3 rounded-lg mb-6 text-center border border-red-200">{error}</p>}
+        {error && (
+          <p className="text-red-500 bg-red-50 p-3   mb-6 text-center border border-red-200">
+            {error}
+          </p>
+        )}
 
         {/* Email Input */}
         <div className="mb-4">
-          <div className="group relative flex items-center w-full border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
+          <div className="group relative flex items-center w-full border border-gray-300   overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
             <span className="p-3 text-gray-500 group-focus-within:text-primary">
               <HiOutlineMail size={20} />
             </span>
@@ -76,7 +91,7 @@ const Login = () => {
 
         {/* Password Input */}
         <div className="mb-6">
-          <div className="group relative flex items-center w-full border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
+          <div className="group relative flex items-center w-full border border-gray-300   overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
             <span className="p-3 text-gray-500 group-focus-within:text-primary">
               <HiOutlineLockClosed size={20} />
             </span>
@@ -94,7 +109,11 @@ const Login = () => {
               className="p-3 text-gray-500 hover:text-gray-700 absolute right-0"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+              {showPassword ? (
+                <AiOutlineEyeInvisible size={20} />
+              ) : (
+                <AiOutlineEye size={20} />
+              )}
             </button>
           </div>
         </div>
@@ -102,7 +121,7 @@ const Login = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 px-4 rounded-lg cursor-pointer bg-primary text-white font-semibold text-lg transition duration-300 shadow-lg shadow-orange-200/50 hover:bg-orange-600 ${
+          className={`w-full py-3 px-4   cursor-pointer bg-primary text-white font-semibold text-lg transition duration-300 shadow-lg shadow-orange-200/50 hover:bg-orange-600 ${
             loading ? "opacity-60 cursor-not-allowed" : ""
           }`}
         >
@@ -111,7 +130,10 @@ const Login = () => {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-primary hover:underline font-medium">
+          <Link
+            to="/signup"
+            className="text-primary hover:underline font-medium"
+          >
             Sign Up
           </Link>
         </p>

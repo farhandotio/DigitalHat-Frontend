@@ -71,8 +71,8 @@ const OrderSuccess = () => {
         initial="hidden"
         animate="visible"
       >
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-50 to-white p-2">
-          <div className="w-full h-full rounded-full bg-white shadow-inner flex items-center justify-center">
+        <div className="absolute inset-0  rounded-full  bg-gradient-to-br from-green-50 to-white p-2">
+          <div className="w-full h-full   rounded-full bg-white shadow-inner flex items-center justify-center">
             <CheckCircle className="w-16 h-16 text-green-500 fill-current" />
           </div>
         </div>
@@ -99,7 +99,7 @@ const OrderSuccess = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1.2, type: "spring", stiffness: 100 }}
-        className="bg-white p-8 w-full max-w-md mx-auto shadow-xl rounded-xl border border-gray-100"
+        className="bg-white p-8 w-full max-w-md mx-auto shadow-xl    border border-gray-100"
       >
         <h2 className="text-xl font-bold text-gray-800 border-b pb-4 mb-4">
           Order Details
@@ -148,7 +148,7 @@ const OrderSuccess = () => {
       >
         <Link
           to="/shop"
-          className="flex items-center justify-center w-full  bg-primary hover:scale-103  text-white font-semibold py-3 px-6 rounded-lg transition shadow-md"
+          className="flex items-center justify-center w-full  bg-primary hover:scale-103  text-white font-semibold py-3 px-6 rounded-full  transition shadow-md"
         >
           <ShoppingCart className="w-5 h-5 mr-2" />
           Continue Shopping

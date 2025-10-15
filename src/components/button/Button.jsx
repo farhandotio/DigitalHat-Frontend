@@ -14,15 +14,14 @@ const Button = ({
   type = "button",
 }) => {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium rounded-2xl transition-all duration-200 focus:outline-none";
+    "inline-flex items-center justify-center font-medium    transition-all duration-200 focus:outline-none";
 
   const variants = {
     primary:
       "bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md",
     secondary:
       "bg-gray-200 hover:bg-gray-300 text-gray-800 shadow-sm hover:shadow-md",
-    outline:
-      "border border-gray-400 text-gray-700 hover:bg-gray-100 shadow-sm",
+    outline: "border border-gray-400 text-gray-700 hover:bg-gray-100 shadow-sm",
     danger: "bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md",
   };
 

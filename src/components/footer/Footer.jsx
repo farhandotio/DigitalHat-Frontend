@@ -96,11 +96,11 @@ const Footer = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-5 py-2 rounded-full border-2 border-white/20 focus:outline-none focus:border-primary bg-transparent text-white placeholder-white/70 transition w-full"
+              className="flex-1 px-5 py-2 rounded-full   border-2 border-white/20 focus:outline-none focus:border-primary bg-transparent text-white placeholder-white/70 transition w-full"
             />
             <button
               type="submit"
-              className="px-5 py-2 rounded-full  bg-secondary hover:scale-103  text-white font-medium transition flex-shrink-0"
+              className="px-5 py-2  rounded-full   bg-secondary cursor-pointer  text-white font-medium transition flex-shrink-0"
             >
               Subscribe
             </button>
@@ -111,7 +111,7 @@ const Footer = () => {
             {paymentMethods.map((method) => (
               <div
                 key={method}
-                className="w-full h-8 bg-white/10 rounded-sm flex items-center justify-center text-xs"
+                className="w-full h-8 bg-white/10  rounded-full flex items-center justify-center text-xs"
               >
                 {method}
               </div>

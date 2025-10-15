@@ -62,7 +62,7 @@ const Hero = () => {
   const slideWidthPercent = `${100 / sliderMedia.length}%`;
 
   return (
-    <section className="mx-auto px-5 md:px-10 lg:px-20 py-5">
+    <section className="mx-auto px-5 md:px-10 lg:px-20 py-5 md:py-10">
       {/* Outer div to apply max height and control overall layout */}{" "}
       <div className="flex flex-col-reverse lg:flex-row rounded-xl">
         {/* --- Left Content Area (Orange/Brown Background) --- */}{" "}
@@ -78,7 +78,7 @@ const Hero = () => {
             <Link
               to={"/shop"}
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="px-8 py-4 bg- bg-primary text-white font-semibold rounded-lg hover:scale-103 transition duration-300 text-lg"
+              className="pl-8 py-3 bg-primary text-white font-semibold rounded-full hover:scale-103 transition duration-300 text-lg"
             >
               Shop Now            {" "}
             </Link>{" "}

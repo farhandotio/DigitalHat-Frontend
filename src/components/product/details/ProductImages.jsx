@@ -3,7 +3,7 @@ import React from "react";
 const ProductImages = ({ images, mainImage, setSelectedImage, title }) => {
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-full mb-4 bg-gray-50 border border-border rounded-lg flex items-center justify-center overflow-hidden">
+      <div className="relative w-full mb-4 bg-gray-50 border border-border   flex items-center justify-center overflow-hidden">
         <img
           src={mainImage}
           alt={title}
@@ -17,7 +17,7 @@ const ProductImages = ({ images, mainImage, setSelectedImage, title }) => {
             <button
               key={idx}
               onClick={() => setSelectedImage(img.url)}
-              className={`flex-1 aspect-square rounded-lg border-2 transition-all duration-200 ${
+              className={`flex-1 aspect-square   border-2 transition-all duration-200 ${
                 mainImage === img.url
                   ? "border-primary ring-1 ring-primary"
                   : "border-gray-200 hover:border-gray-400"
@@ -26,7 +26,7 @@ const ProductImages = ({ images, mainImage, setSelectedImage, title }) => {
               <img
                 src={img.url}
                 alt={`${title} thumbnail ${idx}`}
-                className="w-full h-full object-cover rounded"
+                className="w-full h-full object-cover   "
               />
             </button>
           ))}

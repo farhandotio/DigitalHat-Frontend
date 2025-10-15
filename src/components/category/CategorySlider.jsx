@@ -6,21 +6,20 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import CategoryCard from "./CategoryCard";
-import Title from "../title/Title";
 
 const categories = [
   { id: 1, name: "Router" },
-  { id: 2, name: "TWS Earbuds" },
-  { id: 3, name: "Bluetooth Devices" },
+  { id: 2, name: "TWS" },
+  { id: 3, name: "Bluetooth" },
   { id: 4, name: "Speakers" },
   { id: 5, name: "Wearables" },
   { id: 6, name: "Headphones" },
-  { id: 7, name: "Gaming Consoles" },
+  { id: 7, name: "Gaming" },
   { id: 8, name: "Tripods" },
   { id: 9, name: "Webcams" },
   { id: 10, name: "Power Banks" },
-  { id: 11, name: "Chargers & Cables" },
-  { id: 12, name: "Smart Home Devices" },
+  { id: 11, name: "Chargers" },
+  { id: 12, name: "Home Devices" },
 ];
 
 const mid = Math.ceil(categories.length / 2);
@@ -29,15 +28,15 @@ const bottomRow = categories.slice(mid);
 
 const CategorySlider = () => {
   return (
-    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 pt-15">
+    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-7">
       {/* <Title title="Shop by Category" /> */}
       <Swiper
         modules={[Navigation]}
-        slidesPerView={2}
+        slidesPerView={3}
         spaceBetween={20}
         // navigation
         breakpoints={{
-          640: { slidesPerView: 2 },
+          640: { slidesPerView: 3 },
           768: { slidesPerView: 3 },
           1024: { slidesPerView: 6 },
         }}
@@ -53,11 +52,11 @@ const CategorySlider = () => {
       /> */}
       <Swiper
         modules={[Navigation]}
-        slidesPerView={2}
+        slidesPerView={3}
         spaceBetween={20}
         // navigation
         breakpoints={{
-          640: { slidesPerView: 2 },
+          640: { slidesPerView: 3 },
           768: { slidesPerView: 3 },
           1024: { slidesPerView: 6 },
         }}

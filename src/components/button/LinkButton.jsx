@@ -15,7 +15,7 @@ const LinkButton = ({
   target,
 }) => {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium rounded-full transition-all duration-200 focus:outline-none";
+    "inline-flex items-center justify-center font-medium    transition-all duration-200 focus:outline-none";
 
   const variants = {
     primary:

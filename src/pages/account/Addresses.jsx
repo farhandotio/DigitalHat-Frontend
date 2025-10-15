@@ -24,15 +24,27 @@ export default function Addresses() {
       {local?.length ? (
         <div className="space-y-4">
           {local.map((a) => (
-            <div key={a._id || a.id} className="p-4 bg-white rounded-xl shadow-sm border">
+            <div
+              key={a._id || a.id}
+              className="p-4 bg-white    shadow-sm border"
+            >
               <div className="flex justify-between">
                 <div>
                   <p className="font-semibold">{a.fullName || a.name}</p>
                   <p className="text-sm text-gray-500">{a.phone}</p>
-                  <p className="text-sm text-gray-500">{[a.street, a.city, a.postalCode, a.country].filter(Boolean).join(", ")}</p>
+                  <p className="text-sm text-gray-500">
+                    {[a.street, a.city, a.postalCode, a.country]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button onClick={() => removeAddress(a._id || a.id)} className="text-sm text-red-500 hover:underline">Remove</button>
+                  <button
+                    onClick={() => removeAddress(a._id || a.id)}
+                    className="text-sm text-red-500 hover:underline"
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             </div>

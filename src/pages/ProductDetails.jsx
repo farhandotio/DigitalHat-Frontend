@@ -26,7 +26,8 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   const [products, setProducts] = useState([]);
-  const [isLoadingRelativeProducts, setIsLoadingRelativeProducts] = useState(false);
+  const [isLoadingRelativeProducts, setIsLoadingRelativeProducts] =
+    useState(false);
 
   // --- Fetch product ---
   useEffect(() => {
@@ -34,12 +35,18 @@ const ProductDetails = () => {
       setIsLoading(true);
       setError("");
       try {
-        const { data } = await axios.get(`http://localhost:3000/api/products/${id}`);
+        const { data } = await axios.get(
+          `http://localhost:3000/api/products/${id}`
+        );
         if (!data.product) throw new Error("Product not found");
         setProduct(data.product);
         setSelectedImage(data.product.images[0]?.url || "/placeholder.png");
       } catch (err) {
-        setError(err.response?.data?.message || err.message || "Failed to fetch product");
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to fetch product"
+        );
       } finally {
         setIsLoading(false);
       }
@@ -91,13 +98,25 @@ const ProductDetails = () => {
   }, [product, id]);
 
   if (isLoading)
-    return <div className="flex justify-center items-center h-screen text-gray-500">Loading product details...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        Loading product details...
+      </div>
+    );
 
   if (error)
-    return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
+    return (
+      <div className="flex justify-center items-center h-screen text-red-500">
+        {error}
+      </div>
+    );
 
   if (!product)
-    return <div className="flex justify-center items-center h-screen text-gray-500">Product not found.</div>;
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        Product not found.
+      </div>
+    );
 
   const {
     title,
@@ -135,7 +154,7 @@ const ProductDetails = () => {
 
   return (
     <div className="w-full p-5 md:p-10 lg:p-20">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 rounded-lg">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12  ">
         <ProductImages
           images={images}
           mainImage={mainImage}
@@ -151,19 +170,33 @@ const ProductDetails = () => {
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-5 h-5 ${i < Math.floor(averageRating || 0) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                  className={`w-5 h-5 ${
+                    i < Math.floor(averageRating || 0)
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-gray-300"
+                  }`}
                 />
               ))}
             </div>
-            <span className="text-sm text-text/90 font-medium">({averageRating?.toFixed(1)})</span>
-            <span className="text-sm text-primary hover:underline cursor-pointer">{reviewCount} reviews</span>
-            <span className="ml-4 px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">✓ In Stock</span>
+            <span className="text-sm text-text/90 font-medium">
+              ({averageRating?.toFixed(1)})
+            </span>
+            <span className="text-sm text-primary hover:underline cursor-pointer">
+              {reviewCount} reviews
+            </span>
+            <span className="ml-4 px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold   ">
+              ✓ In Stock
+            </span>
           </div>
 
           <ProductPrice price={price} originalPrice={originalPrice} />
           <ProductDescription description={description} />
           <ProductSpecifications specification={specification} />
-          <QuantitySelector quantity={quantity} setQuantity={setQuantity} stock={stock} />
+          <QuantitySelector
+            quantity={quantity}
+            setQuantity={setQuantity}
+            stock={stock}
+          />
 
           {/* Pass real props to ProductActions */}
           <ProductActions
@@ -181,7 +214,10 @@ const ProductDetails = () => {
 
       <div className="mt-12">
         <Title title="Related Products" />
-        <ProductGrid products={products} isLoading={isLoadingRelativeProducts} />
+        <ProductGrid
+          products={products}
+          isLoading={isLoadingRelativeProducts}
+        />
       </div>
     </div>
   );

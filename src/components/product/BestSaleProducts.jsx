@@ -37,7 +37,7 @@ const BestSaleProducts = () => {
   }, []);
 
   return (
-    <div className="px-5 md:px-10 lg:px-20 pt-20">
+    <div className="px-5 md:px-10 lg:px-20 py-10">
       <Title title="Best Selling Products" />
       <ProductGrid products={products} isLoading={loading} />
       <div className="flex items-center justify-end pt-10">

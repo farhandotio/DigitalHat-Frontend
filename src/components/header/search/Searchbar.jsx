@@ -28,7 +28,7 @@ const Searchbar = ({ onSearch }) => {
     <form
       ref={inputRef}
       onSubmit={handleSubmit}
-      className="relative flex items-center justify-end w-full ml-auto" 
+      className="relative flex items-center justify-end w-full ml-auto"
     >
       {/* Search input */}
       <input
@@ -37,7 +37,7 @@ const Searchbar = ({ onSearch }) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search products, brands, or categories..."
-        className={`transition-all duration-300 ease-in-out rounded-full border-2 border-border focus:outline-none focus:border-white text-sm md:text-base text-white/90 placeholder-white/90
+        className={`transition-all duration-300 ease-in-out rounded-full   border-2 border-border/20 focus:outline-none focus:border-white text-sm md:text-base text-white/90 placeholder-white/90
           py-1 md:py-1.5 pr-8 md:pr-12 pl-4 bg-transparent
           ${
             isOpen

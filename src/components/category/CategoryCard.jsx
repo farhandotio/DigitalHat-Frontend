@@ -33,17 +33,17 @@ const iconMap = {
 
 const iconColorMap = {
   Router: "#f97316",
-  "TWS Earbuds": "#3b82f6",
-  "Bluetooth Devices": "#10b981",
+  TWS: "#3b82f6",
+  Bluetooth: "#10b981",
   Speakers: "#facc15",
   Wearables: "#ec4899",
   Headphones: "#8b5cf6",
-  "Gaming Consoles": "#14b8a6",
+  Gaming: "#14b8a6",
   Tripods: "#f361f1",
   Webcams: "#f59e0b",
   "Power Banks": "#22c55e",
-  "Chargers & Cables": "#f43f5e",
-  "Smart Home Devices": "#eab308",
+  Chargers: "#f43f5e",
+  "Home Devices": "#eab308",
 };
 
 const CategoryCard = ({ category }) => {
@@ -54,7 +54,7 @@ const CategoryCard = ({ category }) => {
     <Link
       to={`/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="group flex flex-col items-center justify-center bg-white px-4 py-7 max-md:text-sm whitespace-nowrap rounded-lg shadow  text-center"
+      className="group flex flex-col items-center justify-center bg-white px-4 sm:py-7 py-2 max-md:text-sm whitespace-nowrap shadow  text-center scale-95"
     >
       <div className="mb-2" style={{ color }}>
         <IconComponent className="group-hover:text-secondary transition-all duration-200" size={30} />

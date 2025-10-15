@@ -23,7 +23,7 @@ export default function CartItem({
     setQuantity(newQty);
     onUpdateQuantity(item.productId, newQty);
   };
-  console.log(item)
+  console.log(item);
 
   return (
     <div className="grid grid-cols-2">
@@ -31,7 +31,7 @@ export default function CartItem({
         <img
           src={item.image || "/placeholder.png"}
           alt={item.title || "Product"}
-          className="w-20 h-20 rounded-lg object-cover mr-4 shadow-sm"
+          className="w-20 h-20   object-cover mr-4 shadow-sm"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = "/placeholder.png";
@@ -47,7 +47,7 @@ export default function CartItem({
           </p>
 
           <div className="flex items-center justify-between mt-3">
-            <div className="flex items-center border border-border rounded-lg overflow-hidden h-9">
+            <div className="flex items-center border border-border   overflow-hidden h-9">
               <button
                 onClick={handleDecrease}
                 className="p-2 h-full bg-white hover:bg-gray-100 transition duration-150 disabled:opacity-50"

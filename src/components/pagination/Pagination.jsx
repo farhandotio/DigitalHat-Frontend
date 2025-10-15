@@ -19,7 +19,7 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
     <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
       <div className="flex items-center gap-2">
         <button
-          className="px-3 py-1 border text-text border-border rounded hover:bg-secondary-bg disabled:opacity-50 flex items-center gap-1"
+          className="px-3 py-1 border text-text border-border rounded   hover:bg-secondary-bg disabled:opacity-50 flex items-center gap-1"
           onClick={() => onPageChange(Math.max(1, page - 1))}
           disabled={page <= 1}
         >
@@ -33,9 +33,9 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
             <React.Fragment key={p}>
               {showEllipsis && <span className="px-2">...</span>}
               <button
-                className={`px-3 py-1 border border-border rounded ${
+                className={`px-3 py-1 border border-border  rounded  ${
                   p === page
-                    ? " bg-primary hover:scale-103  text-white"
+                    ? " bg-primary  text-white"
                     : "hover:bg-secondary-bg"
                 }`}
                 onClick={() => onPageChange(p)}
@@ -47,7 +47,7 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
         })}
 
         <button
-          className="px-3 py-1 border border-border rounded text-text hover:bg-secondary-bg flex items-center gap-1 disabled:opacity-50"
+          className="px-3 py-1 border border-border  rounded  text-text hover:bg-secondary-bg flex items-center gap-1 disabled:opacity-50"
           onClick={() => onPageChange(Math.min(totalPages, page + 1))}
           disabled={page >= totalPages}
         >
@@ -56,10 +56,10 @@ const Pagination = ({ page, total, limit, onPageChange, onLimitChange }) => {
       </div>
 
       {/* Limit selector */}
-      <div className="flex items-center text-text gap-2">
+      <div className="md:flex items-center hidden text-text gap-2">
         <span className="text-sm">Items per page:</span>
         <select
-          className="border border-border rounded px-2 py-1"
+          className="border border-border  rounded  px-2 py-1"
           value={limit}
           onChange={(e) => onLimitChange(Number(e.target.value))}
         >

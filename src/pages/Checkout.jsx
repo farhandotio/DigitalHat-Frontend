@@ -256,7 +256,7 @@ export default function Checkout() {
         id={id}
         placeholder={placeholder}
         {...registerProps}
-        className={`mt-1 block w-full border rounded-md shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm ${
+        className={`mt-1 block w-full border  rounded-full  shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm ${
           error ? "border-red-500" : "border-border"
         }`}
       />
@@ -273,7 +273,7 @@ export default function Checkout() {
           <select
             {...field}
             id={id}
-            className={`mt-1 block w-full border rounded-md shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white ${
+            className={`mt-1 block w-full border  rounded-full  shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white ${
               error ? "border-red-500" : "border-border"
             }`}
           >
@@ -304,7 +304,7 @@ export default function Checkout() {
     icon,
   }) => (
     <div
-      className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer ${
+      className={`flex justify-between items-center p-4 border   cursor-pointer ${
         selectedValue === id
           ? "border-orange-500 ring-1 ring-orange-500"
           : "border-border"
@@ -386,7 +386,7 @@ export default function Checkout() {
 
   return (
     <div className="mx-auto p-5 md:p-10 lg:p-20 w-full">
-      <div className="flex flex-col lg:flex-row gap-8 bg-white px-5 pt-5 rounded-2xl">
+      <div className="flex flex-col lg:flex-row gap-8 bg-white px-5 pt-5   ">
         <div className="lg:w-2/3 space-y-8">
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-border pb-2">
@@ -489,7 +489,7 @@ export default function Checkout() {
           </div>
         </div>
 
-        <div className="lg:w-2/5 bg-white p-6 rounded-lg h-fit">
+        <div className="lg:w-2/5 bg-white p-6   h-fit">
           <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
           <div className="space-y-3 pb-4 border-b border-border">
@@ -502,7 +502,7 @@ export default function Checkout() {
                   <img
                     src={it.image || "/placeholder.png"}
                     alt={it.title}
-                    className="w-12 h-12 object-cover rounded mr-3"
+                    className="w-12 h-12 object-cover    mr-3"
                   />
                   <div>
                     <p className="text-sm font-medium">{it.title}</p>
@@ -561,7 +561,7 @@ export default function Checkout() {
               submitting
                 ? "bg-gray-400"
                 : " bg-green-600 hover:scale-103  hover:bg-green-700"
-            } text-white font-semibold rounded-lg transition duration-200`}
+            } text-white font-semibold  rounded-full transition duration-200`}
           >
             {submitting ? "Placing order..." : "Confirm Order"}
           </button>

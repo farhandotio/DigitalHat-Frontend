@@ -1,5 +1,11 @@
 // src/pages/CartPage.jsx
-import React, { useState, useEffect, useContext, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { ShoppingBag } from "lucide-react";
 import axios from "axios";
 
@@ -11,7 +17,8 @@ const SHIPPING_COST = 125;
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export default function Cart() {
-  const { cart, cartLoading, updateCartItem, removeCartItem, clearCart } = useContext(GlobalContext);
+  const { cart, cartLoading, updateCartItem, removeCartItem, clearCart } =
+    useContext(GlobalContext);
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,14 +45,18 @@ export default function Cart() {
         const results = await Promise.all(
           cart.items.map(async (ci) => {
             // use env base so prod/dev works
-            const res = await axios.get(`${API_BASE}/api/products/${ci.productId}`);
+            const res = await axios.get(
+              `${API_BASE}/api/products/${ci.productId}`
+            );
             const p = res.data.product || res.data;
 
             // Normalize price and image fields according to your product model
             const priceAmount = Number(p?.price?.amount ?? p?.price ?? 0);
             const priceCurrency = p?.price?.currency ?? "USD";
             const imageUrl =
-              (p?.images && p.images.length && (p.images[0].url ?? p.images[0])) ||
+              (p?.images &&
+                p.images.length &&
+                (p.images[0].url ?? p.images[0])) ||
               "/placeholder.png";
 
             return {
@@ -107,19 +118,25 @@ export default function Cart() {
   }, [clearCart]);
 
   const totals = useMemo(() => {
-    const subtotal = items.reduce((acc, i) => acc + (Number(i.price ?? 0) * Number(i.quantity ?? 0)), 0);
+    const subtotal = items.reduce(
+      (acc, i) => acc + Number(i.price ?? 0) * Number(i.quantity ?? 0),
+      0
+    );
     const total = subtotal + SHIPPING_COST;
     return { subtotal, shipping: SHIPPING_COST, total };
   }, [items]);
 
-  const itemCount = items.reduce((acc, i) => acc + (Number(i.quantity) || 0), 0);
+  const itemCount = items.reduce(
+    (acc, i) => acc + (Number(i.quantity) || 0),
+    0
+  );
 
   if (cartLoading || loading)
     return <p className="text-center mt-20">Loading cart...</p>;
 
   if (!itemCount)
     return (
-      <div className="text-center py-20 rounded-xl mt-8 shadow-md">
+      <div className="text-center py-20    mt-8 shadow-md">
         <ShoppingBag size={48} className="text-gray-400 mx-auto mb-4" />
         <p className="text-xl text-gray-600">Your cart is empty.</p>
       </div>
@@ -129,12 +146,16 @@ export default function Cart() {
     <div className="min-h-screen font-sans antialiased p-4 sm:p-8">
       <div className="container mx-auto max-w-7xl">
         <h1 className="text-4xl font-extrabold text-gray-900">Shopping Cart</h1>
-        <p className="text-gray-600 mt-2 text-lg">Review your items before checkout</p>
+        <p className="text-gray-600 mt-2 text-lg">
+          Review your items before checkout
+        </p>
 
         <div className="mt-8 grid lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2 rounded-2xl shadow-xl border bg-white border-gray-100 p-6">
+          <div className="lg:col-span-2    shadow-xl border bg-white border-gray-100 p-6">
             <div className="flex justify-between items-center pb-4 border-b border-gray-200 mb-4">
-              <h2 className="text-xl font-semibold text-gray-800">Cart Items ({itemCount})</h2>
+              <h2 className="text-xl font-semibold text-gray-800">
+                Cart Items ({itemCount})
+              </h2>
               <button
                 onClick={handleClearAll}
                 className="text-sm text-red-500 hover:text-red-700 font-medium transition duration-150"

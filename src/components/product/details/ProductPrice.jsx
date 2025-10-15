@@ -2,7 +2,9 @@ import React from "react";
 
 const ProductPrice = ({ price, originalPrice }) => {
   const discountPercentage = originalPrice
-    ? Math.round(((originalPrice.amount - price.amount) / originalPrice.amount) * 100)
+    ? Math.round(
+        ((originalPrice.amount - price.amount) / originalPrice.amount) * 100
+      )
     : 0;
 
   return (
@@ -15,7 +17,7 @@ const ProductPrice = ({ price, originalPrice }) => {
           <span className="text-lg text-gray-500 line-through">
             ৳{originalPrice.amount?.toLocaleString()}
           </span>
-          <span className="text-xl font-bold text-red-600 bg-red-100 px-3 py-1 rounded-full">
+          <span className="text-xl font-bold text-red-600 bg-red-100 px-3 py-1   ">
             {discountPercentage}% Off
           </span>
         </>

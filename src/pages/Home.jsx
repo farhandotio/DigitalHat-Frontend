@@ -1,18 +1,14 @@
 import React from "react";
 import Hero from "../components/hero/Hero";
-import CategorySlider from "../components/category/CategorySlider";
 import BestSaleProducts from "../components/product/BestSaleProducts";
-import Testimonials from "../components/testimonials/Testimonials";
-import TrustAriaSection from "../components/trust/trustAriaSection";
+import FlashSale from "../components/flashsale/FlashSale";
 
 const Home = () => {
   return (
     <div className="">
       <Hero />
-      <CategorySlider />
+      <FlashSale />
       <BestSaleProducts />
-      <TrustAriaSection />
-      <Testimonials />
     </div>
   );
 };

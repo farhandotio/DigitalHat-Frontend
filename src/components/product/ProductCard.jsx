@@ -90,14 +90,14 @@ const ProductCard = ({ product = {} }) => {
     <Link
       to={`/product/${productId}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="w-full bg-white border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xs group cursor-pointer"
+      className="w-full bg-white overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl shadow-lg hover:shadow-2xl"
     >
       <div className="relative flex items-center justify-center h-48 bg-gray-50 overflow-hidden">
         <img
           src={imgSrc}
           alt={title}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-500"
         />
       </div>
 
@@ -125,9 +125,9 @@ const ProductCard = ({ product = {} }) => {
           <span>Stock: {stock}</span>
         </div>
 
-        <div className="w-full bg-gray-200 rounded-full h-1 mb-2">
+        <div className="w-full bg-gray-200 h-1 mb-2">
           <div
-            className="h-1 rounded-full bg-secondary transition-all duration-500"
+            className="h-1 bg-secondary rounded-full transition-all duration-500"
             style={{ width: `${soldPercentage}%` }}
             role="progressbar"
             aria-valuenow={soldPercentage}
@@ -139,7 +139,7 @@ const ProductCard = ({ product = {} }) => {
         <button
           onClick={(e) => handleAddToCart(e, 1)}
           disabled={adding || Number(stock) <= 0}
-          className={`w-full py-2 text-white transition-all duration-100 font-bold rounded-full focus:outline-none ${
+          className={`w-full py-2 text-white rounded-full transition-all duration-100 font-bold focus:outline-none ${
             Number(stock) <= 0
               ? "bg-gray-400 cursor-not-allowed"
               : " bg-primary hover:scale-103 "

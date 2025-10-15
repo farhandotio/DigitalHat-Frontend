@@ -48,7 +48,7 @@ const ProductActions = ({
   return (
     <div className="flex gap-4 mt-8 flex-wrap">
       <button
-        className={`flex-1 py-3 px-6 rounded-full font-bold text-lg shadow-lg transition-colors ${
+        className={`flex-1 py-3 px-6  rounded-full   font-bold text-lg shadow-lg transition-all ${
           Number(stock) <= 0
             ? "bg-gray-400 cursor-not-allowed text-white"
             : " bg-primary hover:scale-103  text-white hover:bg-orange-600"
@@ -64,7 +64,7 @@ const ProductActions = ({
       </button>
 
       <button
-        className={`flex-1 py-3 px-6 rounded-full font-bold text-lg shadow-lg transition-colors ${
+        className={`flex-1 py-3 px-6  rounded-full   font-bold text-lg shadow-lg transition-all ${
           Number(stock) <= 0
             ? "bg-gray-400 cursor-not-allowed text-white"
             : " bg-green-600 hover:scale-103  text-white hover:bg-green-600"

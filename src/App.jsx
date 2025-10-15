@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Shop from "./pages/Shop";
-import About from "./pages/Home"; // placeholder or create About.jsx
+import About from "./pages/About";
 import ProductDetails from "./pages/ProductDetails";
 import Support from "./pages/Support";
 import Setting from "./pages/Settings";
@@ -26,7 +26,7 @@ import Admin from "./pages/admin/Admin";
 
 const App = () => {
   return (
-    <div className="max-w-[1580px] bg-secondary-bg/20 min-h-screen mx-auto flex flex-col justify-between">
+    <div className="max-w-[1580px] bg-gray-50 min-h-screen mx-auto flex flex-col justify-between outline-1 outline-border">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -34,7 +34,6 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/admin" element={<Admin />} />
-
 
         {/* ACCOUNT AREA - nested routes */}
         <Route path="/account" element={<AccountLayout />}>

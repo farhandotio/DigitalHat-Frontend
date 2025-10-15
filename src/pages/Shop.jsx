@@ -2,13 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductGrid from "../components/product/ProductGrid";
 import Pagination from "../components/pagination/Pagination";
+import Title from "../components/title/Title";
 
-/**
- * ProductHeader Component
- * - shows total items
- * - allows selecting category only
- * - calls onChange({ category })
- */
 export function ProductHeader({
   totalItems = 0,
   categories = [],
@@ -25,22 +20,22 @@ export function ProductHeader({
   }, [category]);
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 border-b border-border bg-white shadow-sm rounded-xl">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
-        <h2 className="text-3xl font-extrabold text-gray-900">All Products</h2>
-        <span className="text-base font-semibold px-3 py-1 bg-gray-100 rounded-full text-gray-700 whitespace-nowrap">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 border-b border-border rounded-xl bg-white shadow-sm   ">
+      <div className="flex items-start sm:items-center gap-2 sm:gap-4">
+        <Title title={"All Products"} className={"sm:mb-0"} />
+        <span className="text-base font-semibold px-3 py-1 bg-gray-100    text-gray-700 whitespace-nowrap rounded-full">
           {totalItems} items
         </span>
       </div>
 
-      <div className="flex items-center gap-4 mt-2 sm:mt-0">
+      <div className="flex items-center gap-4">
         {/* Category */}
         <div className="flex items-center gap-2">
           <label className="text-sm">Category:</label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="border border-border outline-primary rounded-full px-3 py-2 bg-white"
+            className="border border-border outline-primary rounded-lg  px-3 py-2 bg-white"
           >
             <option value="all">All</option>
             {categories.map((c) => (
@@ -91,7 +86,8 @@ export default function ShopWithPagination() {
     params.set("page", p);
     params.set("limit", l);
 
-    if (fil?.category && fil.category !== "all") params.set("category", fil.category);
+    if (fil?.category && fil.category !== "all")
+      params.set("category", fil.category);
 
     return params.toString();
   };
@@ -101,7 +97,9 @@ export default function ShopWithPagination() {
     setError("");
     try {
       const query = buildQuery(p, l, fil);
-      const { data } = await axios.get(`http://localhost:3000/api/products?${query}`);
+      const { data } = await axios.get(
+        `http://localhost:3000/api/products?${query}`
+      );
 
       setProducts(data.products || []);
       setTotal(data.total || 0);

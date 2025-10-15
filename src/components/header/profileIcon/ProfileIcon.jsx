@@ -22,16 +22,20 @@ const ProfileIcon = () => {
     <div className="relative">
       <button
         onClick={handleClick}
-        className={`flex items-center gap-3 md:px-3 cursor-pointer py-2 rounded-md transition ${
+        className={`flex items-center gap-3 md:px-3 cursor-pointer py-2    transition ${
           user
             ? "hover:bg-white/5"
             : "text-white hover:bg-secondary/50 font-medium"
         }`}
         aria-label={user ? "User Profile" : "Login / Sign Up"}
       >
-        <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
-          <User className="w-5 h-5 text-text" />
-        </div>
+        {user ? (
+          <div className="w-8 h-8  rounded-full  bg-white/90 flex items-center justify-center">
+            <User className="w-5 h-5 text-text" />
+          </div>
+        ) : (
+          ""
+        )}
 
         {user && (
           <div className="hidden lg:flex flex-col text-left">
