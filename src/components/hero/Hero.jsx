@@ -64,9 +64,9 @@ const Hero = () => {
   return (
     <section className="mx-auto px-5 md:px-10 lg:px-20 pt-5 pb-10 md:py-10">
       {/* Outer div to apply max height and control overall layout */}{" "}
-      <div className="flex flex-col-reverse lg:flex-row rounded-xl">
+      <div className="flex flex-col-reverse lg:flex-row">
         {/* --- Left Content Area (Orange/Brown Background) --- */}{" "}
-        <div className="flex-1 flex flex-col justify-center rounded-2xl">
+        <div className="flex-1 flex flex-col justify-center rounded-2xl -mt-10 md:-mt-7">
           {/* Title */}         {" "}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-primary">
             Shop Everything <br /> You Love at <br />{" "}
@@ -78,7 +78,7 @@ const Hero = () => {
             <Link
               to={"/shop"}
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="pl-8 py-3 bg-primary text-white font-semibold rounded-full hover:scale-103 transition duration-300 text-lg"
+              className="pl-8 py-3 -mt-3 bg-primary text-white font-semibold rounded-full hover:scale-103 transition duration-300 text-lg"
             >
               Shop Now            {" "}
             </Link>{" "}
@@ -91,10 +91,10 @@ const Hero = () => {
         >
           {" "}
           {/* Banner wrapper: forces content to fit within this area */}{" "}
-          <div className="w-full h-full relative overflow-hidden rounded-2xl">
+          <div className="w-full h-full relative overflow-hidden">
             {/* Slides wrapper (Horizontal sliding container) */}{" "}
             <div
-              className="flex h-full transition-transform duration-700 ease-in-out  rounded-2xl"
+              className="flex h-full transition-transform duration-700 ease-in-out"
               style={{
                 width: `${sliderMedia.length * 100}%`,
                 transform: `translateX(-${
@@ -106,21 +106,21 @@ const Hero = () => {
               {sliderMedia.map((src, i) => (
                 <div
                   key={i}
-                  className="flex-shrink-0 h-full relative flex items-center justify-center  rounded-2xl" // Center content
+                  className="flex-shrink-0 h-full relative flex items-center justify-center" // Center content
                   style={{ width: slideWidthPercent }}
                 >
                   {" "}
                   <img
                     src={src}
                     alt={`Banner ${i + 1}`}
-                    className="w-full aspect-video object-cover block rounded-2xl" // Use object-contain to fit the image without cropping
+                    className="w-full aspect-video object-cover block "
                     draggable={false}
                   />{" "}
                 </div>
               ))}{" "}
             </div>
             {/* Dots (styled to match example) */}           {" "}
-            <div className="absolute bottom-7 right-5 z-40 flex gap-2">
+            <div className="absolute bottom-10 md:bottom-7 right-5 z-40 flex gap-2">
               {" "}
               {sliderMedia.map((_, i) => {
                 const active = i === index;
