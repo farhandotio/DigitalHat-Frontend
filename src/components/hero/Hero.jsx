@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   const sliderMedia = [
-    assets.bannar3, // This would be the "Become a Seller" image from your example
-    assets.bannar4, // This would be another banner image
+    assets.bannar3,
+    assets.bannar4,
   ];
 
   const AUTOPLAY_MS = 4000;
@@ -62,13 +62,13 @@ const Hero = () => {
   const slideWidthPercent = `${100 / sliderMedia.length}%`;
 
   return (
-    <section className="mx-auto px-5 md:px-10 lg:px-20 py-5 md:py-10">
+    <section className="mx-auto px-5 md:px-10 lg:px-20 pt-5 pb-10 md:py-10">
       {/* Outer div to apply max height and control overall layout */}{" "}
       <div className="flex flex-col-reverse lg:flex-row rounded-xl">
         {/* --- Left Content Area (Orange/Brown Background) --- */}{" "}
         <div className="flex-1 flex flex-col justify-center rounded-2xl">
           {/* Title */}         {" "}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-orange-500">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-primary">
             Shop Everything <br /> You Love at <br />{" "}
             <span className="text-gray-800">DigitalHat</span>         {" "}
           </h1>

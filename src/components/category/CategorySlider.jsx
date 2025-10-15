@@ -1,68 +1,64 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Keyboard } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
 
-import CategoryCard from "./CategoryCard";
-
-const categories = [
-  { id: 1, name: "Router" },
-  { id: 2, name: "TWS" },
-  { id: 3, name: "Bluetooth" },
-  { id: 4, name: "Speakers" },
-  { id: 5, name: "Wearables" },
-  { id: 6, name: "Headphones" },
-  { id: 7, name: "Gaming" },
-  { id: 8, name: "Tripods" },
-  { id: 9, name: "Webcams" },
-  { id: 10, name: "Power Banks" },
-  { id: 11, name: "Chargers" },
-  { id: 12, name: "Home Devices" },
-];
-
-const mid = Math.ceil(categories.length / 2);
-const topRow = categories.slice(0, mid);
-const bottomRow = categories.slice(mid);
+import CategoryCard, { categoryItems } from "./CategoryCard";
+import Title from "../title/Title";
 
 const CategorySlider = () => {
+  const mid = Math.ceil(categoryItems.length / 2);
+  const topRow = categoryItems.slice(0, mid);
+  const bottomRow = categoryItems.slice(mid);
+
   return (
-    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-7">
-      {/* <Title title="Shop by Category" /> */}
+    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-10 bg-gray-100">
+      <Title title={"Shop By Category"} />
+      {/* Top row */}
       <Swiper
-        modules={[Navigation]}
-        slidesPerView={3}
+        modules={[Navigation, Keyboard]}
+        // navigation={true}
+        keyboard={{ enabled: true }}
+        slidesPerView={2}
         spaceBetween={20}
-        // navigation
+        loop={false}
+        aria-label="Top category row"
         breakpoints={{
-          640: { slidesPerView: 3 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 6 },
+          480: { slidesPerView: 2, spaceBetween: 20 },
+          640: { slidesPerView: 4, spaceBetween: 30 },
+          768: { slidesPerView: 5, spaceBetween: 40 },
+          1024: { slidesPerView: 6, spaceBetween: 50 },
         }}
+        className="category-swiper-top"
       >
-        {topRow.map((category) => (
-          <SwiperSlide key={`top-${category.id}`}>
+        {topRow.map((category, i) => (
+          <SwiperSlide key={`top-${i}`} className="!w-auto">
             <CategoryCard category={category} />
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* <Title
-        title="Shop by Category" center
-      /> */}
+
+      {/* Bottom row */}
       <Swiper
-        modules={[Navigation]}
-        slidesPerView={3}
+        modules={[Navigation, Keyboard]}
+        // navigation={true}
+        keyboard={{ enabled: true }}
+        slidesPerView={2}
         spaceBetween={20}
-        // navigation
+        loop={false}
+        aria-label="Bottom category row"
         breakpoints={{
-          640: { slidesPerView: 3 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 6 },
+          480: { slidesPerView: 2, spaceBetween: 20 },
+          640: { slidesPerView: 4, spaceBetween: 30 },
+          768: { slidesPerView: 5, spaceBetween: 40 },
+          1024: { slidesPerView: 6, spaceBetween: 50 },
         }}
+        className="category-swiper-bottom"
       >
-        {bottomRow.map((category) => (
-          <SwiperSlide key={`bottom-${category.id}`}>
+        {bottomRow.map((category, i) => (
+          <SwiperSlide key={`bottom-${i}`} className="!w-auto">
             <CategoryCard category={category} />
           </SwiperSlide>
         ))}

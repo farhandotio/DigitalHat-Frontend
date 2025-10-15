@@ -1,66 +1,150 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  FaWifi,
-  FaHeadphones,
-  FaBluetooth,
-  FaSpeakerDeck,
-  FaAppleAlt,
-  FaHeadphonesAlt,
-  FaGamepad,
-  FaCamera,
-  FaVideo,
-  FaBatteryFull,
-  FaPlug,
-  FaHome,
-  FaFileAlt,
-} from "react-icons/fa";
+import { FaFileAlt } from "react-icons/fa";
 
-const iconMap = {
-  Router: FaWifi,
-  "TWS Earbuds": FaHeadphones,
-  "Bluetooth Devices": FaBluetooth,
-  Speakers: FaSpeakerDeck,
-  Wearables: FaAppleAlt,
-  Headphones: FaHeadphonesAlt,
-  "Gaming Consoles": FaGamepad,
-  Tripods: FaCamera,
-  Webcams: FaVideo,
-  "Power Banks": FaBatteryFull,
-  "Chargers & Cables": FaPlug,
-  "Smart Home Devices": FaHome,
+/* ---------- items (image + name) ---------- */
+export const categoryItems = [
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/headphone.jpg?updatedAt=1760542243287",
+    name: "Headphone",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/watch.jpg?updatedAt=1760542242556",
+    name: "Smart Watch",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/tws.jpg?updatedAt=1760542242178",
+    name: "TWS",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/router.jpg?updatedAt=1760542242380",
+    name: "Router",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/tripod.jpg?updatedAt=1760542242705",
+    name: "Tripod",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/neckband.jpg?updatedAt=1760542242656",
+    name: "Neckband",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/power.jpg?updatedAt=1760542242431",
+    name: "Power Bank",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/speaker.jpg?updatedAt=1760542242836",
+    name: "Bluetooth Speaker",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/microphone.jpg?updatedAt=1760542242816",
+    name: "Microphone",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/projector.jpg?updatedAt=1760542242916",
+    name: "Mini Projector",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/charger.jpg?updatedAt=1760542242572",
+    name: "Charger",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/fan.jpg?updatedAt=1760542242874",
+    name: "Portable Fan",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/keyboard.jpg?updatedAt=1760542242935",
+    name: "Keyboard",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/gaming.jpg?updatedAt=1760542242738",
+    name: "Gaming",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/cable.jpg?updatedAt=1760542242914",
+    name: "3-in-1 Cable",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/drone.jpg?updatedAt=1760542242671",
+    name: "Drone",
+  },
+];
+
+/* ---------- Helper: find image by category name ---------- */
+const findImageForCategory = (categoryName) => {
+  if (!categoryName) return null;
+  const normalized = categoryName.trim().toLowerCase();
+
+  // exact match
+  let found = categoryItems.find(
+    (it) => it.name.trim().toLowerCase() === normalized
+  );
+  if (found) return found.url;
+
+  // startsWith / partial match
+  found = categoryItems.find(
+    (it) =>
+      it.name.trim().toLowerCase().startsWith(normalized) ||
+      normalized.startsWith(it.name.trim().toLowerCase()) ||
+      it.name.trim().toLowerCase().includes(normalized) ||
+      normalized.includes(it.name.trim().toLowerCase())
+  );
+  if (found) return found.url;
+
+  // token matching (all words must appear)
+  const tokens = normalized.split(/\s+/);
+  found = categoryItems.find((it) =>
+    tokens.every((t) => it.name.toLowerCase().includes(t))
+  );
+  return found ? found.url : null;
 };
 
-const iconColorMap = {
-  Router: "#f97316",
-  TWS: "#3b82f6",
-  Bluetooth: "#10b981",
-  Speakers: "#facc15",
-  Wearables: "#ec4899",
-  Headphones: "#8b5cf6",
-  Gaming: "#14b8a6",
-  Tripods: "#f361f1",
-  Webcams: "#f59e0b",
-  "Power Banks": "#22c55e",
-  Chargers: "#f43f5e",
-  "Home Devices": "#eab308",
-};
+/* ---------- Utility: safe slug generator ---------- */
+const makeSlug = (str = "") =>
+  encodeURIComponent(
+    str
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+  );
 
+/* ---------- CategoryCard component ---------- */
 const CategoryCard = ({ category }) => {
-  const IconComponent = iconMap[category.name] || FaFileAlt;
-  const color = iconColorMap[category.name] || "#000";
+  const name = category?.name || "Unknown";
+  const imageUrl = findImageForCategory(name);
+  const slug = makeSlug(name);
 
   return (
     <Link
-      to={`/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
+      to={`/category/${slug}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="group flex flex-col items-center justify-center bg-white px-4 sm:py-7 py-2 max-md:text-sm whitespace-nowrap shadow  text-center scale-95"
+      aria-label={`Open ${name} category`}
+      className="group flex flex-col items-center justify-center rounded-xl transition-all duration-300 transform max-md:text-sm whitespace-nowrap text-center"
     >
-      <div className="mb-2" style={{ color }}>
-        <IconComponent className="group-hover:text-secondary transition-all duration-200" size={30} />
+      {/* Image wrapper */}
+      <div className="relative flex items-center justify-center w-40 h-40 md:w-50 md:h-50 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100/50 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={`${name} image`}
+            className="h-full w-full object-cover transition-all duration-300 transform group-hover:scale-105"
+            loading="lazy"
+            draggable={false}
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+        ) : (
+          <div className="flex items-center justify-center p-2">
+            <FaFileAlt size={28} className="text-gray-400" />
+          </div>
+        )}
       </div>
-      <span className="font-medium text-text group-hover:text-secondary transition-all duration-200">
-        {category.name}
+
+      {/* Category Name */}
+      <span className="font-semibold text-gray-700 group-hover:text-primary transition-all duration-200 text-sm md:text-base">
+        {name}
       </span>
     </Link>
   );

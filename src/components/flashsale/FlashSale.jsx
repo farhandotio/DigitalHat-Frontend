@@ -8,7 +8,7 @@ const DUMMY_PRODUCTS = [
   {
     _id: "p1",
     title: "Smart Watch Pro",
-    price: { original: 5500, sale: 4500, currency: "BDT" },
+    price: { original: 5500, sale: 4500, currency: "৳" },
     imageName:
       "https://www.pchouse.com.bd/image/cache/catalog/Haylou/Haylou-Watch-2-Pro-Bluetooth-Calling-Smart-Watch-500x500.jpg",
     averageRating: 4.5,
@@ -18,7 +18,7 @@ const DUMMY_PRODUCTS = [
   {
     _id: "p2",
     title: "Dual-Band Router",
-    price: { original: 3000, sale: 2500, currency: "BDT" },
+    price: { original: 3000, sale: 2500, currency: "৳" },
     imageName:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVKoOo4n3AzGTQvJtKPRqLk3rPFucNWDbBSg_tpE1kGS6PJMukOrwD7WaQTgvl7FMgE0I&usqp=CAU",
     averageRating: 4.2,
@@ -28,7 +28,7 @@ const DUMMY_PRODUCTS = [
   {
     _id: "p3",
     title: "Noise-Cancelling TWS",
-    price: { original: 4000, sale: 3200, currency: "BDT" },
+    price: { original: 4000, sale: 3200, currency: "৳" },
     imageName:
       "https://www.default.com.bd/image/cache/catalog/demo/product/edifier-neobuds-pro-hi-res-bluetooth-earbuds-with-anc-143-500x500.jpg",
     averageRating: 4.8,
@@ -38,7 +38,7 @@ const DUMMY_PRODUCTS = [
   {
     _id: "p4",
     title: "Bluetooth Speaker",
-    price: { original: 4500, sale: 3800, currency: "BDT" },
+    price: { original: 4500, sale: 3800, currency: "৳" },
     imageName:
       "https://www.applegadgetsbd.com/_next/image?url=https%3A%2F%2Fadminapi.applegadgetsbd.com%2Fstorage%2Fmedia%2Flarge%2FJBL-GO-4-Portable-Waterproof-Speaker-White-6424.jpg&w=3840&q=100",
     averageRating: 4.6,
@@ -48,7 +48,7 @@ const DUMMY_PRODUCTS = [
   {
     _id: "p5",
     title: "Ergonomic Mouse",
-    price: { original: 1500, sale: 1200, currency: "BDT" },
+    price: { original: 1500, sale: 1200, currency: "৳" },
     imageName:
       "https://www.micropackhk.com/cdn/shop/products/c5abcd86dcb85cfb60b9f5761e33f9c9.jpg?v=1737594734",
     averageRating: 4.3,
@@ -92,11 +92,15 @@ const FlashSaleProductCard = ({ product }) => {
 
       <div className="p-4 flex flex-col justify-between">
         <div>
-          <h3 className="text-gray-900 font-semibold text-base line-clamp-2 mb-2 min-h-[2.5rem]">
+          <h3 className="text-gray-900 font-semibold text-lg line-clamp-2 mb-2">
             {title}
           </h3>
-          <div className="flex items-center text-sm text-yellow-500">
-            <Star className="w-4 h-4 fill-yellow-500 mr-1" />
+          <div className="flex items-center text-sm text-yellow-400">
+            <Star className="w-3 h-3 fill-yellow-400 mr-1" />
+            <Star className="w-3 h-3 fill-yellow-400 mr-1" />
+            <Star className="w-3 h-3 fill-yellow-400 mr-1" />
+            <Star className="w-3 h-3 fill-yellow-400 mr-1" />
+            <Star className="w-3 h-3 fill-yellow-400 mr-2" />
             <span className="font-bold text-gray-700 mr-1">
               {averageRating.toFixed(1)}
             </span>
@@ -104,11 +108,11 @@ const FlashSaleProductCard = ({ product }) => {
           </div>
         </div>
 
-        <div className="mt-2">
-          <p className="text-xl font-extrabold text-red-600">
+        <div className="mt-2 flex gap-2">
+          <p className="text-xl font-extrabold text-primary">
             {price.currency} {price.sale.toLocaleString()}
           </p>
-          <p className="text-sm text-gray-400 line-through mt-1">
+          <p className="text-sm text-gray-400 line-through mt-2">
             {price.currency} {price.original.toLocaleString()}
           </p>
         </div>
@@ -168,7 +172,7 @@ const FlashSale = () => {
   );
 
   return (
-    <section className="w-full py-8 font-['Inter']">
+    <section className="w-full py-10 font-['Inter']">
       <div className="mx-auto px-5 md:px-10 lg:px-20">
         <div className="bg-white p-4 sm:p-6 border-b border-gray-100 shadow-md rounded-xl mb-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">

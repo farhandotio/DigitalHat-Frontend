@@ -27,7 +27,7 @@ const NavOther = ({ cartCount }) => {
           <Icon className="w-5 h-5 text-white" />
           <span className="sr-only">{label}</span>
           {count > 0 && (
-            <span className="absolute -top-1 -right-1 bg-primary text-white text-[11px] px-1   ">
+            <span className="absolute -top-1 -right-1 bg-primary text-white text-[11px] px-1 rounded-full">
               {count}
             </span>
           )}
