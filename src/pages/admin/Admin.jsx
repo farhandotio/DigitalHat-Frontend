@@ -1,26 +1,34 @@
 // src/pages/admin/Admin.jsx
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 
 const Admin = () => {
   const { user } = useContext(GlobalContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/login"); // not logged in
-    } else if (user.role !== "admin") {
-      navigate("/account"); // regular user trying to access admin
-    }
-  }, [user, navigate]);
 
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
       <p>Welcome, {user?.fullName || "Admin"}!</p>
-      {/* You can add stats, orders, users management, etc. here */}
+
+      {/* Example stats / quick links */}
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Orders</h2>
+          <p className="text-2xl mt-2">125</p>
+        </div>
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Users</h2>
+          <p className="text-2xl mt-2">42</p>
+        </div>
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Products</h2>
+          <p className="text-2xl mt-2">87</p>
+        </div>
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Revenue</h2>
+          <p className="text-2xl mt-2">$12,450</p>
+        </div>
+      </div>
     </div>
   );
 };

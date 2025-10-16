@@ -59,7 +59,7 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4 font-[Inter]">
       <form
-        className="p-8 bg-white    shadow-2xl w-full max-w-sm border border-gray-100"
+        className="p-8 bg-white  rounded-2xl  shadow-2xl w-full max-w-sm border border-gray-100"
         onSubmit={handleSubmit}
       >
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
@@ -67,14 +67,14 @@ const Login = () => {
         </h2>
 
         {error && (
-          <p className="text-red-500 bg-red-50 p-3   mb-6 text-center border border-red-200">
+          <p className="text-red-500 bg-red-50 p-3 rounded-full  mb-6 text-center border border-red-200">
             {error}
           </p>
         )}
 
         {/* Email Input */}
         <div className="mb-4">
-          <div className="group relative flex items-center w-full border border-gray-300   overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
+          <div className="group relative flex items-center w-full border border-gray-300 rounded-full  overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
             <span className="p-3 text-gray-500 group-focus-within:text-primary">
               <HiOutlineMail size={20} />
             </span>
@@ -91,7 +91,7 @@ const Login = () => {
 
         {/* Password Input */}
         <div className="mb-6">
-          <div className="group relative flex items-center w-full border border-gray-300   overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
+          <div className="group relative flex items-center w-full border border-gray-300 rounded-full  overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition">
             <span className="p-3 text-gray-500 group-focus-within:text-primary">
               <HiOutlineLockClosed size={20} />
             </span>
@@ -121,7 +121,7 @@ const Login = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 px-4   cursor-pointer bg-primary text-white font-semibold text-lg transition duration-300 shadow-lg shadow-orange-200/50 hover:bg-orange-600 ${
+          className={`w-full py-3 px-4 rounded-full  cursor-pointer bg-primary text-white font-semibold text-lg transition duration-300 shadow-lg shadow-orange-200/50 hover:bg-orange-600 ${
             loading ? "opacity-60 cursor-not-allowed" : ""
           }`}
         >
