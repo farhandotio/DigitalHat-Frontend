@@ -27,13 +27,13 @@ const AdminLayout = () => {
         collapsed={collapsedState}
         onToggle={(c) => setCollapsedState(c)}
         role={user.role}
-        counts={{ ordersCount: 12 }} // replace with dynamic counts
+        counts={{ ordersCount: 12 }}
         onCreateClick={handleCreate}
         onNavigate={(route) => navigate(route.path)}
       />
 
       {/* Main admin content area */}
-      <main className="flex-1 p-6 md:ml-[18rem]">
+      <main className="flex-1 p-5 md:pr-10 lg:pr-20 overflow-x-scroll">
         <Outlet />
       </main>
     </div>

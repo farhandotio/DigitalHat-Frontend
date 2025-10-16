@@ -125,7 +125,7 @@ const CategoryCard = ({ category }) => {
       className="group flex flex-col items-center justify-center rounded-xl transition-all duration-300 transform max-md:text-sm whitespace-nowrap text-center"
     >
       {/* Image wrapper */}
-      <div className="relative flex items-center justify-center w-40 h-40 md:w-50 md:h-50 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100/50 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">
+      <div className="relative flex items-center justify-center w-40 h-40 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100/50 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">
         {imageUrl ? (
           <img
             src={imageUrl}

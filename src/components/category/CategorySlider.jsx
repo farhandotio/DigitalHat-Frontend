@@ -1,6 +1,6 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Keyboard } from "swiper/modules";
+import { Navigation, Keyboard, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -16,14 +16,18 @@ const CategorySlider = () => {
   return (
     <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-10 bg-gray-100">
       <Title title={"Shop By Category"} />
+
       {/* Top row */}
       <Swiper
-        modules={[Navigation, Keyboard]}
-        // navigation={true}
+        modules={[Navigation, Keyboard, Autoplay]}
         keyboard={{ enabled: true }}
         slidesPerView={2}
         spaceBetween={20}
-        loop={false}
+        loop={true} // ✅ Infinite loop
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         aria-label="Top category row"
         breakpoints={{
           480: { slidesPerView: 2, spaceBetween: 20 },
@@ -42,12 +46,16 @@ const CategorySlider = () => {
 
       {/* Bottom row */}
       <Swiper
-        modules={[Navigation, Keyboard]}
-        // navigation={true}
+        modules={[Navigation, Keyboard, Autoplay]}
         keyboard={{ enabled: true }}
         slidesPerView={2}
         spaceBetween={20}
-        loop={false}
+        loop={true} // ✅ Infinite loop
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+          reverseDirection: true, // ✅ Opposite direction for nice motion contrast
+        }}
         aria-label="Bottom category row"
         breakpoints={{
           480: { slidesPerView: 2, spaceBetween: 20 },

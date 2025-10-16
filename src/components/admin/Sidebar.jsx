@@ -1,5 +1,6 @@
+// src/components/admin/Sidebar.jsx  (updated)
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   Package,
@@ -17,10 +18,19 @@ const ICON_SIZE = 20;
 
 const DEFAULT_ROUTES = {
   dashboard: { label: "Dashboard", path: "/admin/dashboard", icon: Home },
-  orders: { label: "Orders", path: "/admin/orders", icon: Package, badgeKey: "ordersCount" },
+  orders: {
+    label: "Orders",
+    path: "/admin/orders",
+    icon: Package,
+    badgeKey: "ordersCount",
+  },
   users: { label: "Users", path: "/admin/users", icon: Users },
   products: { label: "Products", path: "/admin/products", icon: Box },
-  createProduct: { label: "Create Product", path: "/admin/products/create", icon: Plus },
+  createProduct: {
+    label: "Create Product",
+    path: "/admin/products/create",
+    icon: Plus,
+  },
   settings: { label: "Settings", path: "/admin/settings", icon: Settings },
 };
 
@@ -37,9 +47,19 @@ export default function Sidebar({
   const [collapsed, setCollapsed] = useState(Boolean(collapsedProp));
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); // <-- added
   const navRef = useRef(null);
 
   useEffect(() => setCollapsed(collapsedProp), [collapsedProp]);
+
+  // Redirect /admin -> /admin/dashboard so dashboard is the default view
+  useEffect(() => {
+    const isExactlyAdmin =
+      location.pathname === "/admin" || location.pathname === "/admin/";
+    if (isExactlyAdmin) {
+      navigate("/admin/dashboard", { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   const toggle = (val) => {
     const next = typeof val === "boolean" ? val : !collapsed;
@@ -65,7 +85,9 @@ export default function Sidebar({
         className={({ isActive }) =>
           clsx(
             "group flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors",
-            isActive ? "bg-[var(--color-secondary-bg)]" : "hover:bg-[rgba(0,0,0,0.03)]"
+            isActive
+              ? "bg-[var(--color-secondary-bg)]"
+              : "hover:bg-[rgba(0,0,0,0.03)]"
           )
         }
         tabIndex={0}
@@ -78,18 +100,27 @@ export default function Sidebar({
           <Icon
             size={ICON_SIZE}
             className={clsx(
-              location.pathname.startsWith(item.path) ? "text-[var(--color-primary)]" : "text-[var(--color-text)]"
+              location.pathname.startsWith(item.path)
+                ? "text-[var(--color-primary)]"
+                : "text-[var(--color-text)]"
             )}
           />
         </span>
-        <span className={clsx("truncate", collapsed ? "hidden" : "flex-1 text-[var(--color-text)]")}>
+        <span
+          className={clsx(
+            "truncate",
+            collapsed ? "hidden" : "flex-1 text-[var(--color-text)]"
+          )}
+        >
           {item.label}
         </span>
         {badgeNumber != null && (
           <span
             className={clsx(
               "ml-auto text-xs font-medium min-w-[28px] h-6 inline-flex items-center justify-center px-1 rounded-full text-white",
-              badgeNumber > 0 ? "bg-[var(--color-primary)]" : "bg-[var(--color-border)]"
+              badgeNumber > 0
+                ? "bg-[var(--color-primary)]"
+                : "bg-[var(--color-border)]"
             )}
             title={badgeNumber ? `${badgeNumber} ${item.label}` : "0"}
           >
@@ -106,7 +137,11 @@ export default function Sidebar({
   return (
     <>
       {mobileOpen && (
-        <div className="fixed inset-0 z-30" aria-hidden onClick={() => setMobileOpen(false)}>
+        <div
+          className="fixed inset-0 z-30"
+          aria-hidden
+          onClick={() => setMobileOpen(false)}
+        >
           <div className="absolute inset-0 bg-black/40" />
         </div>
       )}
@@ -129,9 +164,13 @@ export default function Sidebar({
             </div>
             {!collapsed && user && (
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-[var(--color-text)]">{user.fullName}</span>
+                <span className="text-sm font-semibold text-[var(--color-text)]">
+                  {user.fullName}
+                </span>
                 <span className="text-xs text-text">{user.email}</span>
-                <span className="text-xs text-text capitalize">{user.role}</span>
+                <span className="text-xs text-text capitalize">
+                  {user.role}
+                </span>
               </div>
             )}
           </div>
@@ -159,7 +198,9 @@ export default function Sidebar({
 
           {/* Secondary group */}
           <div className="mt-6 pt-4 border-t border-[var(--color-border)] space-y-1">
-            {["createProduct", "settings"].map((k) => routes[k] && renderNavItem(k, routes[k]))}
+            {["createProduct", "settings"].map(
+              (k) => routes[k] && renderNavItem(k, routes[k])
+            )}
           </div>
         </nav>
       </aside>
