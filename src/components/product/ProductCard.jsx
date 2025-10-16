@@ -92,12 +92,12 @@ const ProductCard = ({ product = {} }) => {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className="w-full bg-white overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl shadow-lg hover:shadow-2xl"
     >
-      <div className="relative flex items-center justify-center h-48 bg-gray-50 overflow-hidden">
+      <div className="relative flex items-center justify-center bg-gray-50 overflow-hidden">
         <img
           src={imgSrc}
           alt={title}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500"
+          className="w-full aspect-square object-cover transition-transform duration-500"
         />
       </div>
 
