@@ -39,7 +39,7 @@ import AdminSettings from "./pages/admin/Settings";
 
 const App = () => {
   return (
-    <div className="max-w-[1580px] bg-gray-50 min-h-screen mx-auto flex flex-col justify-between outline-1 outline-border">
+    <div className="max-w-[1580px] bg-white min-h-screen mx-auto flex flex-col justify-between outline-1 outline-border">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

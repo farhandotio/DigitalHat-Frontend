@@ -14,7 +14,7 @@ const CategorySlider = () => {
   const bottomRow = categoryItems.slice(mid);
 
   return (
-    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-10 bg-gray-100">
+    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-10">
       <Title title={"Shop By Category"} />
 
       {/* Top row */}

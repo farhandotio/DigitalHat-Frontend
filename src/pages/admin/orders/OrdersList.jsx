@@ -50,15 +50,15 @@ const OrdersList = () => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">All Orders</h2>
-      <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+      <table className="min-w-full border border-border rounded-lg overflow-hidden">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">#</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Order Code</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">User</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Total</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Status</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Actions</th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">#</th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Order Code</th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">User</th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Total</th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Status</th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -74,7 +74,7 @@ const OrdersList = () => {
               <td className="p-2 flex gap-2">
                 <button
                   onClick={() => navigate(`/admin/orders/${order._id}`)}
-                  className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-200 transition-colors text-sm cursor-pointer"
+                  className="px-3 py-1 border border-border rounded hover:bg-gray-200 transition-colors text-sm cursor-pointer"
                 >
                   View
                 </button>

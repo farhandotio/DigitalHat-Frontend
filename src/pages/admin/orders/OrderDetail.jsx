@@ -169,7 +169,7 @@ const OrderDetail = () => {
               value={order.status || "PENDING"}
               onChange={(e) => handleStatusChange(e.target.value)}
               disabled={statusUpdating}
-              className="ml-2 border rounded px-2 py-1"
+              className="ml-2 border border-border rounded px-2 py-1"
             >
               {orderStatusOptions.map((s) => (
                 <option key={s} value={s}>
@@ -184,7 +184,7 @@ const OrderDetail = () => {
               value={order.payment?.status || "PENDING"}
               onChange={(e) => handlePaymentChange(e.target.value)}
               disabled={paymentUpdating}
-              className="ml-2 border rounded px-2 py-1"
+              className="ml-2 border border-border rounded px-2 py-1"
             >
               {paymentStatusOptions.map((p) => (
                 <option key={p} value={p}>
@@ -236,7 +236,7 @@ const OrderDetail = () => {
                 })
               }
               placeholder={field}
-              className="border rounded px-2 py-1 w-full"
+              className="border border-border rounded px-2 py-1 w-full"
             />
           ))}
           <button
@@ -252,14 +252,14 @@ const OrderDetail = () => {
       {/* Order Items */}
       <div className="bg-white shadow rounded p-4 overflow-x-auto">
         <h3 className="font-semibold text-lg">Order Items</h3>
-        <table className="min-w-full border border-gray-200 mt-2">
+        <table className="min-w-full border border-border mt-2">
           <thead className="bg-gray-100">
             <tr>
-              <th className="p-2 border text-left">#</th>
-              <th className="p-2 border text-left">Product</th>
-              <th className="p-2 border text-left">Quantity</th>
-              <th className="p-2 border text-left">Price</th>
-              <th className="p-2 border text-left">Subtotal</th>
+              <th className="p-2 border border-border text-left">#</th>
+              <th className="p-2 border border-border text-left">Product</th>
+              <th className="p-2 border border-border text-left">Quantity</th>
+              <th className="p-2 border border-border text-left">Price</th>
+              <th className="p-2 border border-border text-left">Subtotal</th>
             </tr>
           </thead>
           <tbody>
