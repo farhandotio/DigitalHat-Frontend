@@ -184,7 +184,7 @@ const ProductDetails = () => {
             <span className="text-sm text-primary hover:underline cursor-pointer">
               {reviewCount} reviews
             </span>
-            <span className="ml-4 px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold   ">
+            <span className="ml-4 px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
               ✓ In Stock
             </span>
           </div>

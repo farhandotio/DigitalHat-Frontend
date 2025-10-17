@@ -96,7 +96,7 @@ const ProductReviews = ({ productId }) => {
           onChange={(e) => setComment(e.target.value)}
           rows={3}
           placeholder="Write your review..."
-          className="w-full border border-border outline-primary/50   p-2 mb-2 resize-none"
+          className="w-full border border-border outline-primary/50 rounded-lg p-2 mb-2 resize-none"
         />
       </form>
 

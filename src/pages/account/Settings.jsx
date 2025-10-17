@@ -29,36 +29,36 @@ export default function Settings() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">
+      <h1 className="text-3xl font-bold text-text mb-6">
         Account Settings
       </h1>
       <form onSubmit={onSave} className="space-y-4 max-w-md">
         <div>
-          <label className="text-sm text-gray-600">Full name</label>
+          <label className="text-sm text-text">Full name</label>
           <input
             value={form.fullName}
             onChange={(e) =>
               setForm((s) => ({ ...s, fullName: e.target.value }))
             }
-            className="w-full p-3 border  "
+            className="w-full p-3 border rounded-lg border-border"
           />
         </div>
         <div>
-          <label className="text-sm text-gray-600">Email</label>
+          <label className="text-sm text-text">Email</label>
           <input
             value={form.email}
             onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-            className="w-full p-3 border  "
+            className="w-full p-3 border rounded-lg border-border"
           />
         </div>
         <div className="flex items-center gap-3">
           <button
             disabled={saving}
-            className="px-4 py-2 bg-orange-500 text-white  "
+            className="px-4 py-2 bg-orange-500 text-white rounded-md"
           >
             {saving ? "Saving..." : "Save changes"}
           </button>
-          {msg && <div className="text-sm text-gray-600">{msg}</div>}
+          {msg && <div className="text-sm text-text">{msg}</div>}
         </div>
       </form>
     </div>

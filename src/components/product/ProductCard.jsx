@@ -103,7 +103,7 @@ const ProductCard = ({ product = {} }) => {
         />
       </div>
 
-      <div className="p-4 flex flex-col">
+      <div className="p-4 pb-2 flex flex-col">
         <h3
           className="text-base font-semibold text-gray-900 truncate mb-1"
           title={title}
