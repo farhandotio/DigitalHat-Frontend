@@ -5,8 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 
-const API_BASE =
-  import.meta.env.VITE_API_URL || "  https://digitalhat-server.onrender.com";
+const API_BASE = "https://digitalhat-server.onrender.com";
 const CHECKOUT_KEY = "app_checkout_state";
 const divisions = [
   "Select Division",
@@ -166,60 +165,32 @@ export default function Checkout() {
     let mounted = true;
 
     (async () => {
-      // Priority: location.state -> sessionStorage -> build from cart -> fallback redirect
       try {
+        // 1️⃣ Try location.state only if it exists (SPA navigation)
         if (state) {
-          const payload = state;
-          sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify(payload));
-          if (mounted) {
-            setCheckoutData(payload);
-            if (payload.shippingAddress) reset(payload.shippingAddress);
-          }
+          sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify(state));
+          if (mounted) setCheckoutData(state);
         } else {
+          // 2️⃣ Fallback to sessionStorage
           const fromSession = getCheckoutState();
-          if (fromSession) {
-            if (mounted) {
-              setCheckoutData(fromSession);
-              if (fromSession.shippingAddress)
-                reset(fromSession.shippingAddress);
-            }
-          } else {
-            // try to build
+          if (fromSession && mounted) setCheckoutData(fromSession);
+          else {
+            // 3️⃣ Build from cart if sessionStorage empty
             const built = await buildFromCart();
-            if (built && mounted) {
-              setCheckoutData(built);
-            } else {
-              // no cart data -> maybe user has saved address; still try fetchMe to prefill (but we need items)
-              const me = await fetchMe();
-              if (me && mounted) {
-                // prefill user address if exists
-                const addr = me.shippingAddress ?? me.address ?? null;
-                if (addr) reset(addr);
-              }
-              // If still no checkoutData, but user has cart empty, redirect to cart
-              if (!built && (!cart || !cart.items || cart.items.length === 0)) {
-                navigate("/cart");
-              }
-            }
+            if (built && mounted) setCheckoutData(built);
+            else navigate("/cart"); // no data at all
           }
-        }
-
-        // separately fetch fresh user info to prefill address if needed
-        const me = await fetchMe();
-        if (me && mounted) {
-          const addr = me.shippingAddress ?? me.address ?? null;
-          if (addr) reset(addr);
         }
       } catch (err) {
         console.error("Checkout initialization error:", err);
+        navigate("/cart");
       }
     })();
 
     return () => {
       mounted = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state]);
 
   // update form defaults if user becomes available later
   useEffect(() => {

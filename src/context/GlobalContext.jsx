@@ -200,16 +200,9 @@ export const GlobalProvider = ({ children }) => {
     fetchCart().catch(() => {});
   }, [user]);
 
-  // -------------------------
-  // Centralized Checkout helpers
-  // -------------------------
-  /**
-   * payload: { items, totals, currency, itemCount, extra?: {...} }
-   * Stores payload in sessionStorage and navigates to /checkout.
-   */
+
   const proceedToCheckout = (payload = {}) => {
     try {
-      // minimal validation
       const safe = {
         items: payload.items ?? cart?.items ?? [],
         totals: payload.totals ?? { subtotal: 0, shipping: 0, total: 0 },
@@ -221,15 +214,11 @@ export const GlobalProvider = ({ children }) => {
           0,
         extra: payload.extra ?? null,
       };
-      // store in session so checkout can read after navigate or refresh
       sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify(safe));
 
-      // navigate to checkout. Using location.assign ensures it works whether provider is inside Router or not.
-      // If your provider is inside Router and you prefer client router navigation, replace with navigate('/checkout') from Router.
       window.location.assign("/checkout");
     } catch (err) {
       console.error("proceedToCheckout:", err);
-      // fallback: still navigate
       window.location.assign("/checkout");
     }
   };
