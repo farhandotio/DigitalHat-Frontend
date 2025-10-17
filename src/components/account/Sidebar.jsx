@@ -43,7 +43,7 @@ export default function Sidebar({ user, onSignOut }) {
   ];
 
   return (
-    <aside className="flex flex-col w-64 bg-white border-r border-border h-full overflow-y-auto">
+    <aside className="flex flex-col w-64 bg-white border-r max-md:pb-15 border-border h-full overflow-y-auto">
       {user && (
         <div className="p-4 pt-6 flex flex-col items-center border-b border-gray-100">
           <img
@@ -55,7 +55,7 @@ export default function Sidebar({ user, onSignOut }) {
           />
           <p className="font-semibold text-gray-800">{user.fullName}</p>
           <p className="text-xs text-gray-500">{user.email}</p>
-          <span className="mt-2 text-xs font-medium text-green-700 bg-green-100 px-3 py-1   ">
+          <span className="mt-2 text-xs font-medium rounded-full text-green-700 bg-green-100 px-3 py-1   ">
             {user.role === "admin" ? "Administrator" : "Member"}
           </span>
         </div>
@@ -75,7 +75,7 @@ export default function Sidebar({ user, onSignOut }) {
       <div className="p-4 border-t border-gray-100">
         <button
           onClick={handleSignOut}
-          className="flex items-center space-x-3 p-3  transition-colors w-full text-left text-red-500 hover:bg-red-50 font-medium"
+          className="flex items-center space-x-3 p-3 rounded-lg transition-colors w-full text-left text-red-500 hover:bg-red-50 font-medium"
         >
           <LogOut className="w-5 h-5" />
           <span className="text-sm">Sign Out</span>

@@ -15,6 +15,9 @@ export default function AccountLayout() {
   const [error, setError] = useState("");
   const [loadingOrders, setLoadingOrders] = useState(false);
 
+  // NEW: initialization state to avoid UI flicker while we check role/profile
+  const [initializing, setInitializing] = useState(true);
+
   const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem("userToken");
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -111,6 +114,17 @@ export default function AccountLayout() {
         // Try fetch profile first so we can redirect admin immediately
         const me = await fetchProfile().catch(() => null);
 
+        // If fetchProfile found an admin, fetchProfile already navigated away.
+        // Still, guard here to avoid rendering this layout in case `user` or localStorage says admin.
+        const localUser = JSON.parse(localStorage.getItem("userData") || "null");
+        if ((me && me.role === "admin") || (localUser && localUser.role === "admin")) {
+          // ensure we don't render account layout for admins
+          if (!cancelled) {
+            setInitializing(false); // stop initializing but we won't render since navigation happened
+          }
+          return;
+        }
+
         // Fetch orders regardless of profile success (if token present)
         if (!cancelled) {
           await fetchOrders();
@@ -119,6 +133,8 @@ export default function AccountLayout() {
         if (!cancelled) {
           console.error("AccountLayout init error:", err);
         }
+      } finally {
+        if (!cancelled) setInitializing(false);
       }
     })();
 
@@ -132,6 +148,16 @@ export default function AccountLayout() {
     setUser(null);
     navigate("/login");
   };
+
+  // NEW: if still initializing, render nothing (or a loader) to prevent flicker
+  if (initializing) {
+    return null; // or a small loader: <div className="p-6">Loading...</div>
+  }
+
+  // NEW: double-guard: if context user exists and is admin, don't render (redirect handled earlier)
+  if (user && user.role === "admin") {
+    return null;
+  }
 
   return (
     <div className="flex bg-gray-50 min-h-[calc(100vh-64px-64px)]">
@@ -169,7 +195,7 @@ export default function AccountLayout() {
           </div>
         </div>
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 rounded-md overflow-y-auto">
           {error && <div className="mb-4 text-red-500">{error}</div>}
           <Outlet
             context={{
@@ -182,13 +208,6 @@ export default function AccountLayout() {
           />
         </main>
       </div>
-
-      {/* Mobile close button */}
-      {/* {isSidebarOpen && (
-        <button className="fixed top-4 right-4 z-50 p-2 text-text md:hidden shadow-xl bg-white rounded" onClick={() => setIsSidebarOpen(false)}>
-          <X className="w-6 h-6" />
-        </button>
-      )} */}
     </div>
   );
 }
