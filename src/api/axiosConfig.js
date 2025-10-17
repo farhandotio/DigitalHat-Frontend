@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "  https://digitalhat-server.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
@@ -10,6 +10,7 @@ const instance = axios.create({
 
 // attach token from localStorage if present
 const token = localStorage.getItem("token");
-if (token) instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+if (token)
+  instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 export default instance;

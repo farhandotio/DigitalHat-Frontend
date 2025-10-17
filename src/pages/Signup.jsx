@@ -28,7 +28,7 @@ const Signup = () => {
         throw new Error("All fields are required");
 
       const response = await axios.post(
-        "http://localhost:3000/api/auth/register",
+        "  https://digitalhat-server.onrender.com/api/auth/register",
         {
           fullName,
           email,
@@ -57,7 +57,7 @@ const Signup = () => {
       if (!otp) throw new Error("Please enter OTP");
 
       const response = await axios.post(
-        "http://localhost:3000/api/auth/verify-otp",
+        "  https://digitalhat-server.onrender.com/api/auth/verify-otp",
         {
           identifier: email,
           otp,

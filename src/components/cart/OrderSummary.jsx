@@ -23,7 +23,7 @@ export default function OrderSummary({
   };
 
   return (
-    <div className="bg-white p-6    shadow-xl lg:sticky lg:top-8 border border-gray-100">
+    <div className="bg-white p-6  rounded-2xl  shadow-xs lg:sticky lg:top-8 border border-gray-100">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
       <div className="space-y-3 pb-6 border-b border-gray-200">
         <div className="flex justify-between text-gray-600">

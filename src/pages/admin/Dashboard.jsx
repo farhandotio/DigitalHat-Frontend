@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [pendingOrders, setPendingOrders] = useState(0);
@@ -26,28 +28,44 @@ const Dashboard = () => {
         };
 
         // 1️⃣ Fetch total products
-        const productsRes = await axios.get("http://localhost:3000/api/products", config);
+        const productsRes = await axios.get(
+          "  https://digitalhat-server.onrender.com/api/products",
+          config
+        );
         // Handle API returning array or paginated object
-        setTotalProducts(productsRes.data?.products?.length ?? productsRes.data?.length ?? 0);
+        setTotalProducts(
+          productsRes.data?.products?.length ?? productsRes.data?.length ?? 0
+        );
 
         // 2️⃣ Fetch total orders
-        const ordersRes = await axios.get("http://localhost:3000/api/admin-orders", config);
+        const ordersRes = await axios.get(
+          "  https://digitalhat-server.onrender.com/api/admin-orders",
+          config
+        );
         const orders = ordersRes.data?.data ?? ordersRes.data ?? [];
         setTotalOrders(orders.length);
 
         // Pending orders count
-        const pendingCount = orders.filter(o => o.status === "Pending").length;
+        const pendingCount = orders.filter(
+          (o) => o.status === "Pending"
+        ).length;
         setPendingOrders(pendingCount);
 
         // 3️⃣ Total users
-        const usersRes = await axios.get("http://localhost:3000/api/auth/all", config);
+        const usersRes = await axios.get(
+          "  https://digitalhat-server.onrender.com/api/auth/all",
+          config
+        );
         setTotalUsers(usersRes.data?.length ?? 0);
 
         // 4️⃣ Revenue calculation
         const totalRevenue = orders.reduce((sum, order) => {
           if (order.totalPrice) {
             // order.totalPrice could be number or object { amount: number }
-            if (typeof order.totalPrice === "object" && order.totalPrice.amount) {
+            if (
+              typeof order.totalPrice === "object" &&
+              order.totalPrice.amount
+            ) {
               return sum + order.totalPrice.amount;
             }
             return sum + (order.totalPrice || 0);
@@ -61,10 +79,13 @@ const Dashboard = () => {
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 5);
         setRecentOrders(recent);
-
       } catch (err) {
         console.error(err);
-        setError(err.response?.data?.message || err.message || "Failed to load dashboard data");
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to load dashboard data"
+        );
       } finally {
         setLoading(false);
       }
@@ -73,13 +94,13 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
-  if (loading) return <div className="p-6 text-center">Loading dashboard...</div>;
-  if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
+  if (loading) return <div className="text-center">Loading dashboard...</div>;
+  if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (
-    <div className="p-6 bg-white min-h-screen text-text">
+    <div className="bg-white min-h-screen text-text">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="md:flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <div className="text-sm text-gray-500">
           Welcome, Admin • {new Date().toLocaleDateString()}
@@ -87,34 +108,66 @@ const Dashboard = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-        <Card title="Total Products" value={totalProducts} color="bg-blue-500" />
+      <div className="grid grid-cols-2 whitespace-nowrap sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+        <Card
+          title="Total Products"
+          value={totalProducts}
+          color="bg-blue-500"
+        />
         <Card title="Total Orders" value={totalOrders} color="bg-green-500" />
-        <Card title="Pending Orders" value={pendingOrders} color="bg-blue-500" />
+        <Card
+          title="Pending Orders"
+          value={pendingOrders}
+          color="bg-blue-500"
+        />
         <Card title="Total Users" value={totalUsers} color="bg-purple-500" />
-        <Card title="Revenue" value={`৳ ${revenue.toLocaleString()}`} color="bg-red-500" />
+        <Card
+          title="Revenue"
+          value={`৳ ${revenue.toLocaleString()}`}
+          color="bg-red-500"
+        />
       </div>
 
       {/* Recent Orders Table */}
-      <div className="bg-white rounded-2xl shadow-md p-4 mb-6">
+      <div className="bg-white rounded-2xl shadow-md p-2 md:p-4 mb-6">
         <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full text-left divide-y divide-gray-200">
-            <thead>
+            <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-2">Order ID</th>
-                <th className="px-4 py-2">Customer</th>
-                <th className="px-4 py-2">Total</th>
-                <th className="px-4 py-2">Status</th>
+                <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+                  #
+                </th>
+                <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+                  Order Code
+                </th>
+                <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+                  User
+                </th>
+                <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+                  Total
+                </th>
+                <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+                  Status
+                </th>
+                <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+                  Actions
+                </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {recentOrders.map((order) => (
+            <tbody className="divide-y whitespace-nowrap divide-gray-200">
+              {recentOrders.map((order, idx) => (
                 <tr key={order._id} className="hover:bg-gray-50">
+                  <td className="p-2 text-gray-400 text-sm">{idx + 1}</td>
                   <td className="px-4 py-2">{order._id}</td>
-                  <td className="px-4 py-2">{order.user?.fullName || "Guest"}</td>
                   <td className="px-4 py-2">
-                    ৳ {typeof order.totalPrice === "object" ? order.totalPrice.amount.toLocaleString() : (order.totalPrice || 0).toLocaleString()}
+                    {order.user?.fullName || "Guest"}
+                  </td>
+                  <td className="px-4 py-2">
+                    ৳{" "}
+                    {typeof order.totalPrice === "object"
+                      ? order.totalPrice.amount.toLocaleString()
+                      : (order.totalPrice || 0).toLocaleString()}
                   </td>
                   <td className="px-4 py-2">
                     <span
@@ -128,6 +181,14 @@ const Dashboard = () => {
                     >
                       {order.status}
                     </span>
+                  </td>
+                  <td className="p-2 flex gap-2">
+                    <button
+                      onClick={() => navigate(`/admin/orders/${order._id}`)}
+                      className="px-3 py-1 border border-border rounded hover:bg-gray-200 transition-colors text-sm cursor-pointer"
+                    >
+                      View
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -151,9 +212,11 @@ const Dashboard = () => {
 
 // Summary Card Component
 const Card = ({ title, value, color }) => (
-  <div className={`p-4 rounded-2xl text-white shadow-md ${color}`}>
+  <div
+    className={`p-2 md:p-4 rounded-lg text-center md:rounded-2xl text-white shadow-md ${color}`}
+  >
     <div className="text-sm">{title}</div>
-    <div className="text-2xl font-bold mt-2">{value}</div>
+    <div className="md:text-2xl font-bold mt-2">{value}</div>
   </div>
 );
 

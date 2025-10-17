@@ -36,7 +36,7 @@ const ProductDetails = () => {
       setError("");
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/api/products/${id}`
+          `  https://digitalhat-server.onrender.com/api/products/${id}`
         );
         if (!data.product) throw new Error("Product not found");
         setProduct(data.product);
@@ -70,7 +70,7 @@ const ProductDetails = () => {
 
         if (categoryValue) {
           const encoded = encodeURIComponent(String(categoryValue));
-          const url = `http://localhost:3000/api/products?category=${encoded}&limit=5&exclude=${id}`;
+          const url = `  https://digitalhat-server.onrender.com/api/products?category=${encoded}&limit=5&exclude=${id}`;
           const res = await axios.get(url);
           const related =
             res.data?.products ||
@@ -79,7 +79,7 @@ const ProductDetails = () => {
           setProducts(related.slice(0, 5));
         } else {
           const res = await axios.get(
-            `http://localhost:3000/api/products/${id}/related?limit=5`
+            `  https://digitalhat-server.onrender.com/api/products/${id}/related?limit=5`
           );
           const related =
             res.data?.products ||

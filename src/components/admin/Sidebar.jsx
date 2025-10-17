@@ -114,7 +114,7 @@ export default function Sidebar({
         >
           {item.label}
         </span>
-        {badgeNumber != null && (
+        {/* {badgeNumber != null && (
           <span
             className={clsx(
               "ml-auto text-xs font-medium min-w-[28px] h-6 inline-flex items-center justify-center px-1 rounded-full text-white",
@@ -126,7 +126,7 @@ export default function Sidebar({
           >
             {badgeNumber > 99 ? "99+" : badgeNumber}
           </span>
-        )}
+        )} */}
       </NavLink>
     );
   };
@@ -158,7 +158,10 @@ export default function Sidebar({
       >
         {/* Header: Brand + User avatar + Collapse toggle */}
         <div className="flex flex-col px-4 py-4 border-b border-[var(--color-border)]">
-          <div className="flex flex-col gap-3 mb-3">
+          <div
+            className="flex flex-col gap-3 mb-3 cursor-pointer"
+            onClick={() => toggle()}
+          >
             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white font-bold text-lg">
               {firstLetter}
             </div>
@@ -173,17 +176,6 @@ export default function Sidebar({
                 </span>
               </div>
             )}
-          </div>
-          {/* Collapse toggle */}
-          <div className="flex justify-end pr-2.5">
-            <button
-              onClick={() => toggle()}
-              className="py-2 rounded focus-visible:ring-2"
-              aria-pressed={collapsed}
-              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              {collapsed ? <Menu size={18} /> : <X size={18} />}
-            </button>
           </div>
         </div>
 

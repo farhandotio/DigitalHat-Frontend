@@ -16,7 +16,7 @@ const CategoryProducts = () => {
       setError("");
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/api/products/category/${categoryName}`
+          `  https://digitalhat-server.onrender.com/api/products/category/${categoryName}`
         );
         setProducts(data.products || []);
       } catch (err) {
@@ -34,20 +34,19 @@ const CategoryProducts = () => {
   return (
     <section className="px-5 md:px-10 lg:px-20 py-5">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-items-center">
-        {loading
-          ? Array.from({ length: 8 }).map((_, idx) => (
-              <ProductSkeleton key={idx} />
-            ))
-          : products.length > 0
-          ? products.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))
-          : (
-            <div className="col-span-full text-center py-10 text-gray-500">
-              No products found
-            </div>
-          )
-        }
+        {loading ? (
+          Array.from({ length: 8 }).map((_, idx) => (
+            <ProductSkeleton key={idx} />
+          ))
+        ) : products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))
+        ) : (
+          <div className="col-span-full text-center py-10 text-gray-500">
+            No products found
+          </div>
+        )}
       </div>
     </section>
   );

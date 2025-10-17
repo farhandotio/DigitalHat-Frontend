@@ -25,7 +25,7 @@ export default function ProductsList() {
         category && category !== "All" ? `/category/${category}` : "";
 
       const { data } = await axios.get(
-        `http://localhost:3000/api/products${categoryPath}`,
+        `  https://digitalhat-server.onrender.com/api/products${categoryPath}`,
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -43,7 +43,9 @@ export default function ProductsList() {
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || err.message || "Failed to fetch products");
+      setError(
+        err.response?.data?.message || err.message || "Failed to fetch products"
+      );
     } finally {
       setLoading(false);
     }
@@ -83,7 +85,9 @@ export default function ProductsList() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-semibold">Products</h1>
-            <p className="text-sm text-text">Manage your DigitalHat product catalogue</p>
+            <p className="text-sm text-text">
+              Manage your DigitalHat product catalogue
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <Link
@@ -132,7 +136,9 @@ export default function ProductsList() {
         {/* Table */}
         <div className="overflow-x-auto bg-transparent rounded-2xl border border-border">
           {loading ? (
-            <div className="p-6 text-center text-gray-500">Loading products...</div>
+            <div className="p-6 text-center text-gray-500">
+              Loading products...
+            </div>
           ) : error ? (
             <div className="p-6 text-center text-red-500">{error}</div>
           ) : (
@@ -161,44 +167,63 @@ export default function ProductsList() {
                       key={product._id}
                       className="hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-200 transition-colors"
                     >
-                      <td className="px-4 py-3 align-top">{(currentPage - 1) * itemsPerPage + idx + 1}</td>
+                      <td className="px-4 py-3 align-top">
+                        {(currentPage - 1) * itemsPerPage + idx + 1}
+                      </td>
 
                       <td className="px-4 py-3 align-top">
                         <div className="flex items-center gap-3">
                           <img
-                            src={product.images?.[0]?.url || product.image || "https://via.placeholder.com/80x80?text=No+Image"}
+                            src={
+                              product.images?.[0]?.url ||
+                              product.image ||
+                              "https://via.placeholder.com/80x80?text=No+Image"
+                            }
                             alt={product.title}
                             className="w-12 h-12 object-cover rounded-md"
                           />
                           <div>
                             <div className="font-medium">{product.title}</div>
-                            <div className="text-sm text-text">{product.description ?? "-"}</div>
+                            <div className="text-sm text-text">
+                              {product.description ?? "-"}
+                            </div>
                           </div>
                         </div>
                       </td>
 
-                      <td className="px-4 py-3 align-top">{product.category}</td>
+                      <td className="px-4 py-3 align-top">
+                        {product.category}
+                      </td>
 
                       <td className="px-4 py-3 align-top whitespace-nowrap">
                         <div className="font-semibold">
-                          ৳ {formatPrice(product.price?.amount ?? product.price ?? 0)}
+                          ৳{" "}
+                          {formatPrice(
+                            product.price?.amount ?? product.price ?? 0
+                          )}
                         </div>
                       </td>
 
                       <td className="px-4 py-3 align-top">
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                            inStockBool ? "bg-green-600 text-white" : "bg-red-600 text-white"
+                            inStockBool
+                              ? "bg-green-600 text-white"
+                              : "bg-red-600 text-white"
                           }`}
                         >
-                          {inStockBool ? `In Stock (${stockCount})` : "Out of Stock"}
+                          {inStockBool
+                            ? `In Stock (${stockCount})`
+                            : "Out of Stock"}
                         </span>
                       </td>
 
                       <td className="px-4 py-3 align-top">
                         <div className="flex items-center gap-2">
                           <RatingStars value={avgRating} />
-                          <div className="text-sm text-text">{Number(avgRating).toFixed(1)}</div>
+                          <div className="text-sm text-text">
+                            {Number(avgRating).toFixed(1)}
+                          </div>
                         </div>
                       </td>
 
@@ -222,7 +247,10 @@ export default function ProductsList() {
 
                 {products.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-4 py-10 text-center text-text">
+                    <td
+                      colSpan={8}
+                      className="px-4 py-10 text-center text-text"
+                    >
                       No products found.
                     </td>
                   </tr>
@@ -248,7 +276,9 @@ export default function ProductsList() {
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
                 className={`px-3 py-1 border rounded-md ${
-                  currentPage === i + 1 ? "bg-[#ff6a00] text-white" : "bg-white text-black"
+                  currentPage === i + 1
+                    ? "bg-[#ff6a00] text-white"
+                    : "bg-white text-black"
                 }`}
               >
                 {i + 1}
@@ -276,13 +306,25 @@ function RatingStars({ value = 0 }) {
   return (
     <div className="flex items-center">
       {Array.from({ length: full }).map((_, i) => (
-        <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-[#ff6a00]">
+        <svg
+          key={i}
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="text-[#ff6a00]"
+        >
           <path d="M12 .587l3.668 7.431L24 9.748l-6 5.848L19.335 24 12 19.897 4.665 24 6 15.596 0 9.748l8.332-1.73L12 .587z" />
         </svg>
       ))}
 
       {half && (
-        <svg width="14" height="14" viewBox="0 0 24 24" className="text-[#ff6a00]">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          className="text-[#ff6a00]"
+        >
           <defs>
             <linearGradient id="halfGrad">
               <stop offset="50%" stopColor="#ff6a00" />
@@ -297,7 +339,15 @@ function RatingStars({ value = 0 }) {
       )}
 
       {Array.from({ length: empty }).map((_, i) => (
-        <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-gray-600">
+        <svg
+          key={i}
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          className="text-gray-600"
+        >
           <path
             d="M12 .587l3.668 7.431L24 9.748l-6 5.848L19.335 24 12 19.897 4.665 24 6 15.596 0 9.748l8.332-1.73L12 .587z"
             strokeWidth="1"

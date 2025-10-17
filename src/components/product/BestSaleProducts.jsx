@@ -13,7 +13,9 @@ const BestSaleProducts = () => {
   useEffect(() => {
     const fetchBestSaleProducts = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/products");
+        const { data } = await axios.get(
+          "  https://digitalhat-server.onrender.com/api/products"
+        );
         const allProducts = data.products;
 
         const topProducts = allProducts
@@ -40,9 +42,12 @@ const BestSaleProducts = () => {
     <div className="px-5 md:px-10 lg:px-20 py-10">
       <Title title="Best Selling Products" />
       <ProductGrid products={products} isLoading={loading} />
-      <div className="flex items-center justify-end pt-10">
-        <Link to="/shop" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-1 text-secondary hover:text-primary">
-          Shop Now <ArrowRight />
+      <div className="text-center mt-10">
+        <Link
+          to={"/shop"}
+          className="bg-white text-primary border border-primary font-semibold cursor-pointer py-3 px-8 rounded-full shadow-md hover:bg-primary/20  transition duration-300"
+        >
+          View More Products
         </Link>
       </div>
     </div>

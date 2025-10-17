@@ -6,7 +6,7 @@ const INITIAL_TIME_SECONDS = 8 * 3600 + 32 * 60 + 34;
 
 const DUMMY_PRODUCTS = [
   {
-    _id: "p1",
+    _id: "Watch",
     title: "Smart Watch Pro",
     price: { original: 5500, sale: 4500, currency: "৳" },
     imageName:
@@ -16,7 +16,7 @@ const DUMMY_PRODUCTS = [
     discountPercent: 18,
   },
   {
-    _id: "p2",
+    _id: "Router",
     title: "Dual-Band Router",
     price: { original: 3000, sale: 2500, currency: "৳" },
     imageName:
@@ -26,7 +26,7 @@ const DUMMY_PRODUCTS = [
     discountPercent: 16,
   },
   {
-    _id: "p3",
+    _id: "TWS",
     title: "Noise-Cancelling TWS",
     price: { original: 4000, sale: 3200, currency: "৳" },
     imageName:
@@ -36,7 +36,7 @@ const DUMMY_PRODUCTS = [
     discountPercent: 20,
   },
   {
-    _id: "p4",
+    _id: "Speaker",
     title: "Bluetooth Speaker",
     price: { original: 4500, sale: 3800, currency: "৳" },
     imageName:
@@ -46,7 +46,7 @@ const DUMMY_PRODUCTS = [
     discountPercent: 15,
   },
   {
-    _id: "p5",
+    _id: "Mouse",
     title: "Ergonomic Mouse",
     price: { original: 1500, sale: 1200, currency: "৳" },
     imageName:
@@ -69,8 +69,8 @@ const FlashSaleProductCard = ({ product }) => {
 
   return (
     <Link
-      to={`/product/${product._id}`}
-      className="block rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden relative cursor-pointer group border border-gray-100 bg-white"
+      to={`/category/${product._id}`}
+      className="block rounded-xl shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden relative cursor-pointer group border border-border bg-white"
     >
       <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-br-lg rounded-tl-lg z-10 shadow-md">
         -{discountPercent}% OFF
@@ -104,7 +104,7 @@ const FlashSaleProductCard = ({ product }) => {
             <span className="font-bold text-gray-700 mr-1">
               {averageRating.toFixed(1)}
             </span>
-            <span className="text-gray-500">({reviewCount} Reviews)</span>
+            <span className="text-gray-500 -mt-2">({reviewCount})</span>
           </div>
         </div>
 
@@ -174,10 +174,10 @@ const FlashSale = () => {
   return (
     <section className="w-full py-10 font-['Inter']">
       <div className="mx-auto px-5 md:px-10 lg:px-20">
-        <div className="bg-white p-4 sm:p-6 border-b border-gray-100 shadow-md rounded-xl mb-8">
+        <div className="bg-white p-4 sm:p-6 border-b border-border shadow-md rounded-xl mb-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-              <div className="flex items-center space-x-2 text-2xl sm:text-3xl font-bold text-gray-800">
+              <div className="flex items-center space-x-2 text-2xl sm:text-3xl font-bold text-text">
                 <Zap
                   className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500"
                   fill="currentColor"
@@ -219,7 +219,7 @@ const FlashSale = () => {
         <div className="text-center mt-10">
           <Link
             to={"/shop"}
-            className="bg-white text-red-600 border border-red-600 font-semibold hover:scale-103 cursor-pointer py-3 px-8 rounded-full shadow-md hover:bg-red-50 transition duration-300"
+            className="bg-white text-red-600 border border-red-600 font-semibold cursor-pointer py-3 px-8 rounded-full shadow-md hover:bg-red-100  transition duration-300"
           >
             View More Flash Deals
           </Link>

@@ -5,7 +5,8 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_BASE =
+  import.meta.env.VITE_API_URL || "  https://digitalhat-server.onrender.com";
 const CHECKOUT_KEY = "app_checkout_state";
 const divisions = [
   "Select Division",

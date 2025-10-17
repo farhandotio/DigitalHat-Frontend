@@ -5,67 +5,59 @@ import { FaFileAlt } from "react-icons/fa";
 /* ---------- items (image + name) ---------- */
 export const categoryItems = [
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/headphone.jpg?updatedAt=1760542243287",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/headphone.jpg?updatedAt=1760674050772",
     name: "Headphone",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/watch.jpg?updatedAt=1760542242556",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/watch.jpg?updatedAt=1760674050833",
     name: "Smart Watch",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/tws.jpg?updatedAt=1760542242178",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/tws.jpg?updatedAt=1760674050675",
     name: "TWS",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/router.jpg?updatedAt=1760542242380",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/router.jpg?updatedAt=1760674050767",
     name: "Router",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/tripod.jpg?updatedAt=1760542242705",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/tripod.jpg?updatedAt=1760674050758",
     name: "Tripod",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/neckband.jpg?updatedAt=1760542242656",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/neckband.jpg?updatedAt=1760674050722",
     name: "Neckband",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/power.jpg?updatedAt=1760542242431",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/power%20bank.jpg?updatedAt=1760674496032",
     name: "Power Bank",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/speaker.jpg?updatedAt=1760542242836",
-    name: "Bluetooth Speaker",
-  },
-  {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/microphone.jpg?updatedAt=1760542242816",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/microphone.jpg?updatedAt=1760674050742",
     name: "Microphone",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/projector.jpg?updatedAt=1760542242916",
-    name: "Mini Projector",
-  },
-  {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/charger.jpg?updatedAt=1760542242572",
-    name: "Charger",
-  },
-  {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/fan.jpg?updatedAt=1760542242874",
-    name: "Portable Fan",
-  },
-  {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/keyboard.jpg?updatedAt=1760542242935",
-    name: "Keyboard",
-  },
-  {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/gaming.jpg?updatedAt=1760542242738",
-    name: "Gaming",
-  },
-  {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/cable.jpg?updatedAt=1760542242914",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/cable.jpg?updatedAt=1760674495958",
     name: "3-in-1 Cable",
   },
   {
-    url: "https://ik.imagekit.io/iura/Digitalhat/category/drone.jpg?updatedAt=1760542242671",
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/fan.jpg?updatedAt=1760674050713",
+    name: "Portable Fan",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/keyboard.jpg?updatedAt=1760674050992",
+    name: "Keyboard",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/gaming.jpg?updatedAt=1760674050681",
+    name: "Gaming",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/speaker.jpg?updatedAt=1760674050762",
+    name: "Bluetooth Speaker",
+  },
+  {
+    url: "https://ik.imagekit.io/iura/Digitalhat/category/drone.jpg?updatedAt=1760674050743",
     name: "Drone",
   },
 ];
@@ -125,7 +117,7 @@ const CategoryCard = ({ category }) => {
       className="group flex flex-col items-center justify-center rounded-xl transition-all duration-300 transform max-md:text-sm whitespace-nowrap text-center"
     >
       {/* Image wrapper */}
-      <div className="relative flex items-center justify-center w-40 h-40 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100/50 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">
+      <div className="relative flex items-center justify-center w-20 h-20 md:w-30 md:h-30 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100 group-hover:-translate-1 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">
         {imageUrl ? (
           <img
             src={imageUrl}

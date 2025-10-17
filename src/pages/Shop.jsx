@@ -98,7 +98,7 @@ export default function ShopWithPagination() {
     try {
       const query = buildQuery(p, l, fil);
       const { data } = await axios.get(
-        `http://localhost:3000/api/products?${query}`
+        `  https://digitalhat-server.onrender.com/api/products?${query}`
       );
 
       setProducts(data.products || []);

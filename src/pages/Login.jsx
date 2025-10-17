@@ -32,7 +32,7 @@ const Login = () => {
         throw new Error("Email and password are required");
 
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        "  https://digitalhat-server.onrender.com/api/auth/login",
         { email, password }
       );
 

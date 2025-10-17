@@ -21,8 +21,8 @@ const CategorySlider = () => {
       <Swiper
         modules={[Navigation, Keyboard, Autoplay]}
         keyboard={{ enabled: true }}
-        slidesPerView={2}
-        spaceBetween={20}
+        slidesPerView={4}
+        spaceBetween={30}
         loop={true} // ✅ Infinite loop
         autoplay={{
           delay: 2500,
@@ -30,10 +30,10 @@ const CategorySlider = () => {
         }}
         aria-label="Top category row"
         breakpoints={{
-          480: { slidesPerView: 2, spaceBetween: 20 },
-          640: { slidesPerView: 4, spaceBetween: 30 },
+          480: { slidesPerView: 4, spaceBetween: 20 },
+          640: { slidesPerView: 6, spaceBetween: 30 },
           768: { slidesPerView: 5, spaceBetween: 40 },
-          1024: { slidesPerView: 6, spaceBetween: 50 },
+          1024: { slidesPerView: 6, spaceBetween: 90 },
         }}
         className="category-swiper-top"
       >
@@ -48,8 +48,8 @@ const CategorySlider = () => {
       <Swiper
         modules={[Navigation, Keyboard, Autoplay]}
         keyboard={{ enabled: true }}
-        slidesPerView={2}
-        spaceBetween={20}
+        slidesPerView={4}
+        spaceBetween={30}
         loop={true} // ✅ Infinite loop
         autoplay={{
           delay: 2500,
@@ -58,10 +58,10 @@ const CategorySlider = () => {
         }}
         aria-label="Bottom category row"
         breakpoints={{
-          480: { slidesPerView: 2, spaceBetween: 20 },
-          640: { slidesPerView: 4, spaceBetween: 30 },
+          480: { slidesPerView: 4, spaceBetween: 20 },
+          640: { slidesPerView: 6, spaceBetween: 30 },
           768: { slidesPerView: 5, spaceBetween: 40 },
-          1024: { slidesPerView: 6, spaceBetween: 50 },
+          1024: { slidesPerView: 6, spaceBetween: 90 },
         }}
         className="category-swiper-bottom"
       >

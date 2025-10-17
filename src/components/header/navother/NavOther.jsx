@@ -15,7 +15,7 @@ const NavOther = ({ cartCount }) => {
   ];
 
   return (
-    <div className="flex items-center gap-2 md:gap-4">
+    <div className="flex items-center gap-4 md:gap-4">
       {actionItems.map(({ key, to, label, Icon, count }) => (
         <Link
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

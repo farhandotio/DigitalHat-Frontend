@@ -14,9 +14,9 @@ const NavItem = ({ icon: Icon, label, to }) => (
     to={to}
     end
     className={({ isActive }) =>
-      `flex items-center space-x-3 p-3    transition-colors w-full text-left font-medium ${
+      `flex items-center space-x-3 p-3  transition-colors w-full text-left font-medium ${
         isActive
-          ? "bg-orange-500 text-white shadow-lg shadow-orange-500/50"
+          ? "bg-orange-500 text-white rounded"
           : "text-gray-600 hover:bg-gray-100 hover:text-orange-500"
       }`
     }
@@ -43,7 +43,7 @@ export default function Sidebar({ user, onSignOut }) {
   ];
 
   return (
-    <aside className="flex flex-col w-64 bg-white border-r border-gray-200 h-full overflow-y-auto">
+    <aside className="flex flex-col w-64 bg-white border-r border-border h-full overflow-y-auto">
       {user && (
         <div className="p-4 pt-6 flex flex-col items-center border-b border-gray-100">
           <img
@@ -75,7 +75,7 @@ export default function Sidebar({ user, onSignOut }) {
       <div className="p-4 border-t border-gray-100">
         <button
           onClick={handleSignOut}
-          className="flex items-center space-x-3 p-3    transition-colors w-full text-left text-red-500 hover:bg-red-50 font-medium"
+          className="flex items-center space-x-3 p-3  transition-colors w-full text-left text-red-500 hover:bg-red-50 font-medium"
         >
           <LogOut className="w-5 h-5" />
           <span className="text-sm">Sign Out</span>

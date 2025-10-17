@@ -24,9 +24,12 @@ const UsersList = () => {
       const token = localStorage.getItem("userToken");
       if (!token) throw new Error("User not logged in");
 
-      const { data } = await axios.get("http://localhost:3000/api/auth/all", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.get(
+        "  https://digitalhat-server.onrender.com/api/auth/all",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (data && Array.isArray(data)) {
         setUsers(data);
@@ -56,17 +59,22 @@ const UsersList = () => {
       const token = localStorage.getItem("userToken");
       if (!token) throw new Error("User not logged in");
 
-      console.log(id)
-      await axios.delete(`http://localhost:3000/api/auth/user/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      console.log(id);
+      await axios.delete(
+        `  https://digitalhat-server.onrender.com/api/auth/user/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       // Remove deleted user from state
       setUsers((prev) => prev.filter((u) => u._id !== id));
       alert("User deleted successfully");
     } catch (err) {
       console.error("Error deleting user:", err);
-      alert(err.response?.data?.message || err.message || "Failed to delete user");
+      alert(
+        err.response?.data?.message || err.message || "Failed to delete user"
+      );
     }
   };
 
@@ -80,11 +88,21 @@ const UsersList = () => {
       <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">#</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Name</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Email</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Role</th>
-            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">Actions</th>
+            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">
+              #
+            </th>
+            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">
+              Name
+            </th>
+            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">
+              Email
+            </th>
+            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">
+              Role
+            </th>
+            <th className="p-2 border-b border-gray-200 text-left text-sm text-gray-500">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>

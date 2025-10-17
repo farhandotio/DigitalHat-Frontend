@@ -153,11 +153,11 @@ export default function AccountLayout() {
       </div>
 
       {/* Mobile close button */}
-      {isSidebarOpen && (
-        <button className="fixed top-4 right-4 z-50 p-2 text-white md:hidden shadow-xl bg-gray-800" onClick={() => setIsSidebarOpen(false)}>
+      {/* {isSidebarOpen && (
+        <button className="fixed top-4 right-4 z-50 p-2 text-text md:hidden shadow-xl bg-white rounded" onClick={() => setIsSidebarOpen(false)}>
           <X className="w-6 h-6" />
         </button>
-      )}
+      )} */}
     </div>
   );
 }

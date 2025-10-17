@@ -62,7 +62,7 @@ const Hero = () => {
   const slideWidthPercent = `${100 / sliderMedia.length}%`;
 
   return (
-    <section className="mx-auto px-5 md:px-10 lg:px-20 pt-5 pb-10 md:py-10">
+    <section className="mx-auto px-5 md:px-10 lg:px-20 pt-5 pb-10 md:py-20">
       {/* Outer div to apply max height and control overall layout */}{" "}
       <div className="flex flex-col-reverse lg:flex-row">
         {/* --- Left Content Area (Orange/Brown Background) --- */}{" "}
@@ -113,7 +113,7 @@ const Hero = () => {
                   <img
                     src={src}
                     alt={`Banner ${i + 1}`}
-                    className="w-full aspect-video object-cover block "
+                    className="w-full aspect-video rounded-2xl object-cover block "
                     draggable={false}
                   />{" "}
                 </div>

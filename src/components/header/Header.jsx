@@ -21,7 +21,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-secondary">
+    <header className="bg-text">
       <div className="pl-3 pr-4 md:px-10 lg:px-17 text-text flex flex-row items-center gap-1 md:gap-3 justify-between w-full">
         <Link
           to={"/"}

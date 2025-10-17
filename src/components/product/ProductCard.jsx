@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext"; // adjust path if needed
+import { FaCartPlus } from "react-icons/fa6";
+import { MdRemoveShoppingCart } from "react-icons/md";
 
 const formatPrice = (amount) =>
   new Intl.NumberFormat("en-IN", {
@@ -90,14 +92,14 @@ const ProductCard = ({ product = {} }) => {
     <Link
       to={`/product/${productId}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="w-full bg-white overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl shadow-lg hover:shadow-2xl"
+      className="w-full bg-white overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl border border-border shadow-xs hover:shadow-lg"
     >
       <div className="relative flex items-center justify-center bg-gray-50 overflow-hidden">
         <img
           src={imgSrc}
           alt={title}
           loading="lazy"
-          className="w-full aspect-square object-cover transition-transform duration-500"
+          className="w-full group-hover:scale-[1.02] aspect-square object-cover transition-transform duration-500"
         />
       </div>
 
@@ -109,10 +111,28 @@ const ProductCard = ({ product = {} }) => {
           {title}
         </h3>
 
-        <div className="flex items-baseline space-x-2 mb-2">
-          <span className="text-xl font-bold text-primary">
+        <div className="flex items-center justify-between space-x-2 mb-2">
+          <span className="text-lg md:text-xl font-bold text-primary">
             ৳{formatPrice(originalPrice)}
           </span>
+
+          <button
+            onClick={(e) => handleAddToCart(e, 1)}
+            disabled={adding || Number(stock) <= 0}
+            className={`text-primary rounded-full font-bold focus:outline-none text-xl md:text-2xl ${
+              Number(stock) <= 0
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-white text-primary font-semibold cursor-pointer hover:scale-103"
+            }`}
+          >
+            {adding ? (
+              <span className="text-xs">Adding.</span>
+            ) : Number(stock) <= 0 ? (
+              <MdRemoveShoppingCart />
+            ) : (
+              <FaCartPlus />
+            )}
+          </button>
         </div>
 
         <div className="flex items-center space-x-1 mb-3">
@@ -125,7 +145,7 @@ const ProductCard = ({ product = {} }) => {
           <span>Stock: {stock}</span>
         </div>
 
-        <div className="w-full bg-gray-200 h-1 mb-2">
+        <div className="w-full bg-gray-200 h-1 mb-2 rounded-full">
           <div
             className="h-1 bg-secondary rounded-full transition-all duration-500"
             style={{ width: `${soldPercentage}%` }}
@@ -135,22 +155,6 @@ const ProductCard = ({ product = {} }) => {
             aria-valuemax="100"
           />
         </div>
-
-        <button
-          onClick={(e) => handleAddToCart(e, 1)}
-          disabled={adding || Number(stock) <= 0}
-          className={`w-full py-2 text-white rounded-full transition-all duration-100 font-bold focus:outline-none ${
-            Number(stock) <= 0
-              ? "bg-gray-400 cursor-not-allowed"
-              : " bg-primary hover:scale-103 "
-          }`}
-        >
-          {adding
-            ? "Adding..."
-            : Number(stock) <= 0
-            ? "Out of stock"
-            : "Add to Cart"}
-        </button>
       </div>
     </Link>
   );

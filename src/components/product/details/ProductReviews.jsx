@@ -17,7 +17,7 @@ const ProductReviews = ({ productId }) => {
       setLoading(true);
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/api/products/${productId}/reviews`
+          `  https://digitalhat-server.onrender.com/api/products/${productId}/reviews`
         );
         setReviews(data.reviews || []);
       } catch (err) {
@@ -39,7 +39,7 @@ const ProductReviews = ({ productId }) => {
       const token = localStorage.getItem("userToken"); // ✅ Get token from localStorage
 
       const { data } = await axios.post(
-        `http://localhost:3000/api/products/${productId}/reviews`,
+        `  https://digitalhat-server.onrender.com/api/products/${productId}/reviews`,
         { rating, comment },
         {
           withCredentials: true, // keep for cookie-based auth if backend uses both

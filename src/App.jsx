@@ -7,7 +7,6 @@ import Footer from "./components/footer/Footer";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
 import ProductDetails from "./pages/ProductDetails";
-import Support from "./pages/Support";
 import Setting from "./pages/Settings";
 import CategoryProducts from "./pages/CategoryProducts";
 import Login from "./pages/Login";
@@ -35,6 +34,7 @@ import AdminProducts from "./pages/admin/products/ProductsList";
 import AdminProductCreate from "./pages/admin/products/CreateProduct";
 import AdminProductEdit from "./pages/admin/products/EditProduct";
 import AdminSettings from "./pages/admin/Settings";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 // -----------------------------------------------------------------------------------------------
 
 const App = () => {
@@ -88,7 +88,7 @@ const App = () => {
 
         <Route path="/about" element={<About />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/support" element={<Support />} />
+        <Route path="/privacy&policy" element={<PrivacyPolicy />} />
         <Route path="/settings" element={<Setting />} />
         <Route path="/category/:categoryName" element={<CategoryProducts />} />
       </Routes>

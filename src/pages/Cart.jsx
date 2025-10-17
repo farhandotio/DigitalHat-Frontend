@@ -14,7 +14,8 @@ import CartItem from "../components/cart/CartItem";
 import OrderSummary from "../components/cart/OrderSummary";
 
 const SHIPPING_COST = 125;
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_BASE =
+  import.meta.env.VITE_API_URL || "  https://digitalhat-server.onrender.com";
 
 export default function Cart() {
   const { cart, cartLoading, updateCartItem, removeCartItem, clearCart } =
@@ -136,22 +137,22 @@ export default function Cart() {
 
   if (!itemCount)
     return (
-      <div className="text-center py-20    mt-8 shadow-md">
+      <div className="text-center py-20  rounded-2xl  mt-8 shadow-md">
         <ShoppingBag size={48} className="text-gray-400 mx-auto mb-4" />
         <p className="text-xl text-gray-600">Your cart is empty.</p>
       </div>
     );
 
   return (
-    <div className="min-h-screen font-sans antialiased p-4 sm:p-8">
-      <div className="container mx-auto max-w-7xl">
+    <div className="min-h-screen font-sans antialiased p-5 md:p-10 lg:p-20">
+      <div className="mx-auto">
         <h1 className="text-4xl font-extrabold text-gray-900">Shopping Cart</h1>
         <p className="text-gray-600 mt-2 text-lg">
           Review your items before checkout
         </p>
 
         <div className="mt-8 grid lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2    shadow-xl border bg-white border-gray-100 p-6">
+          <div className="lg:col-span-2  rounded-2xl  shadow-xs border bg-white border-gray-100 p-6">
             <div className="flex justify-between items-center pb-4 border-b border-gray-200 mb-4">
               <h2 className="text-xl font-semibold text-gray-800">
                 Cart Items ({itemCount})

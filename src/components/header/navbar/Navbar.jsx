@@ -5,7 +5,7 @@ export const navLinks = [
   { name: "Home", path: "/" },
   { name: "Shop", path: "/shop" },
   { name: "About", path: "/about" },
-  { name: "Support", path: "/support" },
+  { name: "Privacy & Policy", path: "/privacy&policy" },
 ];
 
 const Navbar = () => {
@@ -21,7 +21,7 @@ const Navbar = () => {
               <Link
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 to={path}
-                className={`font-medium transition-colors duration-200 ${
+                className={`font-medium transition-colors duration-200 whitespace-nowrap ${
                   isActive
                     ? "text-white border-b-2 border-white"
                     : "text-white/70 hover:text-white"

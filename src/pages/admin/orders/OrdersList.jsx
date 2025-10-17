@@ -18,9 +18,12 @@ const OrdersList = () => {
       const token = localStorage.getItem("userToken");
       if (!token) throw new Error("User not logged in");
 
-      const { data } = await axios.get("http://localhost:3000/api/admin-orders", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.get(
+        "  https://digitalhat-server.onrender.com/api/admin-orders",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       // Make sure we access the array in data.data
       if (data?.data && Array.isArray(data.data)) {
@@ -53,12 +56,24 @@ const OrdersList = () => {
       <table className="min-w-full border border-border rounded-lg overflow-hidden">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-2 border-b border-border text-left text-sm text-gray-500">#</th>
-            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Order Code</th>
-            <th className="p-2 border-b border-border text-left text-sm text-gray-500">User</th>
-            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Total</th>
-            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Status</th>
-            <th className="p-2 border-b border-border text-left text-sm text-gray-500">Actions</th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+              #
+            </th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+              Order Code
+            </th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+              User
+            </th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+              Total
+            </th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+              Status
+            </th>
+            <th className="p-2 border-b border-border text-left text-sm text-gray-500">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -66,11 +81,16 @@ const OrdersList = () => {
             <tr key={order._id} className="hover:bg-gray-50">
               <td className="p-2 text-gray-400 text-sm">{idx + 1}</td>
               <td className="p-2 text-gray-700 text-sm">{order.orderCode}</td>
-              <td className="p-2 text-gray-700 text-sm">{order.user?.fullName || "Unknown"}</td>
               <td className="p-2 text-gray-700 text-sm">
-                {order.totalPrice?.amount || 0} {order.totalPrice?.currency === "BDT" && "৳"}
+                {order.user?.fullName || "Unknown"}
               </td>
-              <td className="p-2 text-gray-700 text-sm">{order.status || "Pending"}</td>
+              <td className="p-2 text-gray-700 text-sm">
+                {order.totalPrice?.amount || 0}{" "}
+                {order.totalPrice?.currency === "BDT" && "৳"}
+              </td>
+              <td className="p-2 text-gray-700 text-sm">
+                {order.status || "Pending"}
+              </td>
               <td className="p-2 flex gap-2">
                 <button
                   onClick={() => navigate(`/admin/orders/${order._id}`)}

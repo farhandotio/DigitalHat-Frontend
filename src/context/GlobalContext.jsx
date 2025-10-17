@@ -16,7 +16,9 @@ export const GlobalProvider = ({ children }) => {
 
   // Axios setup (attach token)
   const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
+    baseURL:
+      import.meta.env.VITE_API_URL ||
+      "  https://digitalhat-server.onrender.com",
     withCredentials: true,
   });
 
