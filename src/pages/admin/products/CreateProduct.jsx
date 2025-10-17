@@ -9,6 +9,25 @@ export default function CreateProduct() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  const categories = [
+    "All",
+    "tws",
+    "fan",
+    "watch",
+    "charger",
+    "cable",
+    "neckband",
+    "router",
+    "keyboard",
+    "microphone",
+    "gaming",
+    "headphone",
+    "drone",
+    "speaker",
+    "power bank",
+    "tripod",
+  ];
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -133,7 +152,7 @@ export default function CreateProduct() {
             <input
               value={form.title}
               onChange={(e) => setField("title", e.target.value)}
-              className="w-full rounded-lg border px-3 py-2"
+              className="w-full rounded-lg border border-border px-3 py-2"
             />
           </div>
 
@@ -145,19 +164,27 @@ export default function CreateProduct() {
               value={form.description}
               onChange={(e) => setField("description", e.target.value)}
               rows={4}
-              className="w-full rounded-lg border px-3 py-2"
+              className="w-full rounded-lg border border-border px-3 py-2"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2">Category</label>
-              <input
+              <select
                 value={form.category}
                 onChange={(e) => setField("category", e.target.value)}
-                className="w-full rounded-lg border px-3 py-2"
-              />
+                className="w-full rounded-lg border border-border px-3 py-2"
+              >
+                <option value="">Select Category</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div>
               <label className="block text-sm font-medium mb-2">Stock</label>
               <input
@@ -165,7 +192,7 @@ export default function CreateProduct() {
                 min={0}
                 value={form.stock}
                 onChange={(e) => setField("stock", Number(e.target.value))}
-                className="w-full rounded-lg border px-3 py-2"
+                className="w-full rounded-lg border border-border px-3 py-2"
               />
             </div>
           </div>
@@ -178,7 +205,7 @@ export default function CreateProduct() {
                 min={0}
                 value={form.price.amount}
                 onChange={(e) => setField("price.amount", e.target.value)}
-                className="w-full rounded-lg border px-3 py-2"
+                className="w-full rounded-lg border border-border px-3 py-2"
               />
             </div>
             <div className="col-span-2">
@@ -186,7 +213,7 @@ export default function CreateProduct() {
               <select
                 value={form.price.currency}
                 onChange={(e) => setField("price.currency", e.target.value)}
-                className="w-full rounded-lg border px-3 py-2"
+                className="w-full rounded-lg border border-border px-3 py-2"
               >
                 <option value="BDT">BDT</option>
                 <option value="USD">USD</option>
@@ -215,7 +242,7 @@ export default function CreateProduct() {
                       setField(`specification.${i}.key`, e.target.value)
                     }
                     placeholder="Key"
-                    className="col-span-1 rounded-lg border px-3 py-2"
+                    className="col-span-1 rounded-lg border border-border px-3 py-2"
                   />
                   <input
                     value={s.value}
@@ -223,7 +250,7 @@ export default function CreateProduct() {
                       setField(`specification.${i}.value`, e.target.value)
                     }
                     placeholder="Value"
-                    className="col-span-1 rounded-lg border px-3 py-2"
+                    className="col-span-1 rounded-lg border border-border px-3 py-2"
                   />
                   <div className="flex justify-end">
                     <button
@@ -254,7 +281,7 @@ export default function CreateProduct() {
               {form.images.map((f, i) => (
                 <div
                   key={i}
-                  className="w-24 h-24 rounded-md overflow-hidden relative border"
+                  className="w-24 h-24 rounded-md overflow-hidden relative border border-border"
                 >
                   <img
                     src={URL.createObjectURL(f)}

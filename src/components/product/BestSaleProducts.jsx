@@ -40,7 +40,7 @@ const BestSaleProducts = () => {
 
   return (
     <div className="px-5 md:px-10 lg:px-20 py-10">
-      <Title title="Best Selling Products" />
+      <Title title="Best Salling Products" />
       <ProductGrid products={products} isLoading={loading} />
       <div className="text-center mt-10">
         <Link

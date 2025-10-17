@@ -67,18 +67,21 @@ export default function ShopWithPagination() {
 
   // ✅ static category list
   const categories = [
-    { id: 1, name: "Router" },
-    { id: 2, name: "TWS Earbuds" },
-    { id: 3, name: "Bluetooth Devices" },
-    { id: 4, name: "Speakers" },
-    { id: 5, name: "Wearables" },
-    { id: 6, name: "Headphones" },
-    { id: 7, name: "Gaming Consoles" },
-    { id: 8, name: "Tripods" },
-    { id: 9, name: "Webcams" },
-    { id: 10, name: "Power Banks" },
-    { id: 11, name: "Chargers & Cables" },
-    { id: 12, name: "Smart Home Devices" },
+    { id: 1, name: "tws" },
+    { id: 2, name: "fan" },
+    { id: 3, name: "watch" },
+    { id: 4, name: "charger" },
+    { id: 5, name: "cable" },
+    { id: 6, name: "neckband" },
+    { id: 7, name: "router" },
+    { id: 8, name: "Tripod" },
+    { id: 9, name: "keyboard" },
+    { id: 10, name: "Power Bank" },
+    { id: 11, name: "speaker" },
+    { id: 12, name: "drone" },
+    { id: 13, name: "microphone" },
+    { id: 14, name: "gaming" },
+    { id: 15, name: "headphone" },
   ];
 
   const buildQuery = (p, l, fil) => {

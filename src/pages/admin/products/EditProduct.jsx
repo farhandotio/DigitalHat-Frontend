@@ -230,7 +230,7 @@ export default function EditProduct() {
               <input
                 value={form.title}
                 onChange={(e) => setField("title", e.target.value)}
-                className="w-full rounded-lg border px-3 py-2"
+                className="w-full rounded-lg border border-border px-3 py-2"
               />
             </div>
 
@@ -242,7 +242,7 @@ export default function EditProduct() {
                 value={form.description}
                 onChange={(e) => setField("description", e.target.value)}
                 rows={4}
-                className="w-full rounded-lg border px-3 py-2"
+                className="w-full rounded-lg border border-border px-3 py-2"
               />
             </div>
 
@@ -254,7 +254,7 @@ export default function EditProduct() {
                 <input
                   value={form.category}
                   onChange={(e) => setField("category", e.target.value)}
-                  className="w-full rounded-lg border px-3 py-2"
+                  className="w-full rounded-lg border border-border px-3 py-2"
                 />
               </div>
               <div>
@@ -264,7 +264,7 @@ export default function EditProduct() {
                   min={0}
                   value={form.stock}
                   onChange={(e) => setField("stock", Number(e.target.value))}
-                  className="w-full rounded-lg border px-3 py-2"
+                  className="w-full rounded-lg border border-border px-3 py-2"
                 />
               </div>
             </div>
@@ -277,7 +277,7 @@ export default function EditProduct() {
                   min={0}
                   value={form.price.amount}
                   onChange={(e) => setField("price.amount", e.target.value)}
-                  className="w-full rounded-lg border px-3 py-2"
+                  className="w-full rounded-lg border border-border px-3 py-2"
                 />
               </div>
               <div className="col-span-2">
@@ -287,7 +287,7 @@ export default function EditProduct() {
                 <select
                   value={form.price.currency}
                   onChange={(e) => setField("price.currency", e.target.value)}
-                  className="w-full rounded-lg border px-3 py-2"
+                  className="w-full rounded-lg border border-border px-3 py-2"
                 >
                   <option value="BDT">BDT</option>
                   <option value="USD">USD</option>
@@ -318,7 +318,7 @@ export default function EditProduct() {
                         setField(`specification.${i}.key`, e.target.value)
                       }
                       placeholder="Key"
-                      className="col-span-1 rounded-lg border px-3 py-2"
+                      className="col-span-1 rounded-lg border border-border px-3 py-2"
                     />
                     <input
                       value={s.value}
@@ -326,7 +326,7 @@ export default function EditProduct() {
                         setField(`specification.${i}.value`, e.target.value)
                       }
                       placeholder="Value"
-                      className="col-span-1 rounded-lg border px-3 py-2"
+                      className="col-span-1 rounded-lg border border-border px-3 py-2"
                     />
                     <div className="flex justify-end">
                       <button
@@ -357,7 +357,7 @@ export default function EditProduct() {
                 {form.existingImages.map((img, i) => (
                   <div
                     key={i}
-                    className="w-24 h-24 rounded-md overflow-hidden relative border"
+                    className="w-24 h-24 rounded-md overflow-hidden relative border border-border"
                   >
                     <img
                       src={img.url || img}
@@ -376,7 +376,7 @@ export default function EditProduct() {
                 {form.images.map((f, i) => (
                   <div
                     key={i}
-                    className="w-24 h-24 rounded-md overflow-hidden relative border"
+                    className="w-24 h-24 rounded-md overflow-hidden relative border border-border"
                   >
                     <img
                       src={URL.createObjectURL(f)}
@@ -401,7 +401,7 @@ export default function EditProduct() {
                   type="button"
                   onClick={handleDelete}
                   disabled={deleting}
-                  className="px-4 py-2 rounded-lg border text-red-600"
+                  className="px-4 py-2 rounded-lg border border-border text-red-600"
                 >
                   {deleting ? "Deleting..." : "Delete Product"}
                 </button>
@@ -410,7 +410,7 @@ export default function EditProduct() {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="px-4 py-2 rounded-lg border"
+                  className="px-4 py-2 rounded-lg border border-border"
                 >
                   Cancel
                 </button>
