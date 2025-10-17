@@ -76,7 +76,24 @@ export default function ProductsList() {
     return 0;
   };
 
-  const categories = ["All", "tws", "laptop", "accessories"]; // adjust as needed
+  const categories = [
+    "All",
+    "tws",
+    "fan",
+    "watch",
+    "charger",
+    "cable",
+    "neckband",
+    "router",
+    "keyboard",
+    "microphone",
+    "gaming",
+    "headphone",
+    "drone",
+    "speaker",
+    "power bank",
+    "tripod",
+  ]; // adjust as needed
 
   return (
     <div className="min-h-screen p-6 bg-white text-text font-sans">
@@ -184,9 +201,6 @@ export default function ProductsList() {
                           />
                           <div>
                             <div className="font-medium">{product.title}</div>
-                            <div className="text-sm text-text">
-                              {product.description ?? "-"}
-                            </div>
                           </div>
                         </div>
                       </td>
@@ -235,7 +249,7 @@ export default function ProductsList() {
                         <div className="inline-flex gap-2">
                           <Link
                             to={`/admin/products/${product._id}/edit`}
-                            className="inline-flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-lg border border-[#ff6a00] text-[#ff6a00] hover:bg-[#ff6a00] hover:text-black transition-all"
+                            className="inline-flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-lg border border-[#ff6a00] text-[#ff6a00] hover:bg-[#ff6a00] hover:text-white transition-all"
                           >
                             View Detail
                           </Link>

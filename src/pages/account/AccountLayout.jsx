@@ -50,19 +50,39 @@ export default function AccountLayout() {
   const fetchOrders = useCallback(async () => {
     setLoadingOrders(true);
     setError("");
+
     try {
+      // Get userData from localStorage first
+      const storedUser = JSON.parse(localStorage.getItem("userData") || "null");
+
+      if (!storedUser || storedUser.role !== "user") {
+        // Only regular users can fetch orders
+        setOrders([]);
+        return;
+      }
+
+      const token = localStorage.getItem("userToken");
+      if (!token) {
+        setOrders([]);
+        setError("You must login to view orders");
+        return;
+      }
+
       const res = await axios.get("/api/orders/me", {
-        headers: getAuthHeaders(),
+        headers: { Authorization: `Bearer ${token}` },
       });
-      // Try several likely shapes:
-      // { orders: [...] } or { data: [...] } or [...] directly
+
+      // Handle different response shapes
       const payload = res.data ?? {};
-      const fetched =
-        Array.isArray(payload.orders) ? payload.orders :
-        Array.isArray(payload.data) ? payload.data :
-        Array.isArray(payload) ? payload : 
-        // sometimes API wraps with { orders: { data: [...] } }
-        (Array.isArray(payload?.orders?.data) ? payload.orders.data : []);
+      const fetched = Array.isArray(payload.orders)
+        ? payload.orders
+        : Array.isArray(payload.data)
+        ? payload.data
+        : Array.isArray(payload)
+        ? payload
+        : Array.isArray(payload?.orders?.data)
+        ? payload.orders.data
+        : [];
 
       setOrders(Array.isArray(fetched) ? fetched : []);
     } catch (err) {
@@ -70,15 +90,18 @@ export default function AccountLayout() {
       setOrders([]);
       const status = err?.response?.status;
       setError(err?.response?.data?.message || "Failed to fetch orders");
-      if (status === 401) {
+
+      if (status === 401 || status === 403) {
+        // cleanup if unauthorized
         localStorage.removeItem("userToken");
+        localStorage.removeItem("userData");
         setUser(null);
         navigate("/login");
       }
     } finally {
       setLoadingOrders(false);
     }
-  }, [getAuthHeaders, navigate, setUser]);
+  }, [navigate, setUser]);
 
   // On mount: fetch profile and orders (in parallel where possible)
   useEffect(() => {
@@ -119,7 +142,10 @@ export default function AccountLayout() {
 
       {/* Mobile overlay + sidebar */}
       {isSidebarOpen && (
-        <div className="fixed inset-0 z-30 bg-black/20 md:hidden" onClick={() => setIsSidebarOpen(false)} />
+        <div
+          className="fixed inset-0 z-30 bg-black/20 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
       )}
       {isSidebarOpen && (
         <div className="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 md:hidden">
@@ -130,11 +156,16 @@ export default function AccountLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-y-auto">
         <div className="sticky top-0 z-30 bg-white border-b border-gray-200 p-4 flex items-center justify-between shadow-sm">
-          <button className="p-2 md:hidden text-gray-600 hover:text-orange-500" onClick={() => setIsSidebarOpen(true)} aria-label="Open sidebar">
+          <button
+            className="p-2 md:hidden text-gray-600 hover:text-orange-500"
+            onClick={() => setIsSidebarOpen(true)}
+            aria-label="Open sidebar"
+          >
             <Menu className="w-6 h-6" />
           </button>
           <div className="hidden md:block text-sm text-gray-500 pr-4">
-            Welcome back{user?.fullName ? `, ${user.fullName.split(" ")[0]}` : ""}.
+            Welcome back
+            {user?.fullName ? `, ${user.fullName.split(" ")[0]}` : ""}.
           </div>
         </div>
 

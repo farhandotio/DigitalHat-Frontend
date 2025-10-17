@@ -10,7 +10,7 @@ export default function StatCard({
   isCurrency,
 }) {
   return (
-    <div className="flex flex-col p-4 bg-white    shadow-md flex-1 min-w-[150px]">
+    <div className="flex flex-col p-4 bg-white shadow-sm flex-1 min-w-[150px]">
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-gray-500">{title}</p>
         <div className={`p-2    ${bgColor} ${color}`}>

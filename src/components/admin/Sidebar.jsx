@@ -1,4 +1,4 @@
-// src/components/admin/Sidebar.jsx  (updated)
+// src/components/admin/Sidebar.jsx
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -8,8 +8,7 @@ import {
   Box,
   Plus,
   Settings,
-  Menu,
-  X,
+  LogOut,
 } from "lucide-react";
 import clsx from "clsx";
 import { GlobalContext } from "../../context/GlobalContext";
@@ -18,19 +17,10 @@ const ICON_SIZE = 20;
 
 const DEFAULT_ROUTES = {
   dashboard: { label: "Dashboard", path: "/admin/dashboard", icon: Home },
-  orders: {
-    label: "Orders",
-    path: "/admin/orders",
-    icon: Package,
-    badgeKey: "ordersCount",
-  },
+  orders: { label: "Orders", path: "/admin/orders", icon: Package, badgeKey: "ordersCount" },
   users: { label: "Users", path: "/admin/users", icon: Users },
   products: { label: "Products", path: "/admin/products", icon: Box },
-  createProduct: {
-    label: "Create Product",
-    path: "/admin/products/create",
-    icon: Plus,
-  },
+  createProduct: { label: "Create Product", path: "/admin/products/create", icon: Plus },
   settings: { label: "Settings", path: "/admin/settings", icon: Settings },
 };
 
@@ -40,23 +30,20 @@ export default function Sidebar({
   routes = DEFAULT_ROUTES,
   role = "admin",
   counts = {},
-  onCreateClick,
   onNavigate,
 }) {
-  const { user } = useContext(GlobalContext);
+  const { user, setUser } = useContext(GlobalContext);
   const [collapsed, setCollapsed] = useState(Boolean(collapsedProp));
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate(); // <-- added
+  const navigate = useNavigate();
   const navRef = useRef(null);
 
   useEffect(() => setCollapsed(collapsedProp), [collapsedProp]);
 
-  // Redirect /admin -> /admin/dashboard so dashboard is the default view
+  // Redirect /admin -> /admin/dashboard
   useEffect(() => {
-    const isExactlyAdmin =
-      location.pathname === "/admin" || location.pathname === "/admin/";
-    if (isExactlyAdmin) {
+    if (location.pathname === "/admin" || location.pathname === "/admin/") {
       navigate("/admin/dashboard", { replace: true });
     }
   }, [location.pathname, navigate]);
@@ -78,6 +65,7 @@ export default function Sidebar({
     if (!canView(key)) return null;
     const Icon = item.icon;
     const badgeNumber = item.badgeKey ? counts[item.badgeKey] : null;
+
     return (
       <NavLink
         key={key}
@@ -114,24 +102,15 @@ export default function Sidebar({
         >
           {item.label}
         </span>
-        {/* {badgeNumber != null && (
-          <span
-            className={clsx(
-              "ml-auto text-xs font-medium min-w-[28px] h-6 inline-flex items-center justify-center px-1 rounded-full text-white",
-              badgeNumber > 0
-                ? "bg-[var(--color-primary)]"
-                : "bg-[var(--color-border)]"
-            )}
-            title={badgeNumber ? `${badgeNumber} ${item.label}` : "0"}
-          >
-            {badgeNumber > 99 ? "99+" : badgeNumber}
+        {/* {badgeNumber != null && !collapsed && (
+          <span className="ml-auto text-xs font-semibold bg-red-100 text-red-600 px-2 py-0.5 rounded-full">
+            {badgeNumber}
           </span>
         )} */}
       </NavLink>
     );
   };
 
-  // Get first letter for avatar
   const firstLetter = user?.fullName?.[0]?.toUpperCase() || "A";
 
   return (
@@ -156,45 +135,51 @@ export default function Sidebar({
         role="navigation"
         aria-label="Admin navigation"
       >
-        {/* Header: Brand + User avatar + Collapse toggle */}
-        <div className="flex flex-col px-4 py-4 border-b border-[var(--color-border)]">
-          <div
-            className="flex flex-col gap-3 mb-3 cursor-pointer"
-            onClick={() => toggle()}
-          >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white font-bold text-lg">
-              {firstLetter}
-            </div>
-            {!collapsed && user && (
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-[var(--color-text)]">
-                  {user.fullName}
-                </span>
-                <span className="text-xs text-text">{user.email}</span>
-                <span className="text-xs text-text capitalize">
-                  {user.role}
-                </span>
-              </div>
-            )}
+        {/* Header */}
+        <div className="flex flex-col px-4 py-4 border-b border-[var(--color-border)] cursor-pointer" onClick={toggle}>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white font-bold text-lg">
+            {firstLetter}
           </div>
+          {!collapsed && user && (
+            <div className="flex flex-col mt-2">
+              <span className="text-sm font-semibold text-[var(--color-text)]">{user.fullName}</span>
+              <span className="text-xs text-text">{user.email}</span>
+              <span className="text-xs text-text capitalize">{user.role}</span>
+            </div>
+          )}
         </div>
 
-        {/* Navigation items */}
+        {/* Navigation */}
         <nav className="flex-1 overflow-auto py-3 pl-1.5 mr-4" ref={navRef}>
-          <div className="space-y-1" role="list">
+          <div className="space-y-1">
             {Object.entries(routes).map(([key, item]) => {
               if (["settings", "createProduct"].includes(key)) return null;
               return renderNavItem(key, item);
             })}
           </div>
 
-          {/* Secondary group */}
+          {/* Secondary */}
           <div className="mt-6 pt-4 border-t border-[var(--color-border)] space-y-1">
-            {["createProduct", "settings"].map(
-              (k) => routes[k] && renderNavItem(k, routes[k])
-            )}
+            {["createProduct", "settings"].map(k => routes[k] && renderNavItem(k, routes[k]))}
           </div>
         </nav>
+
+        {/* Sign Out */}
+        <div className="mt-auto px-4 py-4 border-t border-[var(--color-border)]">
+          <button
+            onClick={() => {
+              localStorage.removeItem("userToken");
+              localStorage.removeItem("userData");
+              setUser(null);
+              window.dispatchEvent(new CustomEvent("auth-state-change", { detail: { user: null } }));
+              navigate("/login");
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-[rgba(0,0,0,0.03)] transition-colors text-red-500"
+          >
+            <LogOut size={20} />
+            {!collapsed && <span className="font-medium">Sign Out</span>}
+          </button>
+        </div>
       </aside>
     </>
   );
