@@ -1,3 +1,4 @@
+// src/components/ProductCard.jsx
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext"; // adjust path if needed
@@ -9,12 +10,13 @@ const formatPrice = (amount) =>
     maximumFractionDigits: 0,
   }).format(amount ?? 0);
 
-const ProductCard = ({ product = {} }) => {
+const ProductCard = ({ product = {}, renderJsonLd = false }) => {
   const { addToCart } = useContext(GlobalContext);
   const [adding, setAdding] = useState(false);
 
   const {
     title = "Untitled Product",
+    shortDescription = "",
     price = { amount: 0, currency: "BDT" },
     images = [],
     stock = 0,
@@ -23,9 +25,13 @@ const ProductCard = ({ product = {} }) => {
     sold, // real sold value from product
     _id,
     id,
+    slug,
+    sku,
   } = product;
 
-  const productId = _id || id;
+  const productId = _id || id || slug;
+  const productSlug = slug || productId;
+  const productUrl = `https://digitalhat.vercel.app/product/${productSlug}`;
 
   const imgSrc =
     (images &&
@@ -46,7 +52,7 @@ const ProductCard = ({ product = {} }) => {
   const renderStars = () => {
     const fullStars = Math.max(Math.floor(Number(averageRating) || 0), 0);
     return (
-      <div className="flex items-center space-x-0.5">
+      <div className="flex items-center space-x-0.5" aria-hidden>
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
             key={i}
@@ -88,75 +94,157 @@ const ProductCard = ({ product = {} }) => {
     }
   };
 
+  // Lightweight microdata attributes for each card
+  const itemScope = { itemScope: true, itemType: "https://schema.org/Product" };
+
   return (
-    <Link
-      to={`/product/${productId}`}
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="w-full bg-white overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl border border-border shadow-xs hover:shadow-lg"
-    >
-      <div className="relative flex items-center justify-center bg-gray-50 overflow-hidden">
-        <img
-          src={imgSrc}
-          alt={title}
-          loading="lazy"
-          className="w-full group-hover:scale-[1.02] aspect-square object-cover transition-transform duration-500"
-        />
-      </div>
-
-      <div className="p-4 pb-2 flex flex-col">
-        <h3
-          className="text-base font-semibold text-gray-900 truncate mb-1"
-          title={title}
-        >
-          {title}
-        </h3>
-
-        <div className="flex items-center justify-between space-x-2 mb-2">
-          <span className="text-lg md:text-xl font-bold text-primary">
-            ৳{formatPrice(originalPrice)}
-          </span>
-
-          <button
-            onClick={(e) => handleAddToCart(e, 1)}
-            disabled={adding || Number(stock) <= 0}
-            className={`text-primary rounded-full font-bold focus:outline-none text-xl md:text-2xl ${
-              Number(stock) <= 0
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-white text-primary font-semibold cursor-pointer hover:scale-103"
-            }`}
-          >
-            {adding ? (
-              <span className="text-xs">Adding.</span>
-            ) : Number(stock) <= 0 ? (
-              <MdRemoveShoppingCart />
-            ) : (
-              <FaCartPlus />
-            )}
-          </button>
-        </div>
-
-        <div className="flex items-center space-x-1 mb-3">
-          {renderStars()}
-          <span className="text-xs text-text/60">({reviewCount})</span>
-        </div>
-
-        <div className="flex justify-between text-xs font-medium text-gray-600 mb-1">
-          <span>Sold: {soldCount}</span>
-          <span>Stock: {stock}</span>
-        </div>
-
-        <div className="w-full bg-gray-200 h-1 mb-2 rounded-full">
-          <div
-            className="h-1 bg-secondary rounded-full transition-all duration-500"
-            style={{ width: `${soldPercentage}%` }}
-            role="progressbar"
-            aria-valuenow={soldPercentage}
-            aria-valuemin="0"
-            aria-valuemax="100"
+    <>
+      <Link
+        to={`/product/${productSlug}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="w-full bg-white overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl border border-border shadow-xs hover:shadow-lg"
+        // microdata for product
+        {...itemScope}
+        aria-label={`View product ${title}`}
+      >
+        <div className="relative flex items-center justify-center bg-gray-50 overflow-hidden">
+          <img
+            src={imgSrc}
+            alt={title}
+            loading="lazy"
+            className="w-full group-hover:scale-[1.02] aspect-square object-cover transition-transform duration-500"
+            itemProp="image"
           />
         </div>
-      </div>
-    </Link>
+
+        <div className="p-4 pb-2 flex flex-col">
+          <h3
+            className="text-base font-semibold text-gray-900 truncate mb-1"
+            title={title}
+            itemProp="name"
+          >
+            {title}
+          </h3>
+
+          <meta itemProp="sku" content={sku || productId} />
+          <meta itemProp="url" content={productUrl} />
+
+          <div className="flex items-center justify-between space-x-2 mb-2">
+            <span
+              className="text-lg md:text-xl font-bold text-primary"
+              itemProp="offers"
+              itemScope
+              itemType="https://schema.org/Offer"
+            >
+              ৳<span itemProp="price">{formatPrice(originalPrice)}</span>
+              <meta
+                itemProp="priceCurrency"
+                content={price?.currency || "BDT"}
+              />
+            </span>
+
+            <button
+              onClick={(e) => handleAddToCart(e, 1)}
+              disabled={adding || Number(stock) <= 0}
+              className={`text-primary rounded-full font-bold focus:outline-none text-xl md:text-2xl ${
+                Number(stock) <= 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-white text-primary font-semibold cursor-pointer hover:scale-103"
+              }`}
+              aria-label={Number(stock) <= 0 ? "Out of stock" : "Add to cart"}
+            >
+              {adding ? (
+                <span className="text-xs">Adding.</span>
+              ) : Number(stock) <= 0 ? (
+                <MdRemoveShoppingCart />
+              ) : (
+                <FaCartPlus />
+              )}
+            </button>
+          </div>
+
+          <div className="flex items-center space-x-1 mb-3">
+            {renderStars()}
+            <span className="text-xs text-text/60">
+              <span
+                itemProp="aggregateRating"
+                itemScope
+                itemType="https://schema.org/AggregateRating"
+              >
+                <meta
+                  itemProp="ratingValue"
+                  content={String(averageRating || 0)}
+                />
+                <meta
+                  itemProp="reviewCount"
+                  content={String(reviewCount || 0)}
+                />
+              </span>
+              ({reviewCount})
+            </span>
+          </div>
+
+          <div className="flex justify-between text-xs font-medium text-gray-600 mb-1">
+            <span>Sold: {soldCount}</span>
+            <span>Stock: {stock}</span>
+          </div>
+
+          <div className="w-full bg-gray-200 h-1 mb-2 rounded-full">
+            <div
+              className="h-1 bg-secondary rounded-full transition-all duration-500"
+              style={{ width: `${soldPercentage}%` }}
+              role="progressbar"
+              aria-valuenow={soldPercentage}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            />
+          </div>
+
+          {shortDescription && (
+            <p
+              className="text-sm text-gray-600 mt-1 line-clamp-2"
+              itemProp="description"
+            >
+              {shortDescription}
+            </p>
+          )}
+        </div>
+      </Link>
+
+      {/* Optional JSON-LD: enable only when needed (e.g., on single product page or featured list) */}
+      {renderJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org/",
+              "@type": "Product",
+              name: title,
+              image: [imgSrc],
+              description: shortDescription || title,
+              sku: sku || productId,
+              offers: {
+                "@type": "Offer",
+                url: productUrl,
+                priceCurrency: price?.currency || "BDT",
+                price: String(originalPrice),
+                availability:
+                  Number(stock) > 0
+                    ? "https://schema.org/InStock"
+                    : "https://schema.org/OutOfStock",
+              },
+              aggregateRating: reviewCount
+                ? {
+                    "@type": "AggregateRating",
+                    ratingValue: String(averageRating || 0),
+                    reviewCount: Number(reviewCount || 0),
+                  }
+                : undefined,
+            }),
+          }}
+        />
+      )}
+    </>
   );
 };
 
