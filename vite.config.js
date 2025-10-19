@@ -15,12 +15,13 @@ export default defineConfig({
     }),
   ],
 
-  build: {
+   build: {
+    chunkSizeWarningLimit: 1000, // default is 500 KB, now increased to 1000 KB
     outDir: "dist",
-    minify: "esbuild", // fast & SEO-safe minification
+    minify: "esbuild",
     rollupOptions: {
       output: {
-        manualChunks: undefined, // better code splitting
+        manualChunks: undefined,
       },
     },
   },
