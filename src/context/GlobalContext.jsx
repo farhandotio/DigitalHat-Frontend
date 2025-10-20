@@ -14,11 +14,17 @@ export const GlobalProvider = ({ children }) => {
   const [cartLoading, setCartLoading] = useState(false);
   const [cartError, setCartError] = useState(null);
 
+  // PRODUCTS + SEARCH state
+  const [products, setProducts] = useState([]); // all products
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [productsError, setProductsError] = useState(null);
+
+  const [searchQuery, setSearchQuery] = useState(""); // global search query
+  const [filteredProducts, setFilteredProducts] = useState([]); // derived
+
   // Axios setup (attach token)
   const api = axios.create({
-    baseURL:
-      import.meta.env.VITE_API_URL ||
-      "  https://digitalhat-server.onrender.com",
+    baseURL: import.meta.env.VITE_API_URL || "https://digitalhat-server.onrender.com",
     withCredentials: true,
   });
 
@@ -71,7 +77,63 @@ export const GlobalProvider = ({ children }) => {
     };
   }, []);
 
+  // -------------------------
+  // PRODUCTS: fetch & filter
+  // -------------------------
+  const fetchProducts = async (opts = {}) => {
+    setProductsLoading(true);
+    setProductsError(null);
+    try {
+      // If your API supports server-side search / pagination, pass query via opts.query
+      const q = opts.query ? `?q=${encodeURIComponent(opts.query)}` : "";
+      const res = await api.get(`/api/products${q}`);
+      // assume API returns { products: [...] } or an array directly
+      const data = res.data?.products ?? res.data ?? [];
+      setProducts(Array.isArray(data) ? data : []);
+      return data;
+    } catch (err) {
+      console.error("fetchProducts:", err);
+      setProductsError(err?.response?.data?.message || err.message || "Failed to fetch products");
+      setProducts([]);
+      throw err;
+    } finally {
+      setProductsLoading(false);
+    }
+  };
+
+  // client-side filtering: adjust to your product schema (title, description, category, brand, etc.)
+  useEffect(() => {
+    if (!searchQuery) {
+      setFilteredProducts(products);
+      return;
+    }
+    const q = String(searchQuery).toLowerCase().trim();
+    const filtered = products.filter((p) => {
+      // safe-guard fields — change these based on your product shape
+      const title = (p.title || p.name || "").toString().toLowerCase();
+      const desc = (p.description || "").toString().toLowerCase();
+      const category = (p.category || "").toString().toLowerCase();
+      const brand = (p.brand || "").toString().toLowerCase();
+      return (
+        title.includes(q) ||
+        desc.includes(q) ||
+        category.includes(q) ||
+        brand.includes(q)
+      );
+    });
+    setFilteredProducts(filtered);
+  }, [products, searchQuery]);
+
+  // Optionally fetch products once on mount (you can remove if you load products elsewhere)
+  useEffect(() => {
+    // only auto-fetch if you don't already populate products somewhere else
+    fetchProducts().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // -------------------------
   // CART functions (unchanged for brevity) ...
+  // -------------------------
   const fetchCart = async () => {
     if (!user || user.role === "admin") {
       setCart(null);
@@ -200,7 +262,6 @@ export const GlobalProvider = ({ children }) => {
     fetchCart().catch(() => {});
   }, [user]);
 
-
   const proceedToCheckout = (payload = {}) => {
     try {
       const safe = {
@@ -208,10 +269,7 @@ export const GlobalProvider = ({ children }) => {
         totals: payload.totals ?? { subtotal: 0, shipping: 0, total: 0 },
         currency: payload.currency ?? "USD",
         itemCount:
-          payload.itemCount ??
-          payload.items?.length ??
-          cart?.items?.length ??
-          0,
+          payload.itemCount ?? payload.items?.length ?? cart?.items?.length ?? 0,
         extra: payload.extra ?? null,
       };
       sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify(safe));
@@ -223,7 +281,6 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // read checkout state (for components that prefer reading from context)
   const getCheckoutState = () => {
     try {
       const raw = sessionStorage.getItem(CHECKOUT_KEY);
@@ -251,6 +308,8 @@ export const GlobalProvider = ({ children }) => {
       value={{
         user,
         setUser,
+
+        // cart
         cart,
         cartLoading,
         cartError,
@@ -263,11 +322,20 @@ export const GlobalProvider = ({ children }) => {
         getCheckoutState,
         clearCheckoutState,
 
+        // products & search
+        products,
+        setProducts,
+        productsLoading,
+        productsError,
+        fetchProducts,
+        searchQuery,
+        setSearchQuery,
+        filteredProducts,
+
         formatCurrency: (amount, currency = "BDT") => {
           if (currency === "BDT") {
             return `৳${Number(amount ?? 0).toLocaleString("en-BD")}`;
           }
-          // fallback for other currencies like USD
           return new Intl.NumberFormat("en-US", {
             style: "currency",
             currency,
@@ -279,3 +347,6 @@ export const GlobalProvider = ({ children }) => {
     </GlobalContext.Provider>
   );
 };
+
+// convenience hook
+export const useGlobalContext = () => React.useContext(GlobalContext);

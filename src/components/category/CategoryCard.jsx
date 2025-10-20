@@ -10,7 +10,7 @@ export const categoryItems = [
   },
   {
     url: "https://ik.imagekit.io/iura/Digitalhat/category/watch.jpg?updatedAt=1760674050833",
-    name: "Smart Watch",
+    name: "Watch",
   },
   {
     url: "https://ik.imagekit.io/iura/Digitalhat/category/tws.jpg?updatedAt=1760674050675",
@@ -38,11 +38,11 @@ export const categoryItems = [
   },
   {
     url: "https://ik.imagekit.io/iura/Digitalhat/category/cable.jpg?updatedAt=1760674495958",
-    name: "3-in-1 Cable",
+    name: "Cable",
   },
   {
     url: "https://ik.imagekit.io/iura/Digitalhat/category/fan.jpg?updatedAt=1760674050713",
-    name: "Portable Fan",
+    name: "Fan",
   },
   {
     url: "https://ik.imagekit.io/iura/Digitalhat/category/keyboard.jpg?updatedAt=1760674050992",
@@ -54,7 +54,7 @@ export const categoryItems = [
   },
   {
     url: "https://ik.imagekit.io/iura/Digitalhat/category/speaker.jpg?updatedAt=1760674050762",
-    name: "Bluetooth Speaker",
+    name: "Speaker",
   },
   {
     url: "https://ik.imagekit.io/iura/Digitalhat/category/drone.jpg?updatedAt=1760674050743",
@@ -67,13 +67,13 @@ const findImageForCategory = (categoryName) => {
   if (!categoryName) return null;
   const normalized = categoryName.trim().toLowerCase();
 
-  // exact match
+  // Exact match
   let found = categoryItems.find(
     (it) => it.name.trim().toLowerCase() === normalized
   );
   if (found) return found.url;
 
-  // startsWith / partial match
+  // Partial match
   found = categoryItems.find(
     (it) =>
       it.name.trim().toLowerCase().startsWith(normalized) ||
@@ -83,7 +83,7 @@ const findImageForCategory = (categoryName) => {
   );
   if (found) return found.url;
 
-  // token matching (all words must appear)
+  // Token match
   const tokens = normalized.split(/\s+/);
   found = categoryItems.find((it) =>
     tokens.every((t) => it.name.toLowerCase().includes(t))
@@ -117,7 +117,7 @@ const CategoryCard = ({ category }) => {
       className="group flex flex-col items-center justify-center rounded-xl transition-all duration-300 transform max-md:text-sm whitespace-nowrap text-center"
     >
       {/* Image wrapper */}
-      <div className="relative flex items-center justify-center w-20 h-20 md:w-30 md:h-30 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100 group-hover:-translate-1 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">
+      <div className="relative flex items-center justify-center w-20 h-20 md:w-40 md:h-40 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100 group-hover:-translate-1 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">
         {imageUrl ? (
           <img
             src={imageUrl}

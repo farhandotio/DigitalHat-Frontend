@@ -61,7 +61,7 @@ const CategorySlider = () => {
           480: { slidesPerView: 4, spaceBetween: 20 },
           640: { slidesPerView: 6, spaceBetween: 30 },
           768: { slidesPerView: 5, spaceBetween: 40 },
-          1024: { slidesPerView: 6, spaceBetween: 90 },
+          1024: { slidesPerView: 5, spaceBetween: 90 },
         }}
         className="category-swiper-bottom"
       >
