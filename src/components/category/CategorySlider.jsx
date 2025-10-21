@@ -15,7 +15,7 @@ const CategorySlider = () => {
 
   return (
     <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-10">
-      <Title title={"Shop By Category"} />
+      {/* <Title title={"Shop By Category"} /> */}
 
       {/* Top row */}
       <Swiper
@@ -30,10 +30,10 @@ const CategorySlider = () => {
         }}
         aria-label="Top category row"
         breakpoints={{
-          480: { slidesPerView: 4, spaceBetween: 20 },
-          640: { slidesPerView: 6, spaceBetween: 30 },
-          768: { slidesPerView: 5, spaceBetween: 40 },
-          1024: { slidesPerView: 6, spaceBetween: 90 },
+          480: { slidesPerView: 4, spaceBetween: 10 },
+          640: { slidesPerView: 6, spaceBetween: 10 },
+          768: { slidesPerView: 8, spaceBetween: 10 },
+          1024: { slidesPerView: 10, spaceBetween: 10 },
         }}
         className="category-swiper-top"
       >
@@ -58,10 +58,10 @@ const CategorySlider = () => {
         }}
         aria-label="Bottom category row"
         breakpoints={{
-          480: { slidesPerView: 4, spaceBetween: 20 },
-          640: { slidesPerView: 6, spaceBetween: 30 },
-          768: { slidesPerView: 5, spaceBetween: 40 },
-          1024: { slidesPerView: 5, spaceBetween: 90 },
+          480: { slidesPerView: 4, spaceBetween: 10 },
+          640: { slidesPerView: 6, spaceBetween: 10 },
+          768: { slidesPerView: 8, spaceBetween: 10 },
+          1024: { slidesPerView: 10, spaceBetween: 10 },
         }}
         className="category-swiper-bottom"
       >

@@ -5,7 +5,7 @@ export const navLinks = [
   { name: "Home", path: "/" },
   { name: "Shop", path: "/shop" },
   { name: "About", path: "/about" },
-  { name: "Privacy & Policy", path: "/privacy&policy" },
+  { name: "Privacy & Policy", path: "/privacy-policy" },
 ];
 
 const Navbar = () => {

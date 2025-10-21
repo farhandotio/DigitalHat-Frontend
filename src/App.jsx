@@ -70,14 +70,21 @@ const App = () => {
               {/* Admin routes */}
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
+                <Route path="dashboard" element={<AdminDashboard />} />
                 {/* you can keep only one of index or dashboard if you prefer */}
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="orders/:id" element={<AdminOrderDetail />} />
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="users/:id" element={<AdminUserProfile />} />
                 <Route path="products" element={<AdminProducts />} />
-                <Route path="products/create" element={<AdminProductCreate />} />
-                <Route path="products/:id/edit" element={<AdminProductEdit />} />
+                <Route
+                  path="products/create"
+                  element={<AdminProductCreate />}
+                />
+                <Route
+                  path="products/:id/edit"
+                  element={<AdminProductEdit />}
+                />
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
 
@@ -98,7 +105,10 @@ const App = () => {
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/settings" element={<Setting />} />
-              <Route path="/category/:categoryName" element={<CategoryProducts />} />
+              <Route
+                path="/category/:categoryName"
+                element={<CategoryProducts />}
+              />
 
               {/* fallback 404 */}
               <Route path="*" element={<NotFound />} />

@@ -9,7 +9,7 @@ const MobileNav = () => {
     { name: "Home", path: "/", icon: <Home size={22} /> },
     { name: "Shop", path: "/shop", icon: <ShoppingBag size={22} /> },
     { name: "About", path: "/about", icon: <Info size={22} /> },
-    { name: "Privacy", path: "/privacy&policy", icon: <ShieldAlert size={22} /> },
+    { name: "Privacy", path: "/privacy-policy", icon: <ShieldAlert size={22} /> },
   ];
 
   return (
