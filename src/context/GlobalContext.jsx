@@ -1,6 +1,7 @@
 // src/context/GlobalContext.jsx
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const GlobalContext = createContext();
 
@@ -15,16 +16,17 @@ export const GlobalProvider = ({ children }) => {
   const [cartError, setCartError] = useState(null);
 
   // PRODUCTS + SEARCH state
-  const [products, setProducts] = useState([]); // all products
+  const [products, setProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(false);
   const [productsError, setProductsError] = useState(null);
 
-  const [searchQuery, setSearchQuery] = useState(""); // global search query
-  const [filteredProducts, setFilteredProducts] = useState([]); // derived
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Axios setup (attach token)
+  // Axios setup
   const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "https://digitalhat-server.onrender.com",
+    baseURL:
+      import.meta.env.VITE_API_URL || "https://digitalhat-server.onrender.com",
     withCredentials: true,
   });
 
@@ -39,7 +41,7 @@ export const GlobalProvider = ({ children }) => {
     return config;
   });
 
-  // Auth sync (unchanged) ...
+  // Auth sync
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     const storedToken = localStorage.getItem("userToken");
@@ -77,31 +79,32 @@ export const GlobalProvider = ({ children }) => {
     };
   }, []);
 
-  // -------------------------
-  // PRODUCTS: fetch & filter
-  // -------------------------
+  // PRODUCTS fetch
   const fetchProducts = async (opts = {}) => {
     setProductsLoading(true);
     setProductsError(null);
     try {
-      // If your API supports server-side search / pagination, pass query via opts.query
       const q = opts.query ? `?q=${encodeURIComponent(opts.query)}` : "";
       const res = await api.get(`/api/products${q}`);
-      // assume API returns { products: [...] } or an array directly
       const data = res.data?.products ?? res.data ?? [];
       setProducts(Array.isArray(data) ? data : []);
       return data;
     } catch (err) {
       console.error("fetchProducts:", err);
-      setProductsError(err?.response?.data?.message || err.message || "Failed to fetch products");
+      setProductsError(
+        err?.response?.data?.message ||
+          err.message ||
+          "Failed to fetch products"
+      );
       setProducts([]);
+      toast.error("Failed to load products.");
       throw err;
     } finally {
       setProductsLoading(false);
     }
   };
 
-  // client-side filtering: adjust to your product schema (title, description, category, brand, etc.)
+  // client-side filtering
   useEffect(() => {
     if (!searchQuery) {
       setFilteredProducts(products);
@@ -109,7 +112,6 @@ export const GlobalProvider = ({ children }) => {
     }
     const q = String(searchQuery).toLowerCase().trim();
     const filtered = products.filter((p) => {
-      // safe-guard fields — change these based on your product shape
       const title = (p.title || p.name || "").toString().toLowerCase();
       const desc = (p.description || "").toString().toLowerCase();
       const category = (p.category || "").toString().toLowerCase();
@@ -124,16 +126,12 @@ export const GlobalProvider = ({ children }) => {
     setFilteredProducts(filtered);
   }, [products, searchQuery]);
 
-  // Optionally fetch products once on mount (you can remove if you load products elsewhere)
   useEffect(() => {
-    // only auto-fetch if you don't already populate products somewhere else
     fetchProducts().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // -------------------------
-  // CART functions (unchanged for brevity) ...
-  // -------------------------
+  // CART functions
   const fetchCart = async () => {
     if (!user || user.role === "admin") {
       setCart(null);
@@ -165,11 +163,13 @@ export const GlobalProvider = ({ children }) => {
         setUser(null);
         setCart(null);
         setCartError("User access required. Please login again.");
+        toast.error("Session expired. Please login again.");
       } else {
         setCartError(
           err?.response?.data?.message || err.message || "Failed to fetch cart"
         );
         setCart(null);
+        toast.error("Failed to load cart.");
       }
       throw err;
     } finally {
@@ -178,7 +178,12 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const addToCart = async (productId, quantity = 1) => {
-    if (!user) throw new Error("User not logged in");
+    if (!user) {
+      toast.warn("Please login first 👋");
+      return;
+    }
+
+    // optimistic update
     setCart((prev) => {
       if (!prev?.items) return { items: [{ productId, quantity }] };
       const exists = prev.items.find((i) => i.productId === productId);
@@ -195,16 +200,27 @@ export const GlobalProvider = ({ children }) => {
         return { ...prev, items: [...prev.items, { productId, quantity }] };
       }
     });
+
     try {
-      await api.post("/api/cart/items", { productId, quantity });
+      const res = await api.post("/api/cart/items", { productId, quantity });
+      toast.success("Item added to cart");
+      return res.data;
     } catch (err) {
       console.error("addToCart:", err);
+      // revert by refetching server state (simple strategy)
+      try {
+        await fetchCart();
+      } catch (_) {}
+      toast.error(err?.response?.data?.message || "Failed to add to cart");
       throw err;
     }
   };
 
   const updateCartItem = async (productId, quantity) => {
-    if (!user) throw new Error("User not logged in");
+    if (!user) {
+      toast.warn("Please login to update cart");
+      throw new Error("User not logged in");
+    }
     setCart((prev) => ({
       ...prev,
       items: prev.items.map((i) =>
@@ -213,22 +229,35 @@ export const GlobalProvider = ({ children }) => {
     }));
     try {
       await api.patch(`/api/cart/items/${productId}`, { quantity });
+      toast.info("Cart updated");
     } catch (err) {
       console.error("updateCartItem:", err);
+      try {
+        await fetchCart();
+      } catch (_) {}
+      toast.error("Failed to update cart item");
       throw err;
     }
   };
 
   const removeCartItem = async (productId) => {
-    if (!user) throw new Error("User not logged in");
+    if (!user) {
+      toast.warn("Please login to remove items");
+      throw new Error("User not logged in");
+    }
     setCart((prev) => ({
       ...prev,
       items: prev.items.filter((i) => i.productId !== productId),
     }));
     try {
       await api.delete(`/api/cart/items/${productId}`);
+      toast.success("Item removed");
     } catch (err) {
       console.error("removeCartItem:", err);
+      try {
+        await fetchCart();
+      } catch (_) {}
+      toast.error("Failed to remove item");
       throw err;
     }
   };
@@ -242,6 +271,9 @@ export const GlobalProvider = ({ children }) => {
       );
     } catch (err) {
       console.error("clearCart:", err);
+      try {
+        await fetchCart();
+      } catch (_) {}
       throw err;
     }
   };
@@ -253,7 +285,6 @@ export const GlobalProvider = ({ children }) => {
       return;
     }
 
-    // Skip cart fetching for admin users
     if (user.role === "admin") {
       setCart(null);
       return;
@@ -263,17 +294,25 @@ export const GlobalProvider = ({ children }) => {
   }, [user]);
 
   const proceedToCheckout = (payload = {}) => {
+    if (!user) {
+      toast.warn("Please login first to continue to checkout");
+      window.location.assign("/login");
+      return;
+    }
+
     try {
       const safe = {
         items: payload.items ?? cart?.items ?? [],
         totals: payload.totals ?? { subtotal: 0, shipping: 0, total: 0 },
         currency: payload.currency ?? "USD",
         itemCount:
-          payload.itemCount ?? payload.items?.length ?? cart?.items?.length ?? 0,
+          payload.itemCount ??
+          payload.items?.length ??
+          cart?.items?.length ??
+          0,
         extra: payload.extra ?? null,
       };
       sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify(safe));
-
       window.location.assign("/checkout");
     } catch (err) {
       console.error("proceedToCheckout:", err);
@@ -300,9 +339,6 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // -------------------------
-  // Provide global values
-  // -------------------------
   return (
     <GlobalContext.Provider
       value={{
@@ -348,5 +384,4 @@ export const GlobalProvider = ({ children }) => {
   );
 };
 
-// convenience hook
 export const useGlobalContext = () => React.useContext(GlobalContext);

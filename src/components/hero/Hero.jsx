@@ -70,7 +70,7 @@ const Hero = () => {
             <Link
               to="/shop"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="px-8 py-3 -mt-3 bg-primary text-white font-semibold rounded-full hover:scale-103 transition duration-300 text-lg"
+              className="px-8 py-3 bg-primary text-white font-semibold rounded-full hover:scale-103 transition duration-300 text-lg"
               aria-label="Shop Everything at DigitalHat"
             >
               Shop Now

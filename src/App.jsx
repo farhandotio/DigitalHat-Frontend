@@ -4,6 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { GlobalProvider } from "./context/GlobalContext.jsx";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 
@@ -39,12 +42,24 @@ import AdminProducts from "./pages/admin/products/ProductsList";
 import AdminProductCreate from "./pages/admin/products/CreateProduct";
 import AdminProductEdit from "./pages/admin/products/EditProduct";
 import AdminSettings from "./pages/admin/Settings";
+import NotFound from "./pages/NotFound.jsx";
 
 const App = () => {
   return (
     <HelmetProvider>
       <GlobalProvider>
         <BrowserRouter>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            draggable
+            // theme="colored"
+            preventDuplicates
+          />
           <div className="max-w-[1580px] bg-white min-h-screen mx-auto flex flex-col justify-between outline-1 outline-border">
             <Header />
             <Routes>
@@ -55,7 +70,7 @@ const App = () => {
               {/* Admin routes */}
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
-                <Route path="dashboard" element={<AdminDashboard />} />
+                {/* you can keep only one of index or dashboard if you prefer */}
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="orders/:id" element={<AdminOrderDetail />} />
                 <Route path="users" element={<AdminUsers />} />
@@ -81,9 +96,12 @@ const App = () => {
               <Route path="/order-success" element={<OrderSuccess />} />
               <Route path="/about" element={<About />} />
               <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="/privacy&policy" element={<PrivacyPolicy />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/settings" element={<Setting />} />
               <Route path="/category/:categoryName" element={<CategoryProducts />} />
+
+              {/* fallback 404 */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
           </div>

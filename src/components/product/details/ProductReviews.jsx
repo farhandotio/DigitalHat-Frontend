@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Star } from "lucide-react";
 import Title from "../../title/Title";
+import { toast } from "react-toastify";
 
 const ProductReviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
@@ -15,43 +16,57 @@ const ProductReviews = ({ productId }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       setLoading(true);
+      setError("");
       try {
         const { data } = await axios.get(
-          `  https://digitalhat-server.onrender.com/api/products/${productId}/reviews`
+          `https://digitalhat-server.onrender.com/api/products/${productId}/reviews`
         );
         setReviews(data.reviews || []);
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to load reviews");
+        const msg = err.response?.data?.message || "Failed to load reviews";
+        setError(msg);
+        toast.error(msg);
       } finally {
         setLoading(false);
       }
     };
-    fetchReviews();
+    if (productId) fetchReviews();
   }, [productId]);
 
   // Add review
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!rating) return alert("Please select a rating");
+    if (!rating) {
+      toast.warn("Please select a rating");
+      return;
+    }
+
+    const token = localStorage.getItem("userToken"); // Get token from localStorage
+    if (!token) {
+      toast.warn("Please login first to add a review");
+      return;
+    }
 
     setSubmitting(true);
     try {
-      const token = localStorage.getItem("userToken"); // ✅ Get token from localStorage
-
       const { data } = await axios.post(
-        `  https://digitalhat-server.onrender.com/api/products/${productId}/reviews`,
+        `https://digitalhat-server.onrender.com/api/products/${productId}/reviews`,
         { rating, comment },
         {
-          withCredentials: true, // keep for cookie-based auth if backend uses both
-          headers: token ? { Authorization: `Bearer ${token}` } : {}, // ✅ pass token
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      setReviews([data.review, ...reviews]);
+      // Prepend new review safely
+      setReviews((prev) => [data.review, ...prev]);
       setRating(0);
       setComment("");
+      toast.success("Review added. Thank you!");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to add review");
+      const msg = err.response?.data?.message || "Failed to add review";
+      console.error("Add review error:", err);
+      toast.error(msg);
     } finally {
       setSubmitting(false);
     }
@@ -75,9 +90,7 @@ const ProductReviews = ({ productId }) => {
               <Star
                 key={i}
                 className={`w-6 h-6 cursor-pointer ${
-                  i < rating
-                    ? "text-yellow-400 fill-yellow-400"
-                    : "text-gray-300"
+                  i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
                 }`}
                 onClick={() => setRating(i + 1)}
               />
@@ -86,7 +99,7 @@ const ProductReviews = ({ productId }) => {
           <button
             type="submit"
             disabled={submitting}
-            className="px-4 py-2  bg-primary hover:scale-103  text-white  rounded-full  cursor-pointer transition"
+            className="px-4 py-2 bg-primary hover:scale-103 text-white rounded-full cursor-pointer transition"
           >
             {submitting ? "Submitting..." : "Add Review"}
           </button>
@@ -103,26 +116,20 @@ const ProductReviews = ({ productId }) => {
       {/* List of Reviews */}
       <div className="max-h-100 overflow-y-scroll">
         <Title title="All Reviews" />
-        {reviews.length === 0 && (
-          <p className="text-gray-500">No reviews yet.</p>
-        )}
+        {reviews.length === 0 && <p className="text-gray-500">No reviews yet.</p>}
         {reviews.map((r) => (
           <div
             key={r._id}
             className="border-b border-gray-200 pb-4 mb-4 last:border-0 last:mb-0"
           >
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-semibold">
-                {r.user?.fullName || "User"}
-              </span>
+              <span className="font-semibold">{r.user?.fullName || "User"}</span>
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
                     className={`w-4 h-4 ${
-                      i < r.rating
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
+                      i < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
                     }`}
                   />
                 ))}

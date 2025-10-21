@@ -1,6 +1,7 @@
 // src/pages/Checkout.jsx
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
@@ -332,6 +333,8 @@ export default function Checkout() {
       // clear checkout state and cart
       clearCheckoutState();
       await (clearCart ? clearCart() : Promise.resolve());
+
+      toast.success("Order placed successfully!");
 
       // navigate to success page with order id if available
       const orderId = order?._id ?? order?.id ?? null;

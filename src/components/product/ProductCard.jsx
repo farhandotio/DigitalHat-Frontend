@@ -1,6 +1,7 @@
 // src/components/ProductCard.jsx
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { GlobalContext } from "../../context/GlobalContext"; // adjust path if needed
 import { FaCartPlus } from "react-icons/fa6";
 import { MdRemoveShoppingCart } from "react-icons/md";
@@ -79,7 +80,7 @@ const ProductCard = ({ product = {}, renderJsonLd = false }) => {
       return;
     }
     if (Number(stock) <= 0) {
-      alert("This product is out of stock.");
+      toast.warn("This product is out of stock.")
       return;
     }
 
@@ -88,7 +89,7 @@ const ProductCard = ({ product = {}, renderJsonLd = false }) => {
       await addToCart(productId, qty);
     } catch (err) {
       console.error("Failed to add to cart:", err);
-      alert(err?.message || "Failed to add to cart");
+      toast.warn(err?.message || "Failed to add to cart")
     } finally {
       setAdding(false);
     }
@@ -154,7 +155,7 @@ const ProductCard = ({ product = {}, renderJsonLd = false }) => {
               aria-label={Number(stock) <= 0 ? "Out of stock" : "Add to cart"}
             >
               {adding ? (
-                <span className="text-xs">Adding.</span>
+                <span className="text-xs">...</span>
               ) : Number(stock) <= 0 ? (
                 <MdRemoveShoppingCart />
               ) : (
