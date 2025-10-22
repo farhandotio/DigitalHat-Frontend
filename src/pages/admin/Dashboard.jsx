@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/loading/Loading";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -94,7 +95,10 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
-  if (loading) return <div className="text-center">Loading dashboard...</div>;
+  if (loading)
+    return (
+        <Loading isLoading={loading} />
+    );
   if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (

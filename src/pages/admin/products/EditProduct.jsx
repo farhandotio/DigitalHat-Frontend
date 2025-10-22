@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Loading from "../../../components/loading/Loading";
 
 export default function EditProduct() {
   const { id } = useParams(); // optional product id for edit
@@ -211,9 +212,7 @@ export default function EditProduct() {
         </h2>
 
         {loading ? (
-          <div className="py-8 text-center text-gray-500">
-            Loading product...
-          </div>
+          <Loading isLoading={loading} />
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { GlobalContext } from "../../../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../../components/loading/Loading";
 
 const OrdersList = () => {
   const { user } = useContext(GlobalContext); // Admin token
@@ -46,7 +47,7 @@ const OrdersList = () => {
     fetchOrders();
   }, []);
 
-  if (loading) return <div>Loading orders...</div>;
+  if (loading) return <Loading isLoading={loading} />;
   if (error) return <div className="text-red-500">{error}</div>;
   if (!orders.length) return <div>No orders found</div>;
 

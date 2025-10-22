@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../../context/GlobalContext";
+import Loading from "../../../components/loading/Loading";
 
 const roleColors = {
   admin: "bg-blue-500 text-white",
@@ -78,7 +79,7 @@ const UsersList = () => {
     }
   };
 
-  if (loading) return <div>Loading users...</div>;
+  if (loading) return <Loading isLoading={loading} />
   if (error) return <div className="text-red-500">{error}</div>;
   if (!users.length) return <div>No users found</div>;
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import Loading from "../../../components/loading/Loading";
 
 const orderStatusOptions = [
   "PENDING",
@@ -132,7 +133,7 @@ const OrderDetail = () => {
     }
   };
 
-  if (loading) return <div>Loading order...</div>;
+  if (loading) return <Loading isLoading={loading} />
   if (error) return <div className="text-red-500">{error}</div>;
   if (!order) return <div>No order found</div>;
 

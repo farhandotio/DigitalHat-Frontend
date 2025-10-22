@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loading from "../../../components/loading/Loading";
 
 const formatPrice = (n) =>
   new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(n ?? 0);
@@ -153,8 +154,8 @@ export default function ProductsList() {
         {/* Table */}
         <div className="overflow-x-auto bg-transparent rounded-2xl border border-border">
           {loading ? (
-            <div className="p-6 text-center text-gray-500">
-              Loading products...
+            <div className="p-20 text-center text-gray-500">
+              <Loading isLoading={loading} />
             </div>
           ) : error ? (
             <div className="p-6 text-center text-red-500">{error}</div>
