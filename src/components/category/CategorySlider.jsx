@@ -14,7 +14,7 @@ const CategorySlider = () => {
   const bottomRow = categoryItems.slice(mid);
 
   return (
-    <section className="space-y-6 relative px-5 md:px-10 lg:px-20 py-10">
+    <section className="space-y-6 bg-gray-50 relative px-5 md:px-10 lg:px-20 py-10">
       {/* <Title title={"Shop By Category"} /> */}
 
       {/* Top row */}
@@ -22,7 +22,7 @@ const CategorySlider = () => {
         modules={[Navigation, Keyboard, Autoplay]}
         keyboard={{ enabled: true }}
         slidesPerView={4}
-        spaceBetween={30}
+        spaceBetween={15}
         loop={true} // ✅ Infinite loop
         autoplay={{
           delay: 2500,
@@ -30,9 +30,9 @@ const CategorySlider = () => {
         }}
         aria-label="Top category row"
         breakpoints={{
-          480: { slidesPerView: 4, spaceBetween: 10 },
-          640: { slidesPerView: 6, spaceBetween: 10 },
-          768: { slidesPerView: 8, spaceBetween: 10 },
+          480: { slidesPerView: 4, spaceBetween: 2 },
+          640: { slidesPerView: 6, spaceBetween: 5 },
+          768: { slidesPerView: 8, spaceBetween: 7 },
           1024: { slidesPerView: 10, spaceBetween: 10 },
         }}
         className="category-swiper-top"
@@ -49,7 +49,7 @@ const CategorySlider = () => {
         modules={[Navigation, Keyboard, Autoplay]}
         keyboard={{ enabled: true }}
         slidesPerView={4}
-        spaceBetween={30}
+        spaceBetween={15}
         loop={true} // ✅ Infinite loop
         autoplay={{
           delay: 2500,
@@ -58,9 +58,9 @@ const CategorySlider = () => {
         }}
         aria-label="Bottom category row"
         breakpoints={{
-          480: { slidesPerView: 4, spaceBetween: 10 },
-          640: { slidesPerView: 6, spaceBetween: 10 },
-          768: { slidesPerView: 8, spaceBetween: 10 },
+          480: { slidesPerView: 4, spaceBetween: 2 },
+          640: { slidesPerView: 6, spaceBetween: 5 },
+          768: { slidesPerView: 8, spaceBetween: 7 },
           1024: { slidesPerView: 10, spaceBetween: 10 },
         }}
         className="category-swiper-bottom"

@@ -170,7 +170,7 @@ const CategoryCard = ({ category }) => {
       to={`/category/${slug}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label={`Open ${name} category`}
-      className="group flex flex-col items-center hover:ring-2 ring-primary  bg-white shadow-md scale-90 py-3 px-10 justify-center rounded-xl md:transition-all duration-300 transform max-md:text-sm whitespace-nowrap text-center"
+      className="group flex flex-col items-center hover:ring-2 ring-primary  bg-white md:scale-90 scale-99 border border-border py-3 px-10 justify-center rounded-xl md:transition-all duration-300 transform max-md:text-sm whitespace-nowrap text-center"
     >
       {/* Image wrapper */}
       <div className="relative flex items-center justify-center w-10 h-10 md:w-20 md:h-20 rounded-full bg-blue-50/70 mb-3 shadow-inner shadow-blue-100 group-hover:bg-gray-200 transition-all duration-300 overflow-hidden">

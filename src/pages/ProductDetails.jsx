@@ -1,3 +1,4 @@
+// src/pages/ProductDetails.jsx
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -25,27 +26,24 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
-  const [products, setProducts] = useState([]);
-  const [isLoadingRelativeProducts, setIsLoadingRelativeProducts] =
-    useState(false);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [isLoadingRelativeProducts, setIsLoadingRelativeProducts] = useState(false);
 
-  // --- Fetch product ---
+  // --- Fetch main product ---
   useEffect(() => {
     const fetchProduct = async () => {
       setIsLoading(true);
       setError("");
       try {
         const { data } = await axios.get(
-          `  https://digitalhat-server.onrender.com/api/products/${id}`
+          `https://digitalhat-server.onrender.com/api/products/${id}`
         );
         if (!data.product) throw new Error("Product not found");
         setProduct(data.product);
         setSelectedImage(data.product.images[0]?.url || "/placeholder.png");
       } catch (err) {
         setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Failed to fetch product"
+          err.response?.data?.message || err.message || "Failed to fetch product"
         );
       } finally {
         setIsLoading(false);
@@ -54,7 +52,7 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
-  // --- Fetch related products ---
+  // --- Fetch related products by title & category ---
   useEffect(() => {
     if (!product) return;
 
@@ -68,27 +66,22 @@ const ProductDetails = () => {
           product.category_name ||
           null;
 
-        if (categoryValue) {
-          const encoded = encodeURIComponent(String(categoryValue));
-          const url = `  https://digitalhat-server.onrender.com/api/products?category=${encoded}&limit=5&exclude=${id}`;
-          const res = await axios.get(url);
-          const related =
-            res.data?.products ||
-            res.data?.results ||
-            (Array.isArray(res.data) ? res.data : []);
-          setProducts(related.slice(0, 5));
-        } else {
-          const res = await axios.get(
-            `  https://digitalhat-server.onrender.com/api/products/${id}/related?limit=5`
-          );
-          const related =
-            res.data?.products ||
-            res.data?.results ||
-            (Array.isArray(res.data) ? res.data : []);
-          setProducts(related.slice(0, 5));
-        }
-      } catch {
-        setProducts([]);
+        // search by title and category
+        let query = "";
+        if (product.title) query += `title=${encodeURIComponent(product.title)}&`;
+        if (categoryValue) query += `category=${encodeURIComponent(categoryValue)}&`;
+        query += `limit=5&exclude=${id}`;
+
+        const url = `https://digitalhat-server.onrender.com/api/products/search?${query}`;
+        const res = await axios.get(url);
+        const related =
+          res.data?.products ||
+          res.data?.results ||
+          (Array.isArray(res.data) ? res.data : []);
+        setRelatedProducts(related.slice(0, 5));
+      } catch (err) {
+        console.error("Failed to fetch related products:", err);
+        setRelatedProducts([]);
       } finally {
         setIsLoadingRelativeProducts(false);
       }
@@ -131,7 +124,6 @@ const ProductDetails = () => {
   } = product;
   const mainImage = selectedImage || images[0]?.url || "/placeholder.png";
 
-  // --- Handle add to cart ---
   const handleAddToCart = async () => {
     try {
       await addToCart(product._id || id, quantity);
@@ -154,7 +146,7 @@ const ProductDetails = () => {
 
   return (
     <div className="w-full p-5 md:p-10 lg:p-20">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12  ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         <ProductImages
           images={images}
           mainImage={mainImage}
@@ -198,7 +190,6 @@ const ProductDetails = () => {
             stock={stock}
           />
 
-          {/* Pass real props to ProductActions */}
           <ProductActions
             productId={product._id || id}
             stock={stock}
@@ -215,7 +206,7 @@ const ProductDetails = () => {
       <div className="mt-12">
         <Title title="Related Products" />
         <ProductGrid
-          products={products}
+          products={relatedProducts}
           isLoading={isLoadingRelativeProducts}
         />
       </div>

@@ -1,5 +1,5 @@
 // src/pages/Shop.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import ProductGrid from "../components/product/ProductGrid";
 import Pagination from "../components/pagination/Pagination";
@@ -13,6 +13,7 @@ export function ProductHeader({
   initial = { category: "all", q: "" },
   onChange,
 }) {
+  // keep local controlled category state
   const [category, setCategory] = useState(initial.category);
 
   useEffect(() => {
@@ -21,6 +22,11 @@ export function ProductHeader({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
+
+  // ensure the local category updates if parent changes initial.category
+  useEffect(() => {
+    setCategory(initial.category ?? "all");
+  }, [initial.category]);
 
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 border-b border-border rounded-xl bg-white shadow-sm">
@@ -35,7 +41,7 @@ export function ProductHeader({
         <div className="flex items-center gap-2">
           <label className="text-sm">Category:</label>
           <select
-            value={initial.category}
+            value={category} // <-- fixed: controlled by local state
             onChange={(e) => setCategory(e.target.value)}
             className="border border-border outline-primary rounded-lg px-3 py-2 bg-white"
           >
@@ -64,14 +70,27 @@ export default function Shop() {
   const [error, setError] = useState("");
 
   // filters include category + q
-  const [filters, setFilters] = useState({ category: "all", q: searchQuery || "" });
+  const [filters, setFilters] = useState({
+    category: "all",
+    q: searchQuery || "",
+  });
 
   const categories = [
-    { id: 1, name: "tws" }, { id: 2, name: "fan" }, { id: 3, name: "watch" },
-    { id: 4, name: "charger" }, { id: 5, name: "cable" }, { id: 6, name: "neckband" },
-    { id: 7, name: "router" }, { id: 8, name: "Tripod" }, { id: 9, name: "keyboard" },
-    { id: 10, name: "Power Bank" }, { id: 11, name: "speaker" }, { id: 12, name: "drone" },
-    { id: 13, name: "microphone" }, { id: 14, name: "gaming" }, { id: 15, name: "headphone" },
+    { id: 1, name: "tws" },
+    { id: 2, name: "fan" },
+    { id: 3, name: "watch" },
+    { id: 4, name: "charger" },
+    { id: 5, name: "cable" },
+    { id: 6, name: "neckband" },
+    { id: 7, name: "router" },
+    { id: 8, name: "Tripod" },
+    { id: 9, name: "keyboard" },
+    { id: 10, name: "Power Bank" },
+    { id: 11, name: "speaker" },
+    { id: 12, name: "drone" },
+    { id: 13, name: "microphone" },
+    { id: 14, name: "gaming" },
+    { id: 15, name: "headphone" },
   ];
 
   const buildQuery = (p, l, fil) => {
@@ -83,72 +102,93 @@ export default function Shop() {
     return params.toString();
   };
 
-  const fetchProducts = async (p = 1, l = limit, fil = filters) => {
-    setIsLoading(true);
-    setError("");
-    try {
-      // NOTE: calling the search endpoint on backend
-      const query = buildQuery(p, l, fil);
-      const url = `https://digitalhat-server.onrender.com/api/products/search?${query}`;
-      const { data } = await axios.get(url);
+  // fetchProducts memoized so it keeps stable identity when used inside helpers
+  const fetchProducts = useCallback(
+    async (p = 1, l = limit, fil = filters) => {
+      setIsLoading(true);
+      setError("");
+      try {
+        // NOTE: calling the search endpoint on backend
+        const query = buildQuery(p, l, fil);
+        const url = `https://digitalhat-server.onrender.com/api/products/search?${query}`;
+        const { data } = await axios.get(url);
 
-      if (!data) throw new Error("No data from products API");
+        if (!data) throw new Error("No data from products API");
 
-      // expect { success: true, products, page, limit, total }
-      setProducts(Array.isArray(data.products) ? data.products : []);
-      setTotal(Number(data.total || 0));
-      setPage(Number(data.page || p));
-      setLimit(Number(data.limit || l));
-    } catch (err) {
-      setError(err.response?.data?.message || err.message || "Failed to fetch products");
-    } finally {
-      setIsLoading(false);
-    }
+        // expect { success: true, products, page, limit, total }
+        setProducts(Array.isArray(data.products) ? data.products : []);
+        setTotal(Number(data.total || 0));
+        setPage(Number(data.page || p));
+        setLimit(Number(data.limit || l));
+      } catch (err) {
+        setError(err.response?.data?.message || err.message || "Failed to fetch products");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  // Helper to update filters and immediately fetch with the new filters.
+  // Use this everywhere instead of calling setFilters(...) directly.
+  const updateFilters = (updater) => {
+    setFilters((prev) => {
+      const updated = typeof updater === "function" ? updater(prev) : { ...prev, ...updater };
+      // fetch immediately with updated filters (start from page 1)
+      fetchProducts(1, limit, updated);
+      return updated;
+    });
   };
 
-  // On mount: sync q from URL or global context
+  // On mount: derive initial filters from URL or global context and apply via updateFilters
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const qFromUrl = params.get("q") || "";
+
+    const initial = {
+      category: "all",
+      q: qFromUrl || searchQuery || "",
+    };
+
+    // ensure global context searchQuery is in sync (prefer URL)
     if (qFromUrl) {
       setSearchQuery(qFromUrl);
-      setFilters((prev) => ({ ...prev, q: qFromUrl }));
     } else if (searchQuery) {
-      setFilters((prev) => ({ ...prev, q: searchQuery }));
+      // keep global as-is
     }
 
-    // initial fetch (use local filters merged)
-    fetchProducts(1, limit, { ...filters, q: qFromUrl || searchQuery || "" });
+    // set filters and fetch once deterministically
+    setFilters(initial);
+    fetchProducts(1, limit, initial);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // run only on mount
 
-  // fetch when filters change
-  useEffect(() => {
-    fetchProducts(1, limit, filters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters]);
-
-  // keep filters in sync with global searchQuery
+  // Keep filters in sync with global searchQuery (e.g. when Searchbar updates context)
   useEffect(() => {
     if ((searchQuery || "") !== (filters.q || "")) {
-      setFilters((prev) => ({ ...prev, q: searchQuery || "" }));
+      const updated = { ...filters, q: searchQuery || "" };
+      // use updateFilters to set + fetch
+      updateFilters(updated);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   const handlePageChange = (p) => {
     if (p === page) return;
+    // fetch for requested page using current filters
     fetchProducts(p, limit, filters);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleLimitChange = (l) => {
     if (l === limit) return;
+    // change limit and fetch page 1
     fetchProducts(1, l, filters);
   };
 
   const handleHeaderChange = ({ category }) => {
-    setFilters((prev) => ({ ...prev, category }));
+    updateFilters((prev) => ({ ...prev, category }));
   };
 
   return (

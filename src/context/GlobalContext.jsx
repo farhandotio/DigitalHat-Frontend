@@ -1,11 +1,12 @@
 // src/context/GlobalContext.jsx
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 export const GlobalContext = createContext();
 
 const CHECKOUT_KEY = "app_checkout_state";
+const SEARCH_DEBOUNCE_MS = 300;
 
 export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -22,6 +23,9 @@ export const GlobalProvider = ({ children }) => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+
+  // debounce ref for search
+  const searchDebounceRef = useRef(null);
 
   // Axios setup
   const api = axios.create({
@@ -41,7 +45,7 @@ export const GlobalProvider = ({ children }) => {
     return config;
   });
 
-  // Auth sync
+  // Auth sync (unchanged)
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     const storedToken = localStorage.getItem("userToken");
@@ -79,24 +83,54 @@ export const GlobalProvider = ({ children }) => {
     };
   }, []);
 
-  // PRODUCTS fetch
+  // fetchProducts: accepts opts = { query, page, limit, category } but basic usage works too
   const fetchProducts = async (opts = {}) => {
+    const { query = "", page, limit, category } = opts || {};
     setProductsLoading(true);
     setProductsError(null);
+
     try {
-      const q = opts.query ? `?q=${encodeURIComponent(opts.query)}` : "";
-      const res = await api.get(`/api/products${q}`);
-      const data = res.data?.products ?? res.data ?? [];
-      setProducts(Array.isArray(data) ? data : []);
-      return data;
+      // build URL: support both /api/products and /api/products/search on server
+      // prefer search endpoint if there are filters (to match your Shop.jsx)
+      const params = new URLSearchParams();
+      if (typeof page !== "undefined") params.set("page", page);
+      if (typeof limit !== "undefined") params.set("limit", limit);
+      if (category) params.set("category", category);
+      if (query) params.set("q", query);
+
+      const path =
+        query || page || limit || category
+          ? `/api/products/search?${params.toString()}`
+          : `/api/products`; // fallback to list all
+
+      const res = await api.get(path);
+      // handle different shapes gracefully
+      const data = res?.data ?? {};
+      // try common shapes:
+      // { products: [], total, page, limit } or just [] or { success: true, products: [] }
+      let productsData = [];
+      if (Array.isArray(data)) {
+        productsData = data;
+      } else if (Array.isArray(data.products)) {
+        productsData = data.products;
+      } else if (Array.isArray(res.data?.data)) {
+        productsData = res.data.data;
+      } else {
+        productsData = [];
+      }
+
+      setProducts(productsData);
+      // ensure filteredProducts also reflect server results (default)
+      setFilteredProducts(productsData);
+
+      return { products: productsData, raw: data };
     } catch (err) {
       console.error("fetchProducts:", err);
       setProductsError(
-        err?.response?.data?.message ||
-          err.message ||
-          "Failed to fetch products"
+        err?.response?.data?.message || err.message || "Failed to fetch products"
       );
       setProducts([]);
+      setFilteredProducts([]);
       toast.error("Failed to load products.");
       throw err;
     } finally {
@@ -104,34 +138,70 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // client-side filtering
+  // client-side filtering (fallback / immediate UX)
   useEffect(() => {
+    // if there's no searchQuery, just mirror server products
     if (!searchQuery) {
       setFilteredProducts(products);
       return;
     }
+
+    // if there is searchQuery, we prefer server-side results (fetchProducts called separately)
+    // but in case server isn't used, provide client-side filter
     const q = String(searchQuery).toLowerCase().trim();
-    const filtered = products.filter((p) => {
-      const title = (p.title || p.name || "").toString().toLowerCase();
-      const desc = (p.description || "").toString().toLowerCase();
-      const category = (p.category || "").toString().toLowerCase();
-      const brand = (p.brand || "").toString().toLowerCase();
+    const filtered = (Array.isArray(products) ? products : []).filter((p) => {
+      const title = (p?.title || p?.name || "").toString().toLowerCase();
+      const desc = (p?.description || "").toString().toLowerCase();
+      const category = (p?.category || "").toString().toLowerCase();
+      const brand = (p?.brand || "").toString().toLowerCase();
       return (
-        title.includes(q) ||
-        desc.includes(q) ||
-        category.includes(q) ||
-        brand.includes(q)
+        (title && title.includes(q)) ||
+        (desc && desc.includes(q)) ||
+        (category && category.includes(q)) ||
+        (brand && brand.includes(q))
       );
     });
     setFilteredProducts(filtered);
   }, [products, searchQuery]);
 
+  // initial load
   useEffect(() => {
     fetchProducts().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // CART functions
+  // When searchQuery changes, perform a debounced server search to keep Shop fetch-less (optional)
+  useEffect(() => {
+    // If searchQuery is empty, we already mirrored products above.
+    // Debounce to avoid rapid calls.
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+
+    searchDebounceRef.current = setTimeout(() => {
+      const q = (searchQuery || "").toString().trim();
+      if (q.length === 0) {
+        // if empty, just keep current products (avoid clearing)
+        setFilteredProducts(products);
+      } else {
+        // call server search and set products -> filteredProducts
+        fetchProducts({ query: q })
+          .then(({ products: serverProducts }) => {
+            // serverProducts already set by fetchProducts
+            // if you prefer to keep products separate and only set filteredProducts:
+            setFilteredProducts(Array.isArray(serverProducts) ? serverProducts : []);
+          })
+          .catch(() => {
+            // keep client-side filteredProducts fallback (already handled in other effect)
+          });
+      }
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
+
+  // CART functions (unchanged, kept for completeness)
   const fetchCart = async () => {
     if (!user || user.role === "admin") {
       setCart(null);

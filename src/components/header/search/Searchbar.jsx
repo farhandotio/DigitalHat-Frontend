@@ -6,37 +6,70 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 
 const Searchbar = ({ onSearch }) => {
   const navigate = useNavigate();
-  const { setSearchQuery } = useGlobalContext();
+  const { setSearchQuery, products } = useGlobalContext(); // products optional
 
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef(null);
   const debounceRef = useRef(null);
 
-  // Debounced live update: update global context + URL after user stops typing
+  // helper: perform client-side search (title, description, category)
+  const performClientSearch = (q) => {
+    if (!products || !Array.isArray(products)) return null;
+
+    const qLower = q.toLowerCase();
+    const filtered = products.filter((p) => {
+      // safe-access fields
+      const title = (p.title || "").toString().toLowerCase();
+      const desc = (p.description || p.desc || "").toString().toLowerCase();
+      const categoryField = p.category ?? p.categories ?? "";
+
+      // category may be string or array
+      let categoryStr = "";
+      if (Array.isArray(categoryField)) {
+        categoryStr = categoryField.join(" ").toLowerCase();
+      } else {
+        categoryStr = (categoryField || "").toString().toLowerCase();
+      }
+
+      return (
+        (title && title.includes(qLower)) ||
+        (desc && desc.includes(qLower)) ||
+        (categoryStr && categoryStr.includes(qLower))
+      );
+    });
+
+    return filtered;
+  };
+
   const scheduleUpdate = (q) => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       const trimmed = q.trim();
       setSearchQuery(trimmed);
-      // update URL without adding browser history entries on each keystroke
-      if (trimmed) navigate(`/shop?q=${encodeURIComponent(trimmed)}`, { replace: true });
-      else navigate("/shop", { replace: true });
-      if (typeof onSearch === "function") onSearch(trimmed);
-    }, 350); // 250-400ms is typical; tweak if you want
+
+      const clientResult = performClientSearch(trimmed);
+      if (typeof onSearch === "function") onSearch(clientResult ?? trimmed);
+    }, 350);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
       debounceRef.current = null;
     }
     const trimmed = query.trim();
     setSearchQuery(trimmed);
-    if (typeof onSearch === "function") onSearch(trimmed);
+
+    if (typeof onSearch === "function") {
+      const clientResult = performClientSearch(trimmed);
+      onSearch(clientResult ?? trimmed);
+    }
+
     if (trimmed) navigate(`/shop?q=${encodeURIComponent(trimmed)}`);
     else navigate("/shop");
+
     setIsOpen(false);
   };
 
@@ -52,6 +85,11 @@ const Searchbar = ({ onSearch }) => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
   }, []);
+
+  const buttonClick = () => {
+    setIsOpen(true);
+    navigate(`/shop?q=${encodeURIComponent(query.trim())}`);
+  };
 
   return (
     <form
@@ -74,7 +112,7 @@ const Searchbar = ({ onSearch }) => {
           py-1 md:py-1.5 pr-8 md:pr-12 pl-4 bg-transparent
           ${
             isOpen
-              ? "w-40 sm:w-64 md:w-full opacity-100"
+              ? "w-37 sm:w-64 md:w-full opacity-100"
               : "w-0 opacity-0 md:w-full md:opacity-100"
           }`}
         onFocus={() => setIsOpen(true)}
@@ -82,9 +120,9 @@ const Searchbar = ({ onSearch }) => {
       />
 
       <button
-        type="submit"
+        type="button"
         aria-label="submit search"
-        onClick={() => setIsOpen(true)}
+        onClick={buttonClick}
         className="absolute right-2.5 md:right-4 top-1/2 -translate-y-1/2 text-white/90 hover:text-white"
       >
         <Search size={20} />
