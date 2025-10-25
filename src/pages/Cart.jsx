@@ -12,6 +12,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 import CartItem from "../components/cart/CartItem";
 import OrderSummary from "../components/cart/OrderSummary";
+import Loading from "../components/loading/Loading";
 
 const SHIPPING_COST = 125;
 const API_BASE =
@@ -133,11 +134,15 @@ export default function Cart() {
   );
 
   if (cartLoading || loading)
-    return <p className="text-center mt-20">Loading cart...</p>;
+    return (
+      <div className="h-screen">
+        <Loading isLoading={loading} />
+      </div>
+    );
 
   if (!itemCount)
     return (
-      <div className="text-center py-20  rounded-2xl  mt-8 shadow-md">
+      <div className="text-center py-20 h-screen flex flex-col items-center justify-center rounded-2xl shadow-md">
         <ShoppingBag size={48} className="text-gray-400 mx-auto mb-4" />
         <p className="text-xl text-gray-600">Your cart is empty.</p>
       </div>
@@ -152,7 +157,7 @@ export default function Cart() {
         </p>
 
         <div className="mt-8 grid lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2  rounded-2xl  shadow-xs border bg-white border-gray-100 p-6">
+          <div className="lg:col-span-2  rounded-2xl  shadow-xs border bg-white border-gray-100 p-4 md:p-6 lg:p-8">
             <div className="flex justify-between items-center pb-4 border-b border-gray-200 mb-4">
               <h2 className="text-xl font-semibold text-gray-800">
                 Cart Items ({itemCount})

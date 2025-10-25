@@ -3,6 +3,7 @@ import { CheckCircle, ShoppingCart } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
+import Loading from "../components/loading/Loading";
 
 const API_BASE =
   import.meta.env.VITE_API_URL || "  https://digitalhat-server.onrender.com";
@@ -46,7 +47,12 @@ const OrderSuccess = () => {
     },
   };
 
-  if (loading) return <p className="text-center mt-20">Loading order...</p>;
+  if (loading)
+    return (
+      <div className="h-screen">
+        <Loading isLoading={loading} />
+      </div>
+    );
   if (!order)
     return <p className="text-center mt-20 text-gray-700">Order not found.</p>;
 
@@ -100,7 +106,7 @@ const OrderSuccess = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1.2, type: "spring", stiffness: 100 }}
-        className="bg-white p-8 w-full max-w-md mx-auto shadow-xl    border border-gray-100"
+        className="bg-white p-8 w-full max-w-md mx-auto shadow-xl  rounded-2xl border border-gray-100"
       >
         <h2 className="text-xl font-bold text-gray-800 border-b pb-4 mb-4">
           Order Details

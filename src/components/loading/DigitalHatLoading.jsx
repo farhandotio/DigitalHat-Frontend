@@ -7,7 +7,7 @@ const DigitalHatLoading = ({ isLoading }) => {
   const dots = [0, 0.2, 0.4]; // delays for sequential animation
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-bg">
       <div className="flex space-x-3">
         {dots.map((delay, index) => (
           <motion.div

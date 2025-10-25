@@ -15,6 +15,7 @@ import ProductActions from "../components/product/details/ProductActions";
 import ProductReviews from "../components/product/details/ProductReviews";
 import ProductGrid from "../components/product/ProductGrid";
 import Title from "../components/title/Title";
+import Loading from "../components/loading/Loading";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -27,7 +28,8 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [isLoadingRelativeProducts, setIsLoadingRelativeProducts] = useState(false);
+  const [isLoadingRelativeProducts, setIsLoadingRelativeProducts] =
+    useState(false);
 
   // --- Fetch main product ---
   useEffect(() => {
@@ -43,7 +45,9 @@ const ProductDetails = () => {
         setSelectedImage(data.product.images[0]?.url || "/placeholder.png");
       } catch (err) {
         setError(
-          err.response?.data?.message || err.message || "Failed to fetch product"
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to fetch product"
         );
       } finally {
         setIsLoading(false);
@@ -68,8 +72,10 @@ const ProductDetails = () => {
 
         // search by title and category
         let query = "";
-        if (product.title) query += `title=${encodeURIComponent(product.title)}&`;
-        if (categoryValue) query += `category=${encodeURIComponent(categoryValue)}&`;
+        if (product.title)
+          query += `title=${encodeURIComponent(product.title)}&`;
+        if (categoryValue)
+          query += `category=${encodeURIComponent(categoryValue)}&`;
         query += `limit=5&exclude=${id}`;
 
         const url = `https://digitalhat-server.onrender.com/api/products/search?${query}`;
@@ -93,7 +99,7 @@ const ProductDetails = () => {
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-screen text-gray-500">
-        Loading product details...
+        <Loading isLoading={isLoading} />
       </div>
     );
 
@@ -107,7 +113,7 @@ const ProductDetails = () => {
   if (!product)
     return (
       <div className="flex justify-center items-center h-screen text-gray-500">
-        Product not found.
+        <Loading isLoading={isLoading} />
       </div>
     );
 

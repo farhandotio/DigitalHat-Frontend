@@ -3,7 +3,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import ProductGrid from "../components/product/ProductGrid";
 import Pagination from "../components/pagination/Pagination";
-import Title from "../components/title/Title";
 import { useLocation } from "react-router-dom";
 import { useGlobalContext } from "../context/GlobalContext";
 
@@ -41,7 +40,7 @@ export function ProductHeader({
         <div className="flex items-center gap-2">
           <label className="text-sm">Category:</label>
           <select
-            value={category} // <-- fixed: controlled by local state
+            value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="border border-border outline-primary rounded-lg px-3 py-2 bg-white"
           >

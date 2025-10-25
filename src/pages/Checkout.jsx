@@ -229,7 +229,7 @@ export default function Checkout() {
         id={id}
         placeholder={placeholder}
         {...registerProps}
-        className={`mt-1 block w-full border  rounded-full  shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm ${
+        className={`mt-1 block w-full border  rounded  shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm ${
           error ? "border-red-500" : "border-border"
         }`}
       />
@@ -246,7 +246,7 @@ export default function Checkout() {
           <select
             {...field}
             id={id}
-            className={`mt-1 block w-full border  rounded-full  shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white ${
+            className={`mt-1 block w-full border rounded  shadow-sm p-3 focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white ${
               error ? "border-red-500" : "border-border"
             }`}
           >
@@ -361,15 +361,15 @@ export default function Checkout() {
 
   return (
     <div className="mx-auto p-5 md:p-10 lg:p-20 w-full">
-      <div className="flex flex-col lg:flex-row gap-8 bg-white px-5 pt-5   ">
+      <div className="flex flex-col lg:flex-row gap-8 bg-white">
         <div className="lg:w-2/3 space-y-8">
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-border pb-2">
               Shipping Address
             </h2>
 
-            <form onSubmit={handleCheckout} className="space-y-4">
-              <div className="flex space-x-4">
+            <form onSubmit={handleCheckout} className="space-y-3 md:space-y-4">
+              <div className="flex space-x-3 md:space-x-4">
                 <FormInput
                   id="fullName"
                   placeholder="Full Name"
@@ -464,7 +464,7 @@ export default function Checkout() {
           </div>
         </div>
 
-        <div className="lg:w-2/5 bg-white p-6   h-fit">
+        <div className="lg:w-2/5 bg-white p-6 h-fit">
           <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
           <div className="space-y-3 pb-4 border-b border-border">
