@@ -103,12 +103,12 @@ const ProductCard = ({ product = {}, renderJsonLd = false }) => {
       <Link
         to={`/product/${productSlug}`}
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="w-full bg-white overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl border border-border shadow-xs hover:shadow-lg"
+        className="group block bg-secondary-bg border border-border rounded-lg shadow hover:shadow-lg transition-shadow duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary w-full overflow-hidden"
         // microdata for product
         {...itemScope}
         aria-label={`View product ${title}`}
       >
-        <div className="relative flex items-center justify-center bg-gray-50 overflow-hidden">
+        <div className="relative flex items-center justify-center bg-gray-50 overflow-hidden w-full">
           <img
             src={imgSrc}
             alt={title}

@@ -31,7 +31,7 @@ export function ProductHeader({
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 border-b border-border rounded-xl bg-white shadow-sm">
       <div className="flex items-start sm:items-center gap-2 sm:gap-4">
-        <Title title={"All Products"} className={"sm:mb-0"} />
+        <h2 className="font-bold text-2xl md:text-3xl text-text">All Products</h2>
         <span className="text-base font-semibold px-3 py-1 bg-gray-100 text-gray-700 whitespace-nowrap rounded-full">
           {totalItems} items
         </span>
@@ -97,7 +97,8 @@ export default function Shop() {
     const params = new URLSearchParams();
     params.set("page", p);
     params.set("limit", l);
-    if (fil?.category && fil.category !== "all") params.set("category", fil.category);
+    if (fil?.category && fil.category !== "all")
+      params.set("category", fil.category);
     if (fil?.q) params.set("q", fil.q);
     return params.toString();
   };
@@ -121,7 +122,11 @@ export default function Shop() {
         setPage(Number(data.page || p));
         setLimit(Number(data.limit || l));
       } catch (err) {
-        setError(err.response?.data?.message || err.message || "Failed to fetch products");
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to fetch products"
+        );
       } finally {
         setIsLoading(false);
       }
@@ -134,7 +139,8 @@ export default function Shop() {
   // Use this everywhere instead of calling setFilters(...) directly.
   const updateFilters = (updater) => {
     setFilters((prev) => {
-      const updated = typeof updater === "function" ? updater(prev) : { ...prev, ...updater };
+      const updated =
+        typeof updater === "function" ? updater(prev) : { ...prev, ...updater };
       // fetch immediately with updated filters (start from page 1)
       fetchProducts(1, limit, updated);
       return updated;

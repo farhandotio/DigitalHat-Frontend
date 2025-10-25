@@ -196,13 +196,17 @@ export default function About() {
               {
                 name: "Farhan Sadik",
                 role: "Founder & Product",
-                img: "https://ik.imagekit.io/iura/portfolio.jpg?updatedAt=1760679942099",
+                img: "https://images.unsplash.com/photo-1569779213435-ba3167dde7cc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=580",
               },
-              { name: "Mahmud Hasan", role: "Operations", img: "https://scontent.fdac80-1.fna.fbcdn.net/v/t39.30808-6/561575333_4060169080979632_3245787641006158688_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=_iRZtfQ2HLkQ7kNvwGaSf5n&_nc_oc=AdmxiVhmQ4AR9nHYCmf03LGFSLkmJzvisRgeHv9my6c3XvJxdk59GvXxoz9GYqED--U&_nc_zt=23&_nc_ht=scontent.fdac80-1.fna&_nc_gid=t-cPn0FZDRaz1M6qttICew&oh=00_AfdmtoUdy74bz_7VKyUVDaMGGMVcFZf4DnWePLV8wk7J4A&oe=68F79A2B" },
+              {
+                name: "Mahmud Hasan",
+                role: "Operations",
+                img: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870",
+              },
               {
                 name: "As Babu",
                 role: "Support Lead",
-                img: "https://scontent.fdac80-1.fna.fbcdn.net/v/t39.30808-6/480767643_671561471960528_8052755716061894082_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=CLwFB_oxTugQ7kNvwEAGNy4&_nc_oc=AdkYD1fetu4TUrzLqvAimAnLY7y0iDQKzmTAK0kMm0haMeL7Bx1hiWnh5cglSM54r8s&_nc_zt=23&_nc_ht=scontent.fdac80-1.fna&_nc_gid=AYMAS9_ZGaKU1KY8Q027Zw&oh=00_Afen2FIBn9GcDA0CSbiol8RxJ_Oi1hmoAUDNfqGiHJC6MA&oe=68F7C6FE",
+                img: "https://images.unsplash.com/photo-1652445716497-5d04b756160c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=503",
               },
             ].map((p) => (
               <div key={p.name} className="bg-white rounded-lg p-4 shadow-sm">

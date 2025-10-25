@@ -3,14 +3,13 @@ import React from "react";
 const Title = ({ title, description, center = false, className }) => {
   return (
     <div
-      className={`mb-8 w-full ${className} ${
+      className={`mb-8 bg-white p-4 sm:p-6 border-b border-border shadow-md rounded-xl ${className} ${
         center ? "text-center" : "text-left"
       }`}
     >
       {/* Title */}
       <h2 className="text-2xl md:text-3xl text-text relative inline-block font-bold">
         {title}
-        <span className="absolute left-0 -bottom-1 w-1/3 h-1 bg-primary   "></span>
       </h2>
 
       {/* Description */}

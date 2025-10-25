@@ -4,6 +4,7 @@ import BestSaleProducts from "../components/product/BestSaleProducts";
 import FlashSale from "../components/flashsale/FlashSale";
 import CategorySlider from "../components/category/CategorySlider";
 import Seo from "../components/Seo";
+import ConfidenceSection from "../components/confidenceSection/ConfidenceSection";
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
         <CategorySlider />
         <FlashSale />
         <BestSaleProducts />
+        <ConfidenceSection />
       </div>
     </>
   );

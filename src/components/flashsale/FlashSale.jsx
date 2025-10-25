@@ -70,7 +70,7 @@ const FlashSaleProductCard = ({ product }) => {
   return (
     <Link
       to={`/category/${product._id}`}
-      className="block rounded-xl shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden relative cursor-pointer group border border-border bg-white"
+      className="block rounded-xl shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden relative cursor-pointer group border border-border bg-secondary-bg"
     >
       <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-br-lg rounded-tl-lg z-10 shadow-md">
         -{discountPercent}% OFF
