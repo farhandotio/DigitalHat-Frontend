@@ -30,7 +30,7 @@ const Dashboard = () => {
 
         // 1️⃣ Fetch total products
         const productsRes = await axios.get(
-          "  https://digitalhat-server.onrender.com/api/products",
+          "  https://digitalhat-server-02.onrender.com/api/products",
           config
         );
         // Handle API returning array or paginated object
@@ -40,7 +40,7 @@ const Dashboard = () => {
 
         // 2️⃣ Fetch total orders
         const ordersRes = await axios.get(
-          "  https://digitalhat-server.onrender.com/api/admin-orders",
+          "  https://digitalhat-server-02.onrender.com/api/admin-orders",
           config
         );
         const orders = ordersRes.data?.data ?? ordersRes.data ?? [];
@@ -54,7 +54,7 @@ const Dashboard = () => {
 
         // 3️⃣ Total users
         const usersRes = await axios.get(
-          "  https://digitalhat-server.onrender.com/api/auth/all",
+          "  https://digitalhat-server-02.onrender.com/api/auth/all",
           config
         );
         setTotalUsers(usersRes.data?.length ?? 0);
@@ -95,10 +95,7 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
-  if (loading)
-    return (
-        <Loading isLoading={loading} />
-    );
+  if (loading) return <Loading isLoading={loading} />;
   if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (

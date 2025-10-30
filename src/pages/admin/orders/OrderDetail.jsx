@@ -33,7 +33,7 @@ const OrderDetail = () => {
       if (!token) throw new Error("Admin access required");
 
       const res = await axios.get(
-        `  https://digitalhat-server.onrender.com/api/admin-orders/${id}`,
+        `  https://digitalhat-server-02.onrender.com/api/admin-orders/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -48,7 +48,7 @@ const OrderDetail = () => {
           if (!item.productId) return item;
           try {
             const { data } = await axios.get(
-              `  https://digitalhat-server.onrender.com/api/products/${item.productId}`
+              `  https://digitalhat-server-02.onrender.com/api/products/${item.productId}`
             );
             console.log(data.product);
             return { ...item, product: data.product };
@@ -81,7 +81,7 @@ const OrderDetail = () => {
       setStatusUpdating(true);
       const token = localStorage.getItem("userToken");
       await axios.patch(
-        `  https://digitalhat-server.onrender.com/api/admin-orders/${id}/status`,
+        `  https://digitalhat-server-02.onrender.com/api/admin-orders/${id}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -100,7 +100,7 @@ const OrderDetail = () => {
       setPaymentUpdating(true);
       const token = localStorage.getItem("userToken");
       await axios.patch(
-        `  https://digitalhat-server.onrender.com/api/admin-orders/${id}/payment/collect`,
+        `  https://digitalhat-server-02.onrender.com/api/admin-orders/${id}/payment/collect`,
         { paymentStatus: newPayment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -120,7 +120,7 @@ const OrderDetail = () => {
       setAddressUpdating(true);
       const token = localStorage.getItem("userToken");
       await axios.patch(
-        `  https://digitalhat-server.onrender.com/api/admin-orders/${id}/address`,
+        `  https://digitalhat-server-02.onrender.com/api/admin-orders/${id}/address`,
         { shippingAddress: order.shippingAddress },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -133,7 +133,7 @@ const OrderDetail = () => {
     }
   };
 
-  if (loading) return <Loading isLoading={loading} />
+  if (loading) return <Loading isLoading={loading} />;
   if (error) return <div className="text-red-500">{error}</div>;
   if (!order) return <div>No order found</div>;
 

@@ -6,7 +6,7 @@ import axios from "axios";
 import Loading from "../components/loading/Loading";
 
 const API_BASE =
-  import.meta.env.VITE_API_URL || "  https://digitalhat-server.onrender.com";
+  import.meta.env.VITE_API_URL || "  https://digitalhat-server-02.onrender.com";
 
 const OrderSuccess = () => {
   const location = useLocation();

@@ -19,7 +19,7 @@ const ProductReviews = ({ productId }) => {
       setError("");
       try {
         const { data } = await axios.get(
-          `https://digitalhat-server.onrender.com/api/products/${productId}/reviews`
+          `https://digitalhat-server-02.onrender.com/api/products/${productId}/reviews`
         );
         setReviews(data.reviews || []);
       } catch (err) {
@@ -50,7 +50,7 @@ const ProductReviews = ({ productId }) => {
     setSubmitting(true);
     try {
       const { data } = await axios.post(
-        `https://digitalhat-server.onrender.com/api/products/${productId}/reviews`,
+        `https://digitalhat-server-02.onrender.com/api/products/${productId}/reviews`,
         { rating, comment },
         {
           withCredentials: true,
@@ -90,7 +90,9 @@ const ProductReviews = ({ productId }) => {
               <Star
                 key={i}
                 className={`w-6 h-6 cursor-pointer ${
-                  i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                  i < rating
+                    ? "text-yellow-400 fill-yellow-400"
+                    : "text-gray-300"
                 }`}
                 onClick={() => setRating(i + 1)}
               />
@@ -116,20 +118,26 @@ const ProductReviews = ({ productId }) => {
       {/* List of Reviews */}
       <div className="max-h-100 overflow-y-scroll">
         <Title title="All Reviews" />
-        {reviews.length === 0 && <p className="text-gray-500">No reviews yet.</p>}
+        {reviews.length === 0 && (
+          <p className="text-gray-500">No reviews yet.</p>
+        )}
         {reviews.map((r) => (
           <div
             key={r._id}
             className="border-b border-gray-200 pb-4 mb-4 last:border-0 last:mb-0"
           >
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-semibold">{r.user?.fullName || "User"}</span>
+              <span className="font-semibold">
+                {r.user?.fullName || "User"}
+              </span>
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
                     className={`w-4 h-4 ${
-                      i < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                      i < r.rating
+                        ? "text-yellow-400 fill-yellow-400"
+                        : "text-gray-300"
                     }`}
                   />
                 ))}

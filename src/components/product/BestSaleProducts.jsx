@@ -14,7 +14,7 @@ const BestSaleProducts = () => {
     const fetchBestSaleProducts = async () => {
       try {
         const { data } = await axios.get(
-          "  https://digitalhat-server.onrender.com/api/products"
+          "  https://digitalhat-server-02.onrender.com/api/products"
         );
         const allProducts = data.products;
 

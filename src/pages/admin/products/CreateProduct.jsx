@@ -110,7 +110,7 @@ export default function CreateProduct() {
       form.images.forEach((file) => fd.append("images", file));
 
       const res = await axios.post(
-        "  https://digitalhat-server.onrender.com/api/products",
+        "  https://digitalhat-server-02.onrender.com/api/products",
         fd,
         {
           headers: {

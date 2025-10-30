@@ -32,7 +32,7 @@ const Signup = () => {
         throw new Error("All fields are required");
 
       const response = await axios.post(
-        "https://digitalhat-server.onrender.com/api/auth/register",
+        "https://digitalhat-server-02.onrender.com/api/auth/register",
         { fullName, email, password }
       );
 

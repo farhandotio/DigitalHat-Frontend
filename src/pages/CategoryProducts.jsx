@@ -16,7 +16,7 @@ const CategoryProducts = () => {
       setError("");
       try {
         const { data } = await axios.get(
-          `  https://digitalhat-server.onrender.com/api/products/category/${categoryName}`
+          `  https://digitalhat-server-02.onrender.com/api/products/category/${categoryName}`
         );
         setProducts(data.products || []);
       } catch (err) {

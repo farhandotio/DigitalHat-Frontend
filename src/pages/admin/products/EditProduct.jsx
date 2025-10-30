@@ -33,7 +33,7 @@ export default function EditProduct() {
       try {
         const token = localStorage.getItem("userToken");
         const res = await axios.get(
-          `  https://digitalhat-server.onrender.com/api/products/${id}`,
+          `  https://digitalhat-server-02.onrender.com/api/products/${id}`,
           {
             headers: { Authorization: token ? `Bearer ${token}` : undefined },
           }
@@ -158,12 +158,12 @@ export default function EditProduct() {
       };
       const res = id
         ? await axios.put(
-            `  https://digitalhat-server.onrender.com/api/products/${id}`,
+            `  https://digitalhat-server-02.onrender.com/api/products/${id}`,
             fd,
             config
           )
         : await axios.post(
-            `  https://digitalhat-server.onrender.com/api/products/`,
+            `  https://digitalhat-server-02.onrender.com/api/products/`,
             fd,
             config
           );
@@ -190,7 +190,7 @@ export default function EditProduct() {
       setDeleting(true);
       const token = localStorage.getItem("userToken");
       await axios.delete(
-        `  https://digitalhat-server.onrender.com/api/products/${id}`,
+        `  https://digitalhat-server-02.onrender.com/api/products/${id}`,
         { headers: { Authorization: token ? `Bearer ${token}` : undefined } }
       );
       navigate("/admin/products");

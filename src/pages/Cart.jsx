@@ -16,7 +16,7 @@ import Loading from "../components/loading/Loading";
 
 const SHIPPING_COST = 125;
 const API_BASE =
-  import.meta.env.VITE_API_URL || "  https://digitalhat-server.onrender.com";
+  import.meta.env.VITE_API_URL || "https://digitalhat-server-02.onrender.com";
 
 export default function Cart() {
   const { cart, cartLoading, updateCartItem, removeCartItem, clearCart } =

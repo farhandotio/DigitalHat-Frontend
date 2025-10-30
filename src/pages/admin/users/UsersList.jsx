@@ -26,7 +26,7 @@ const UsersList = () => {
       if (!token) throw new Error("User not logged in");
 
       const { data } = await axios.get(
-        "  https://digitalhat-server.onrender.com/api/auth/all",
+        "  https://digitalhat-server-02.onrender.com/api/auth/all",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -62,7 +62,7 @@ const UsersList = () => {
 
       console.log(id);
       await axios.delete(
-        `  https://digitalhat-server.onrender.com/api/auth/user/${id}`,
+        `  https://digitalhat-server-02.onrender.com/api/auth/user/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -79,7 +79,7 @@ const UsersList = () => {
     }
   };
 
-  if (loading) return <Loading isLoading={loading} />
+  if (loading) return <Loading isLoading={loading} />;
   if (error) return <div className="text-red-500">{error}</div>;
   if (!users.length) return <div>No users found</div>;
 

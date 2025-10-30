@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "  https://digitalhat-server.onrender.com",
+  baseURL: "  https://digitalhat-server-02.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },

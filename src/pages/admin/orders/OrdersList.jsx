@@ -20,7 +20,7 @@ const OrdersList = () => {
       if (!token) throw new Error("User not logged in");
 
       const { data } = await axios.get(
-        "  https://digitalhat-server.onrender.com/api/admin-orders",
+        "  https://digitalhat-server-02.onrender.com/api/admin-orders",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

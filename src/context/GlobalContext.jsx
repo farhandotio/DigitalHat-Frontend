@@ -30,7 +30,8 @@ export const GlobalProvider = ({ children }) => {
   // Axios setup
   const api = axios.create({
     baseURL:
-      import.meta.env.VITE_API_URL || "https://digitalhat-server.onrender.com",
+      import.meta.env.VITE_API_URL ||
+      "https://digitalhat-server-02.onrender.com",
     withCredentials: true,
   });
 
@@ -127,7 +128,9 @@ export const GlobalProvider = ({ children }) => {
     } catch (err) {
       console.error("fetchProducts:", err);
       setProductsError(
-        err?.response?.data?.message || err.message || "Failed to fetch products"
+        err?.response?.data?.message ||
+          err.message ||
+          "Failed to fetch products"
       );
       setProducts([]);
       setFilteredProducts([]);
@@ -187,7 +190,9 @@ export const GlobalProvider = ({ children }) => {
           .then(({ products: serverProducts }) => {
             // serverProducts already set by fetchProducts
             // if you prefer to keep products separate and only set filteredProducts:
-            setFilteredProducts(Array.isArray(serverProducts) ? serverProducts : []);
+            setFilteredProducts(
+              Array.isArray(serverProducts) ? serverProducts : []
+            );
           })
           .catch(() => {
             // keep client-side filteredProducts fallback (already handled in other effect)

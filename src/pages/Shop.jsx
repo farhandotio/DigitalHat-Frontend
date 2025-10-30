@@ -30,7 +30,9 @@ export function ProductHeader({
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 border-b border-border rounded-xl bg-white shadow-sm">
       <div className="flex items-start sm:items-center gap-2 sm:gap-4">
-        <h2 className="font-bold text-2xl md:text-3xl text-text">All Products</h2>
+        <h2 className="font-bold text-2xl md:text-3xl text-text">
+          All Products
+        </h2>
         <span className="text-base font-semibold px-3 py-1 bg-gray-100 text-gray-700 whitespace-nowrap rounded-full">
           {totalItems} items
         </span>
@@ -110,7 +112,7 @@ export default function Shop() {
       try {
         // NOTE: calling the search endpoint on backend
         const query = buildQuery(p, l, fil);
-        const url = `https://digitalhat-server.onrender.com/api/products/search?${query}`;
+        const url = `https://digitalhat-server-02.onrender.com/api/products/search?${query}`;
         const { data } = await axios.get(url);
 
         if (!data) throw new Error("No data from products API");

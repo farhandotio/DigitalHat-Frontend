@@ -26,7 +26,7 @@ export default function ProductsList() {
         category && category !== "All" ? `/category/${category}` : "";
 
       const { data } = await axios.get(
-        `  https://digitalhat-server.onrender.com/api/products${categoryPath}`,
+        `  https://digitalhat-server-02.onrender.com/api/products${categoryPath}`,
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
